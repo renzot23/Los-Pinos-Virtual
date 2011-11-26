@@ -227,33 +227,29 @@ class AdminController extends Zend_Controller_Action{
             $this->view->formularioagregarcurso = $form;
             return $this->render('nuevocurso');
         } 
-//        $secciones = new Application_Model_Seccion();
-//        
-//        $idgrado=$form->getValue('cbogrado');
-//        $listaseccionesxgrado=$secciones->listarSeccionesPorGrado($idgrado);
-//        $abc=array (0=>'A', 1=>'B','C','D','E','F','G', 'H','I','J','K','L','M','N','O','P','Q');
-//        if($listaseccionesxgrado==NULL){
-//            $secciones->registrarSeccion('A', $idgrado) ;
-//        }
-//        else{
-//            $letra=$abc[sizeof($listaseccionesxgrado)];
-//            $secciones->registrarSeccion($letra, $idgrado) ;
-//        }
         
+        $cursos = new Application_Model_Cursos();
+        
+        $nombrecurso=$form->getValue('nombrecurso');
+        $descripcion=$form->getValue('descripcion');
+        $idseccion=$form->getValue('cboseccion');
+        
+        $cursos->registrarCurso($nombrecurso, $descripcion, $idseccion);
+        
+        return $this->_redirect('/admin/nuevocurso');
          
     }
     
     public function listarsecciongradoAction(){
-        $this->_helper->layout->disableLayout(); 
-        $this->_helper->viewRenderer->setNoRender();       
-        $seccion=new Application_Model_Seccion();        
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $seccion=new Application_Model_Seccion();
         $idGrado=$this->_request->codgrad;
-       
-        $array_re=$seccion->listarSeccionesPorGrado($idGrado);
-         
-        //funcion de zend framewrok que me codifica el listado para formato Json        
-        $json = Zend_Json::encode($array_re); 
-        $form = new Application_Form_FormNuevoCurso(); 
+        
+        $array_re=$seccion->listarSeccionesPorGradoActivos($idGrado);
+//funcion de zend framewrok que me codifica el listado para formato Json
+
+        $json = Zend_Json::encode($array_re);
         echo $json;
     }
 }

@@ -38,9 +38,9 @@ class Application_Form_FormNuevoCurso extends Zend_Form{
         
         $descripcion= $this->createElement('text', 'descripcion', array('label' => 'Descripción', 'placeholder' => 'Breve descripción del curso'));
         $descripcion->addValidator('notEmpty', true, array('messages' => array('isEmpty' => 'Campo requerido'))) 
-                 ->addValidator('regex', true, array('pattern'=>'/^[(a-zA-Z0-9)]+$/','messages'=>array('regexNotMatch'=>'Sólo Letras')))
+                 ->addValidator('regex', true, array('pattern'=>'/^[(a-z A-Z 0-9)]+$/','messages'=>array('regexNotMatch'=>'Sólo Letras')))
                  ->setRequired(true)
-                 ->addFilter('StringToLower');
+                 ->addFilter('StringToUpper');
  
         $descripcion->setDecorators(array(
                     'ViewHelper',

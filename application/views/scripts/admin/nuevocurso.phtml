@@ -1,29 +1,17 @@
 <script type="text/javascript">   
      function cargarseccion(){
         var valor=$("#cbogrado").val();
-        elem=document.getElementById('cboseccion'); 
-        var datos = ""; 
-
-        removeAllOptions(elem);
-
-        $.getJSON("listarsecciongrado/?codgrad="+valor,  function(data){
-               var seccion = data;
-               for (var x = 0 ; x < seccion.length ; x++) {
-                    var option=document.createElement("option");
-                    option.value=seccion[x].iSeccIdSeccion;
-                    option.text=seccion[x].vSeccDescripcion;
-                    elem.appendChild(option)
+            elem=document.getElementById('cboseccion');
+            $("#cboseccion").html('<option>Cargando...</option>');
+            var option;
+            $.getJSON("listarsecciongrado/?codgrad="+valor, function(data){
+                var seccion = data;var option;
+                for (var x = 0 ; x < seccion.length ; x++) {
+                    option+='<option value='+seccion[x].iSeccIdSeccion+'>'+seccion[x].vSeccDescripcion+'</option>';
                 }
-
+                 $("#cboseccion").html(option);
            });
-    } 
-
-    function removeAllOptions(selectbox){
-        var i;
-        for(i=selectbox.options.length-1;i>=0;i--){
-          selectbox.remove(i);
-        }
-    }       
+        }    
 
 </script>
 <?php

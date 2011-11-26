@@ -1,5 +1,5 @@
 <?php
-class Application_Model_Seccion {
+class Application_Model_Seccion {      
 	protected $iSeccIdSeccion;
 	protected $vSeccDescripcion; 
 	protected $tiSeccEstado;
@@ -56,6 +56,25 @@ class Application_Model_Seccion {
             $stmt=$dbAdapter->query("Select sec.iSeccIdSeccion, sec.vSeccDescripcion, sec.Grado_iGradoIdGrado , gr.vGradoDescripcion 
                             from seccion sec inner join grado gr on sec.Grado_iGradoIdGrado=gr.iGradoIdGrado 
                             inner join periodoacademico pera on gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico=pera.iPerAcaIdPeriodoAcademico 
+                            where pera.iPerAcaIdPeriodoAcademico='".$idperiodoacademicoactual."' and gr.tiGradoEstado='A' and sec.Grado_iGradoIdGrado ='".$idGrado."' order by sec.Grado_iGradoIdGrado, gr.vGradoDescripcion");
+             
+            $result = $stmt->fetchAll();
+            
+            if(isset($result)){
+                return $result;
+            }else{
+                return NULL;   
+            }
+        }
+               
+        public function listarSeccionesPorGradoActivos($idGrado){
+            $periodoacademico=  new Application_Model_PeriodoAcademico();
+            $idperiodoacademicoactual=$periodoacademico->getPeriodoActualId();
+  
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $stmt=$dbAdapter->query("Select sec.iSeccIdSeccion, sec.vSeccDescripcion, sec.Grado_iGradoIdGrado , gr.vGradoDescripcion 
+                            from seccion sec inner join grado gr on sec.Grado_iGradoIdGrado=gr.iGradoIdGrado 
+                            inner join periodoacademico pera on gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico=pera.iPerAcaIdPeriodoAcademico 
                             where pera.iPerAcaIdPeriodoAcademico='".$idperiodoacademicoactual."' and gr.tiGradoEstado='A' and sec.tiSeccEstado='A'  and sec.Grado_iGradoIdGrado ='".$idGrado."' order by sec.Grado_iGradoIdGrado, gr.vGradoDescripcion");
              
             $result = $stmt->fetchAll();
@@ -67,10 +86,6 @@ class Application_Model_Seccion {
             }
         }
         
-        public function existenseccionesperactual(){
-            
-        }
-                
         public function actualizarGradoPorId($id,$estado) {
             $dbAdapter = Zend_Db_Table::getDefaultAdapter(); 
             
