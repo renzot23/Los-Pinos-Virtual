@@ -78,7 +78,7 @@ ul#navigation {
     top: 30px;
     right: -80px;
     list-style: none;
-    z-index:9999;
+    z-index:20;
 }
 
 ul#navigation .help a {

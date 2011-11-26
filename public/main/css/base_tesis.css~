@@ -75,7 +75,7 @@ ul#navigation {
     position: fixed;
     margin: 0px;
     padding: 0px;
-    top: 110px;
+    top: 30px;
     right: -80px;
     list-style: none;
     z-index:9999;

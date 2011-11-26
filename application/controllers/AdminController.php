@@ -206,7 +206,7 @@ class AdminController extends Zend_Controller_Action{
         $secciones->actualizarSeccion($idseccion, $estado);
         return $this->_redirect('/admin/nuevaseccion');
     }
-    
+       
     public function pruebandoAction(){
         $this->_helper->layout->disableLayout();
         //$this->_helper->viewRenderer->setNoRender();
@@ -240,6 +240,14 @@ class AdminController extends Zend_Controller_Action{
          
     }
     
+    public function actualizarcursoAction(){
+        $cursos = new Application_Model_Cursos();
+        $idcurso=$this->_request->cur;
+        $estado=$this->_request->est;
+        $cursos->actualizarSeccion($idcurso, $estado);
+        return $this->_redirect('/admin/nuevocurso');
+    }
+    
     public function listarsecciongradoAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
@@ -251,5 +259,70 @@ class AdminController extends Zend_Controller_Action{
 
         $json = Zend_Json::encode($array_re);
         echo $json;
+    }
+    
+    //Funciones Ajax
+    public function actualizarseccionajaxAction(){
+      $secciones = new Application_Model_Seccion();
+        if ($this->getRequest()->isXmlHttpRequest())//Detectamos si es una llamada AJAX
+        {
+            //esta accion no usara layout.phtml
+            $this->_helper->layout->disableLayout();
+            //esta accion no renderizara su contenido en saludoajax2.phtml
+            $this->_helper->viewRenderer->setNoRender();
+            $idseccion=$this->getRequest()->getParam('secc');
+            $estado=$this->getRequest()->getParam('est');
+            $secciones->actualizarSeccion($idseccion, $estado);
+            echo "1";
+        }
+    }
+    
+    public function eliminarseccionajaxAction(){
+        $secciones = new Application_Model_Seccion();
+        if ($this->getRequest()->isXmlHttpRequest()){
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $idseccion=$this->getRequest()->getParam('secc');
+            $secciones->deleteSeccion($idseccion);
+            echo "1";        
+        }
+    }
+    
+    public function actualizarcursoajaxAction(){
+      $curso = new Application_Model_Cursos();
+      //Detectamos si es una llamada AJAX
+        if ($this->getRequest()->isXmlHttpRequest()){
+            //esta accion no usara layout.phtml
+            $this->_helper->layout->disableLayout();
+            //esta accion no renderizara su contenido en saludoajax2.phtml
+            $this->_helper->viewRenderer->setNoRender();
+            $idcurso=$this->getRequest()->getParam('cur');
+            $estado=$this->getRequest()->getParam('est');
+            $curso->actualizarCursoPorId($idcurso, $estado);
+            echo "1";
+        }
+    }
+    
+    public function eliminarcursoajaxAction(){
+        $curso = new Application_Model_Cursos();
+        if ($this->getRequest()->isXmlHttpRequest()){
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $idcurso=$this->getRequest()->getParam('cur');
+            $curso->deleteCurso($idcurso);
+            echo "1";        
+        }
+    }
+    
+    public function listadoseccionesajaxAction()
+    {
+        $this->verificarInactividad();
+        $this->_helper->layout->disableLayout();
+    } 
+    
+    public function listadocursosajaxAction()
+    {
+        $this->verificarInactividad();
+        $this->_helper->layout->disableLayout();
     }
 }

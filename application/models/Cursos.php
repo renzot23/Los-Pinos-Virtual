@@ -74,10 +74,10 @@ class Application_Model_Cursos{
                             <td>
                                 <center>';
                                 if($aux['tiCursActivo']=='A'){
-                                    $contenido.='<img id="img_4" src="/main/img/icons/16/accept.png" alt="Desactivar" title="Desactivar">';
+                                    $contenido.='<a href="/admin/actualizarseccion/?cur='.$aux['iCursIdCursos'].'&est=I" onclick="ActDelCurso('.$aux['iCursIdCursos'].',\'I\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/accept.png" alt="Desactivar" title="Desactivar"></a>';
                                 }
                                 else{
-                                    $contenido.='<img id="img_4" src="/main/img/icons/16/error.png" alt="Activar" title="Activar">';
+                                    $contenido.='<a href="/admin/actualizarseccion/?cur='.$aux['iCursIdCursos'].'&est=A" onclick="ActDelCurso('.$aux['iCursIdCursos'].',\'A\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/error.png" alt="Activar" title="Activar"></a>';
                                 }
                 $contenido.='
                                </center>
@@ -221,5 +221,10 @@ class Application_Model_Cursos{
                 </div>';
          
             return $contenido;
+        }
+        public function actualizarCursoPorId($id,$estado) {
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter(); 
+            $data = array('tiCursActivo' =>  $estado );   
+            $dbAdapter->update('cursos',$data,'iCursIdCursos = ' . $id);
         }
 }

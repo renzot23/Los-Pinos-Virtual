@@ -25,6 +25,22 @@
     $nombreUsuario=$mysession->usuario_nombre;
     $usuario_id=$mysession->usuario_id;
     
+    $script='<script type="text/javascript" src="/js/jquery.form.js" ></script>
+        <script type="text/javascript" src="/js/codigito.js" > </script>
+        <script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" > </script>
+        <script type="text/javascript">
+
+        $(document).ready(function() {
+        $("#formLogin").ajaxForm(function() {
+        $(".setenta").load("listadocursosajax");
+        });
+        });
+        </script>
+        ';
+    $this->script=$script;
+    $css='<link media="projection, screen" href="/js/jquery-ui/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">';
+    $this->css=$css;
+    
     $h3 = '<ul id="logout">
             <li>
                 <a href="/admin/logout/" target="_top">
@@ -83,6 +99,12 @@
         $contenido .= $cursos->crearTablaCursosSimple();
         $contenido .= '
             </div>';
-    
-    print $html->crearWrapper(null, null, null, $h3, $h4 ,$this->layout()->content, null,$contenido);
+    $mensaje='
+    <div id="dialog-confirm" title="Advertencia" style="display:none">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Esta Seguro de Confirmar?</p>
+    </div>
+
+    ';
+   print $html->crearContentAjax($mensaje);
+   print $html->crearWrapper(null, null, null, $h3, $h4 ,$this->layout()->content, null,$contenido);
 ?>

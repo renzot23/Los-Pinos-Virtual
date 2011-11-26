@@ -91,7 +91,7 @@ class Application_Model_Html{
 //            return $res.$script;
 //         }
             if (Zend_Session::sessionExists()){
-                return $res.'<script type="text/javascript" src="/js/chat/jquery.js"></script>
+                return $res.'
             <script type="text/javascript" src="/js/chat/chat.js"></script>'.$script;
             }
             else{
@@ -299,6 +299,14 @@ class Application_Model_Html{
     //Fin del div wrapper 
     print '</div>'; 
     }
+    
+    public function crearContentAjax($submain=null){
+        if(!$submain==null){
+            print $submain;
+        }else{
+           print 'ERROR NO HAY CONTENIDO';
+        }
+    } 
 }
 
 ?>
