@@ -1,3 +1,19 @@
+<script type="text/javascript">   
+     function cargarseccion(){
+        var valor=$("#cbogrado").val();
+            elem=document.getElementById('cboseccion');
+            $("#cboseccion").html('<option>Cargando...</option>');
+            var option;
+            $.getJSON("listarsecciongrado/?codgrad="+valor, function(data){
+                var seccion = data;var option;
+                for (var x = 0 ; x < seccion.length ; x++) {
+                    option+='<option value='+seccion[x].iSeccIdSeccion+'>'+seccion[x].vSeccDescripcion+'</option>';
+                }
+                 $("#cboseccion").html(option);
+           });
+        }    
+
+</script>
 <?php
 
     $this->titulopagina='Los Pinos - Nuevo Alumno';

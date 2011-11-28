@@ -63,9 +63,6 @@ class AdminController extends Zend_Controller_Action{
     
     public function listausuariosAction(){
     }
-     
-    public function nuevodocenteAction(){
-    }
     
     public function nuevodirectorAction(){
     }
@@ -397,5 +394,38 @@ class AdminController extends Zend_Controller_Action{
         $alumno->registrarAlumno($idusuario, $idseccion, $idapoderado);
         
         return $this->_redirect('/admin/nuevoalumno');
+    }
+
+    public function nuevodocenteAction(){
+        $form = new Application_Form_FormNuevoDocente;
+        $this->view->formularionuevodocente = $form;
+    }
+    
+    public function agregardocenteAction() {
+        if (!$this->getRequest()->isPost()) {
+            return $this->_forward('nuevodocente');
+        }
+        $form = new Application_Form_FormNuevoDocente();
+        if (!$form->isValid($_POST)) {
+            $this->view->formularionuevoalumno = $form;
+            return $this->render('nuevodocente');
+        }
+        $nombreusuario=$form->getValue('nombreusuario');
+        $clave=hash_hmac('md5', $form->getValue('clave'), 'tesis');
+        $email=$form->getValue('email');
+        $dni=$form->getValue('dni');
+        $nombre=$form->getValue('nombre');
+        $appaterno=$form->getValue('appaterno');
+        $apmaterno=$form->getValue('apmaterno');
+        
+        $especialidad=$form->getValue('especialidad');
+        
+        $usuario = new Application_Model_Usuario();
+        $idusuario = $usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '2');
+        
+        $docente = new Application_Model_Docente();
+        $docente->registrarDocente(idusuario, $especialidad);
+        
+        return $this->_redirect('/admin/nuevodocente');
     }
 }
