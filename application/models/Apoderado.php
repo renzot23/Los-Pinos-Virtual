@@ -1,50 +1,14 @@
 <?php
-require_once(realpath(dirname(__FILE__)) . '/Alumno.php');
-require_once(realpath(dirname(__FILE__)) . '/Usuario.php');
-
-class Apoderado extends Usuario {
-	private $idApoderado;
-	private $idUsuario;
-	/**
-	 * @AssociationType Alumno
-	 * @AssociationMultiplicity 1..*
-	 */
-	private $tiene = array();
-
-	/**
-	 * Seguridad,Sistema
-	 */
-	private $cn;
-	public function __construct()
-	{
-		$this->cn = new Db();
-	}	 
-	public function getApoderado() {
-		// Not yet implemented
-	}
-
-	public function setApoderado() {
-		// Not yet implemented
-	}
-
-	public function editarApoderado() {
-		// Not yet implemented
-	}
-
-	public function eliminarApoderado() {
-		// Not yet implemented
-	}
-
-	public function actualizarApoderado() {
-		// Not yet implemented
-	}
-
-	public function setAlumno() {
-		// Not yet implemented
-	}
-
-	public function getAlumno() {
-		// Not yet implemented
-	}
+class Application_Model_Apoderado extends Zend_Db_Table_Abstract{ 
+    protected $iApodIdApoderado;
+    protected $Usuarios_iUsuIdUsuario;
+    
+    public function registrarApoderado($Usuarios_iUsuIdUsuario){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $dbAdapter->insert("apoderados", array(
+                'Usuarios_iUsuIdUsuario'     =>  $Usuarios_iUsuIdUsuario));
+        $id = $dbAdapter->lastInsertId();
+        return $id;
+    }
 }
 ?>

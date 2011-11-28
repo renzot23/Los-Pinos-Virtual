@@ -63,14 +63,8 @@ class AdminController extends Zend_Controller_Action{
     
     public function listausuariosAction(){
     }
-    
-    public function nuevoalumnoAction(){
-    }
-    
+     
     public function nuevodocenteAction(){
-    }
-    
-    public function nuevoapoderadoAction(){
     }
     
     public function nuevodirectorAction(){
@@ -156,6 +150,7 @@ class AdminController extends Zend_Controller_Action{
                 $grados->actualizarGradoPorId($id, 'I');
             }
         }
+        
         return $this->_redirect('/admin/plataforma');
         
          
@@ -210,12 +205,26 @@ class AdminController extends Zend_Controller_Action{
     public function pruebandoAction(){
         $this->_helper->layout->disableLayout();
         //$this->_helper->viewRenderer->setNoRender();
-        
     }
     
     public function nuevocursoAction(){          
         $form = new Application_Form_FormNuevoCurso();
         $this->view->formularioagregarcurso = $form;
+    }
+    
+    public function listacursosAction(){          
+//        $form = new Application_Form_FormNuevoCurso();
+//        $this->view->formularioagregarcurso = $form;
+        $opt=$this->getRequest()->getParam('opt');
+        if(!isset($opt)){
+            $this->view->pri=0;
+            $this->view->act=0;
+            $this->view->nro=6;
+        }
+         else {
+            $this->view->opt=$this->getRequest()->getParam('opt');
+        }
+        
     }
     
     public function agregarcursoAction(){
@@ -314,15 +323,79 @@ class AdminController extends Zend_Controller_Action{
         }
     }
     
-    public function listadoseccionesajaxAction()
-    {
+    public function listadoseccionesajaxAction() {
         $this->verificarInactividad();
         $this->_helper->layout->disableLayout();
     } 
     
-    public function listadocursosajaxAction()
-    {
+    public function listadocursosajaxAction() {
         $this->verificarInactividad();
         $this->_helper->layout->disableLayout();
+    }
+      
+    public function nuevoapoderadoAction() {
+        $form = new Application_Form_FormNuevoApoderado();
+        $this->view->formularionuevoapoderado = $form;
+    }
+    
+    public function agregarapoderadoAction() {
+        if (!$this->getRequest()->isPost()) {
+            return $this->_forward('nuevoapoderado');
+        }
+        $form = new Application_Form_FormNuevoApoderado();
+        if (!$form->isValid($_POST)) {
+            $this->view->formularionuevoapoderado = $form;
+            return $this->render('nuevoapoderado');
+        }
+        
+        $nombreusuario=$form->getValue('nombreusuario');
+        $clave=hash_hmac('md5', $form->getValue('clave'), 'tesis');
+        $email=$form->getValue('email');
+        $dni=$form->getValue('dni');
+        $nombre=$form->getValue('nombre');
+        $appaterno=$form->getValue('appaterno');
+        $apmaterno=$form->getValue('apmaterno');
+        
+        $usuario = new Application_Model_Usuario();
+        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '3');
+        
+        $apoderado= new Application_Model_Apoderado();
+        $apoderado->registrarApoderado($idusuario);
+        
+        return $this->_redirect('/admin/nuevoapoderado');
+    }
+    
+    public function nuevoalumnoAction() {
+        $form = new Application_Form_FormNuevoAlumno;
+        $this->view->formularionuevoalumno = $form;
+    }
+    
+    public function agregaralumnoAction() {
+        if (!$this->getRequest()->isPost()) {
+            return $this->_forward('nuevoalumno');
+        }
+        $form = new Application_Form_FormNuevoAlumno();
+        if (!$form->isValid($_POST)) {
+            $this->view->formularionuevoalumno = $form;
+            return $this->render('nuevoalumno');
+        }
+        $nombreusuario=$form->getValue('nombreusuario');
+        $clave=hash_hmac('md5', $form->getValue('clave'), 'tesis');
+        $email=$form->getValue('email');
+        $dni=$form->getValue('dni');
+        $nombre=$form->getValue('nombre');
+        $appaterno=$form->getValue('appaterno');
+        $apmaterno=$form->getValue('apmaterno');
+        
+        $idapoderado=$form->getValue('idapoderado');
+        $idseccion=$form->getValue('idseccion');
+        
+        $usuario = new Application_Model_Usuario();
+        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '1');
+        
+        $alumno= new Application_Model_Alumno;
+        $alumno->registrarAlumno($idusuario, $idseccion, $idapoderado);
+        
+        return $this->_redirect('/admin/nuevoalumno');
     }
 }
