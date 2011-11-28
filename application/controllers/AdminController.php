@@ -209,19 +209,37 @@ class AdminController extends Zend_Controller_Action{
         $this->view->formularioagregarcurso = $form;
     }
     
-    public function listacursosAction(){          
-//        $form = new Application_Form_FormNuevoCurso();
-//        $this->view->formularioagregarcurso = $form;
-        $opt=$this->getRequest()->getParam('opt');
-        if(!isset($opt)){
-            $this->view->pri=0;
-            $this->view->act=0;
-            $this->view->nro=6;
-        }
-         else {
-            $this->view->opt=$this->getRequest()->getParam('opt');
-        }
-        
+    public function listacursosAction(){        
+            $cursos = new Application_Model_Cursos();
+            $listacursos = $cursos->listarCursosPeriodoActual();
+
+            $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listacursos));
+            
+            $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+            if($this->view->nroreg==null){
+                $this->view->nroreg=2;
+            }         
+//            if($this->view->nroitems==null){
+//                if($nro==null){
+//                    $this->view->nroitems=4;  
+//                }
+//                else{
+//                     $this->view->nroitems=$nro;  
+//                }
+//                    
+//            }
+//            else {
+//                if($nro!=null){
+//                    $this->view->nroitems=$nro; 
+//                }
+//            }
+      
+            $paginator->setItemCountPerPage($this->view->nroreg);
+            $paginator->setCurrentPageNumber($this->_getParam('page'),1);
+            
+            $this->view->paginator=$paginator;
+         
+         
     }
     
     public function agregarcursoAction(){
@@ -384,8 +402,8 @@ class AdminController extends Zend_Controller_Action{
         $appaterno=$form->getValue('appaterno');
         $apmaterno=$form->getValue('apmaterno');
         
-        $idapoderado=$form->getValue('idapoderado');
-        $idseccion=$form->getValue('idseccion');
+        $idapoderado=$form->getValue('idapo');
+        $idseccion=$form->getValue('cboseccion');
         
         $usuario = new Application_Model_Usuario();
         $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '1');
@@ -397,7 +415,7 @@ class AdminController extends Zend_Controller_Action{
     }
 
     public function nuevodocenteAction(){
-        $form = new Application_Form_FormNuevoDocente;
+        $form = new Application_Form_FormNuevoDocente();
         $this->view->formularionuevodocente = $form;
     }
     
@@ -407,7 +425,7 @@ class AdminController extends Zend_Controller_Action{
         }
         $form = new Application_Form_FormNuevoDocente();
         if (!$form->isValid($_POST)) {
-            $this->view->formularionuevoalumno = $form;
+            $this->view->formularionuevodocente = $form;
             return $this->render('nuevodocente');
         }
         $nombreusuario=$form->getValue('nombreusuario');
@@ -424,8 +442,28 @@ class AdminController extends Zend_Controller_Action{
         $idusuario = $usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '2');
         
         $docente = new Application_Model_Docente();
-        $docente->registrarDocente(idusuario, $especialidad);
+        $docente->registrarDocente($idusuario, $especialidad);
         
         return $this->_redirect('/admin/nuevodocente');
     }
+
+    public function obtenapoderadoajaxAction(){
+        $apoderado = new Application_Model_Apoderado();
+        if ($this->getRequest()->isXmlHttpRequest())
+        {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $parametro=$this->getRequest()->getParam('parametro');
+            $opcion=$this->getRequest()->getParam('opt');
+            if($opcion=='dni'){
+                $result=$apoderado->listarApoderadobydni($parametro);
+            }else{$result=$apoderado->listarApoderadobynombre($parametro);}
+            if(sizeof($result)>0){
+                $json = Zend_Json::encode($result);
+                echo $json;
+            }else{}
+
+        }
+    }
+    
 }

@@ -16,7 +16,7 @@ class Application_Form_FormNuevoAlumno extends Zend_Form{
                 'Eliga una sección'
         ));
         
-        $this->setAction('/admin/nuevoapoderado')->setMethod('post')
+        $this->setAction('/admin/agregaralumno')->setMethod('post')
              ->setAttrib('id','formLogin');
         
         
@@ -75,6 +75,52 @@ class Application_Form_FormNuevoAlumno extends Zend_Form{
                       ->addFilter("StringTrim");
         
         $dni->setDecorators(array(
+                    'ViewHelper',
+                    'Description',
+                    'Errors',
+                    array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div')),
+                    array(array('td' => 'HtmlTag'), array('tag' => 'td')),
+                    array('Label', array('tag' => 'td')),
+                ));
+        
+        $dniapo = $this->createElement('text', 'dniapo', array('label' => 'DNI Apoderado', 'disabled'=>true));
+        $dniapo->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
+                      ->addValidator('regex',true,array('patern'=>'/^[(0-9)]+$/',array('regexNotMatch'=>'Solo Numeros')))
+                      ->addValidator('stringLength',false,array(8,8,'messages'=>"DNI se Compone e 8 Carateres"))
+                      ->addFilter("StringTrim");
+        
+        $dniapo->setDecorators(array(
+                    'ViewHelper',
+                    'Description',
+                    'Errors',
+                    array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div')),
+                    array(array('td' => 'HtmlTag'), array('tag' => 'td')),
+                    array('Label', array('tag' => 'td')),
+                ));
+        
+        $nombreapo = $this->createElement('text', 'nombreapo', array('label' => 'Nombre del Apoderado', 'disabled'=>true));
+        $nombreapo->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
+                      ->addValidator('regex',true,array('patern'=>'/^[(a-z A-Z)]+$/',array('regexNotMatch'=>'Solo Letras')))
+                      ->addValidator('stringLength',false,array(2,150,'messages'=>"Entre 2 y 150 caracteres"))
+                      ->addFilter("StringToUpper")
+                      ->addFilter("StringTrim");
+        
+        $nombreapo->setDecorators(array(
+                    'ViewHelper',
+                    'Description',
+                    'Errors',
+                    array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div')),
+                    array(array('td' => 'HtmlTag'), array('tag' => 'td')),
+                    array('Label', array('tag' => 'td')),
+                ));
+        
+        $idapo = $this->createElement('text', 'idapo', array('label' => 'Id del Apoderado', 'disabled'=>true));
+        $idapo->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
+                      ->addValidator('regex',true,array('patern'=>'/^[(0-9)]+$/',array('regexNotMatch'=>'Solo Numeros')))
+                      ->addValidator('stringLength',false,array(1,8,'messages'=>"Elegir DNI"))
+                      ->addFilter("StringTrim");
+        
+        $idapo->setDecorators(array(
                     'ViewHelper',
                     'Description',
                     'Errors',
@@ -143,7 +189,7 @@ class Application_Form_FormNuevoAlumno extends Zend_Form{
                     array(array('td' => 'HtmlTag'), array('tag' => 'td'))
                 ));    
         
-        $btnapoderado=$this->createElement('button', 'buscaapoderado', array('label' => 'Buscar Apoderado'));
+        $btnapoderado=$this->createElement('button', 'buscar', array('label' => 'Buscar Apoderado','onclick'=>'buscaapoderado();'));
         $btnapoderado->setDecorators(array(
                     'ViewHelper',
                     'Description',
@@ -152,7 +198,8 @@ class Application_Form_FormNuevoAlumno extends Zend_Form{
                     array(array('td' => 'HtmlTag'), array('tag' => 'td'))
                 )); 
         
-         $gradosactuales = new Application_Model_Grado();
+        
+        $gradosactuales = new Application_Model_Grado();
         $includes=new Application_Model_Includes();
         $arraygrados=$gradosactuales->listarGradosActivos();
         $arraygradostoarray=$includes->query2array($arraygrados, 'iGradoIdGrado', 'vGradoDescripcion');
@@ -188,8 +235,10 @@ class Application_Form_FormNuevoAlumno extends Zend_Form{
                 array('Label', array('tag' => 'td')),
             ));
          
-        
-        $this->addElement($btnapoderado)
+     $this->addElement($btnapoderado)
+             ->addElement($idapo)
+             ->addElement($nombreapo)
+             ->addElement($dniapo)
              ->addElement($grado)
              ->addElement($seccion)
              ->addElement($nombre)

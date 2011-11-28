@@ -1,3 +1,19 @@
+<script>
+function esInteger(e){
+var charCode
+if (navigator.appName == "Netscape"){
+charCode = e.which
+}
+else{
+charCode = e.keyCode}
+if (charCode < 48 || charCode > 57){
+alert("Por favor teclee solo números en este campo!");
+return false
+}
+else{
+return true}
+}
+</script>
 <?php
     $this->titulopagina='Los Pinos - Lista de Cursos';
     $html= new Application_Model_Html();
@@ -56,15 +72,77 @@
             </li>
         </ul>';
     
-       $cursos = new Application_Model_Cursos;
-       if($this->pri==0){
-           $contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,"pri");
-       }
-       else{
-           $contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,"sig");
-           //$contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,null);
-       }
-       
+//       $cursos = new Application_Model_Cursos;
+//       if($this->pri==0){
+//           $contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,"pri");
+//       }
+//       else{
+//           $contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,"sig");
+//           //$contenido = $cursos->crearTablaCursosSimple($this->pri,$this->nro,null);
+//       }
+//       
+    
+    
+        $contenido = '
+            <form action="/admin/listacursos">Nro. de Registros <input type="text" name="nroreg" size="4" onKeyPress="return esInteger(event)"/> <input type="submit" value="Mostrar"/><br/>
+            </form>
+            <table class="data_table">
+                <tbody>
+                    <tr class="row_odd">
+                        <th>&nbsp;</th>
+                        <th>Codigo</th>
+                        <th><a href="">Grado</a></th>                    
+                        <th><a href="">Seccion</a></th>
+                        <th><a href="">Curso</a></th>
+                        <th><a href="">Descripcion</a></th>  
+                        <th><a href="">Estado</a></th>
+                    </tr>';
+        $cont=0;
+        foreach ($this->paginator as $aux){
+            if ($cont % 2){
+                $contenido.='<tr class="row_even">';
+            }
+            else{
+                $contenido .= '<tr class="row_odd">';
+            }
+            $contenido.='
+                        <td>
+                            <input type="checkbox" name="id" value="'.$aux['iCursIdCursos'].'">
+                        </td>
+                        <td>
+                            <center>'.$aux['iCursIdCursos'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vGradoDescripcion'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vSeccDescripcion'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vCursNombreCurso'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['iCursDescripcion'].'</center>
+                        </td>
+                        <td>
+                            <center>';
+                            if($aux['tiCursActivo']=='A'){
+                                $contenido.='<a href="/admin/actualizarseccion/?cur='.$aux['iCursIdCursos'].'&est=I" onclick="ActDelCurso('.$aux['iCursIdCursos'].',\'I\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/accept.png" alt="Desactivar" title="Desactivar"></a>';
+                            }
+                            else{
+                                $contenido.='<a href="/admin/actualizarseccion/?cur='.$aux['iCursIdCursos'].'&est=A" onclick="ActDelCurso('.$aux['iCursIdCursos'].',\'A\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/error.png" alt="Activar" title="Activar"></a>';
+                            }
+            $contenido.='
+                           </center>
+                        </td>
+                    </tr>';
+            $cont++;
+        }
+        
+	$contenido .= '</tbody>
+                </table>';
+        $contenido .= $this->paginationControl($this->paginator,'Sliding','pagination.phtml');
+    
     
     print $html->crearWrapper(null, null, null, $h3, $h4 ,$this->layout()->content, null,$contenido);  
 ?>

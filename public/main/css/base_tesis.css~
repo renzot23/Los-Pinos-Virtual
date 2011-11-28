@@ -1092,7 +1092,7 @@ div .setenta{
 
 div .formulario{
     width: 30%; 
-    float:left;
+    float:none;
 }
 
 .admin_section li {    

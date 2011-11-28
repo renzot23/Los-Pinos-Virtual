@@ -2,7 +2,7 @@
 class Application_Form_FormNuevoDocente extends Zend_Form{
     
     public function init(){                
-        $this->setAction('/admin/nuevodocente')->setMethod('post')
+        $this->setAction('/admin/agregardocente')->setMethod('post')
              ->setAttrib('id','formLogin');
         
         
@@ -122,7 +122,6 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
         
         $especialidad = $this->createElement('textarea', 'especialidad', array('label' => 'Especialidad', 'cols' => '40', 'rows'=>'5'));
         $especialidad->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
-                      ->addValidator('regex',true,array('patern'=>'/^[(a-z A-Z)]+$/',array('regexNotMatch'=>'Solo Letras')))
                       ->addValidator('stringLength',false,array(5,300,'messages'=>"Entre 5 y 300 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper")

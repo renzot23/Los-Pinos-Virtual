@@ -1,9 +1,21 @@
 <?php
-
     $this->titulopagina='Los Pinos - Nuevo Docente';
     $html= new Application_Model_Html();
     $menu= new Application_Model_Menu();
     $usuario= new Application_Model_Usuario();
+    
+//    $script='
+//        <script type="text/javascript" src="/js/jquery.form.js" ></script>
+//        <script type="text/javascript" src="/js/codigito.js" > </script>
+//        <script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" > </script>
+//        <script type="text/javascript">
+//            $(document).ready(function() {
+//            $("#formLogin").ajaxForm(function() {
+//            $(".setenta").load("listadoseccionesajax");
+//            });
+//            });
+//        </script>';
+//    $this->script=$script;   
     
     $mysession = new Zend_Session_Namespace('sesion');
     $paginaActual=$mysession->paginaActual ;
