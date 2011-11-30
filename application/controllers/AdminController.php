@@ -37,7 +37,7 @@ class AdminController extends Zend_Controller_Action{
         $mysession->paginaActual = 'Red Social';        
     }
     
-    public function panelcontrolAction(){
+    public function panelAction(){
         $mysession = new Zend_Session_Namespace('sesion');                    
         $mysession->paginaActual = 'Panel de Control';        
     }
@@ -207,6 +207,24 @@ class AdminController extends Zend_Controller_Action{
     public function nuevocursoAction(){          
         $form = new Application_Form_FormNuevoCurso();
         $this->view->formularioagregarcurso = $form;
+        
+        $cursos = new Application_Model_Cursos();
+        
+        $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+        $this->view->page=$this->getRequest()->getParam('page');
+        if($this->view->nroreg==null){
+            $this->view->nroreg=2;
+            $this->view->page=1;
+        }  
+        
+        $listacursos = $cursos->listarCursosPeriodoActual();
+        $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listacursos));
+
+        
+        $paginator->setItemCountPerPage($this->view->nroreg);
+        $paginator->setCurrentPageNumber($this->view->page,1);
+
+        $this->view->paginator=$paginator;
     }
     
     public function listacursosAction(){        
@@ -216,30 +234,15 @@ class AdminController extends Zend_Controller_Action{
             $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listacursos));
             
             $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+            
             if($this->view->nroreg==null){
                 $this->view->nroreg=2;
-            }         
-//            if($this->view->nroitems==null){
-//                if($nro==null){
-//                    $this->view->nroitems=4;  
-//                }
-//                else{
-//                     $this->view->nroitems=$nro;  
-//                }
-//                    
-//            }
-//            else {
-//                if($nro!=null){
-//                    $this->view->nroitems=$nro; 
-//                }
-//            }
-      
+            }  
+            
             $paginator->setItemCountPerPage($this->view->nroreg);
             $paginator->setCurrentPageNumber($this->_getParam('page'),1);
             
             $this->view->paginator=$paginator;
-         
-         
     }
     
     public function agregarcursoAction(){
@@ -346,6 +349,23 @@ class AdminController extends Zend_Controller_Action{
     public function listadocursosajaxAction() {
         $this->verificarInactividad();
         $this->_helper->layout->disableLayout();
+        
+        $cursos = new Application_Model_Cursos();
+        $listacursos = $cursos->listarCursosPeriodoActual();
+
+        $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listacursos));
+
+        $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+
+        if($this->view->nroreg==null){
+            $this->view->nroreg=2;
+        }  
+
+        $paginator->setItemCountPerPage($this->view->nroreg);
+        $paginator->setCurrentPageNumber($this->_getParam('page'),1);
+
+        $this->view->paginator=$paginator;
+        
     }
       
     public function nuevoapoderadoAction() {
@@ -517,4 +537,26 @@ class AdminController extends Zend_Controller_Action{
         }
     }
     
+    public function obtenerdocentesporcursoajaxAction(){
+    $docente=new Application_Model_Docente();
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $idcurso=$this->getRequest()->getParam('idcurso');
+            $result=$docente->getDocentesbyCurso($idcurso);
+                if(sizeof($result)>0){
+                    $json = Zend_Json::encode($result);
+                    echo $json;
+                }else
+                {
+                    
+                }
+        }
+    }
+    
+    public function aperturarcursosAction(){
+        $mysession = new Zend_Session_Namespace('sesion');                    
+        $mysession->paginaActual = 'Aperturar Cursos';        
+    }
 }

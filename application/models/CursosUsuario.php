@@ -2,23 +2,31 @@
 class Application_Model_CursosUsuario {
 
 public function setCursoUsuario($idusuario,$idcurso) {
-           $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-           $dbAdapter->insert('cursosusuarios',
+    $curso = new Application_Model_Cursos;
+    $res = $curso->verificardocentecurso($idcurso, $idusuario);
+    
+    $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+    
+    if($res==NULL){
+       $dbAdapter->insert('cursosusuarios',
                    array('Cursos_iCursIdCursos'=>$idcurso,
                        'Usuarios_iUsuIdUsuario'=>$idusuario,
                        'tiCursUsuActivo'=>'A',
                        'tiCursUsuFechaRegistro'=>time()
-                       )
-                   );
+            ));
+    }
+    else{
+        $data = array('tiCursUsuActivo' =>  'A' );   
+        $dbAdapter->update('cursosusuarios',$data,'Cursos_iCursIdCursos = ' . $idcurso . ' AND Usuarios_iUsuIdUsuario='.$idusuario);
+    }
+   
+    
 }
 
 public function unsetCursoUsuario($idusuario,$idcurso) {
            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-           $dbAdapter->delete('cursosusuarios',
-                   array('Cursos_iCursIdCursos=?'=>$idcurso,
-                       'Usuarios_iUsuIdUsuario=?'=>$idusuario
-                       )
-                   );
+           $data = array('tiCursUsuActivo' =>  'E' );   
+           $dbAdapter->update('cursosusuarios',$data,'Cursos_iCursIdCursos = ' . $idcurso . ' AND Usuarios_iUsuIdUsuario='.$idusuario);
 }
 
 public function getCursosbyid($idcurso) {

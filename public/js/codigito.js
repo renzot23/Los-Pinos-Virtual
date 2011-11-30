@@ -59,12 +59,12 @@ function ActDelCurso(cur,estado,e,opt){
                         case 'act':
                             var dat="cur="+cur+"&"+"est="+estado;
                             var url="/admin/actualizarcursoajax/";
-                            ajaxselectivo(url,dat,"listadocursosajax",".setenta");
+                            ajaxselectivo(url,dat,"listadocursosajax",".setenta","listar");
                             break;
                         case 'del':
                             var dat="cur="+cur;
                             var url="/admin/eliminarcursoajax/";
-                            ajaxselectivo(url,dat,"listadocursosajax",".setenta");
+                            ajaxselectivo(url,dat,"listadocursosajax",".setenta","listar");
                             break;
                     }
                 },
@@ -80,8 +80,7 @@ function ActDelCurso(cur,estado,e,opt){
 
 }
 
-function ajaxselectivo(urls,datos,loadtable,divposicion)
-{
+function ajaxselectivo(urls,datos,loadtable,divposicion,opt){
     $.ajax(
     {
         dataType: "html",
@@ -90,11 +89,16 @@ function ajaxselectivo(urls,datos,loadtable,divposicion)
         url: urls,
         data: datos,
         success: function(requestData){ //Llamada exitosa
-            if(requestData=="1"){
-                $(divposicion).load(loadtable);
+            if(opt=="listar"){
+             window.location.reload(true);
             }
-            else{
-                window.location="/";
+            if(opt=="modificar"){
+                if(requestData=="1"){
+                $(divposicion).load(loadtable);
+                }
+                else{
+                    window.location="/";
+                }
             }
         },
         error: function(requestData, strError, strTipoError){
@@ -208,7 +212,7 @@ function inscribedocente(idusuario,option,idcurso){
 // alert(idcurso+option+idusuario);
     var dat="idusuario="+idusuario+"&"+"idcurso="+idcurso+"&opt="+option;
     var url="/admin/asignadocentecursoajax/";
-    ajaxselectivo(url,dat,"listarcursodocenteajax",".recagatab");
+    ajaxselectivo(url,dat,"listarcursodocenteajax",".recagatab","modificar");
     if(option=='ins'){
 // var idcurso = document.getElementById("idcurso").value;
 
@@ -253,4 +257,26 @@ function selecapoderado(id,nombre,dni){
     $( "#dialog-form" ).dialog( "close" );
 // $("#nombre").val=id;
 
+}
+
+
+function infoDocenteCurso(idcurso){
+// alert(idcurso)
+        $.getJSON("obtenerdocentesporcursoajax/?idcurso="+idcurso, function(data){
+            var docente=data;
+            var datoshtml;
+            if(docente!=null){
+                if(docente.length>0){
+                    for(var x = 0 ; x<docente.length ; x++)
+                        {
+                            datoshtml='<ul style="list-style-type:none"><li><h3>Docente : '+docente[x].vUsuApellidoPat+' '+docente[x].vUsuApellidoMat+' '+docente[x].vUsuNombre+'</h3></li><li><h3>Especialidad : '+docente[x].tDocEspecialidad +'</h3></li></ul>';
+                        }
+                        $("#dialog").html(datoshtml);
+                }
+            }else{
+              $("#dialog").html("<p><h4>No se encuentra datos del docente</h4></p>");
+             
+            }
+             $( "#dialog" ).dialog( "open" );
+        });
 }

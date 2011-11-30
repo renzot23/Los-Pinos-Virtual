@@ -50,5 +50,23 @@ WHERE usu.vUsuApellidoPat LIKE '".$apellido."%' and tipusu.iTiUsuarioIdTipoUsuar
             }
     } 
     
+    public function getDocentesbyCurso($idcurso){
+          $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+          $stmt=$dbAdapter->query("SELECT usu.vUsuNombre, usu.vUsuApellidoPat, usu.vUsuApellidoMat, doc.tDocEspecialidad
+                FROM usuarios usu
+                INNER JOIN docentes doc ON doc.Usuarios_iUsuIdUsuario = usu.iUsuIdUsuario
+                INNER JOIN cursosusuarios cusu ON cusu.Usuarios_iUsuIdUsuario = doc.Usuarios_iUsuIdUsuario
+                WHERE usu.TipoUsuario_iTiUsuarioIdTipoUsuario = '2'
+                AND cusu.Cursos_iCursIdCursos = '".$idcurso."'
+                ");
+            $result = $stmt->fetchAll();
+            
+            if(isset($result)){
+                return $result;
+            }else{
+                return NULL;
+            }
+        }
+    
 }
 ?>
