@@ -466,4 +466,55 @@ class AdminController extends Zend_Controller_Action{
         }
     }
     
+    public function asignardocentecursoAction(){
+        $curso=new Application_Model_Cursos();
+        $listacursos=$curso->listarCursosPeriodoActualActivos();
+// $listanombres=$curso->listarNombreCursosActivos();
+        $json = Zend_Json::encode($listacursos);
+        $this->view->listacursosactivos=$listacursos;
+        $this->view->listanombres=$json;
+    }
+    
+    public function asignadocentecursoajaxAction(){
+      $cursousuario = new Application_Model_CursosUsuario();
+        if ($this->getRequest()->isXmlHttpRequest()){
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $idusuario=$this->getRequest()->getParam('idusuario');
+            $idcurso=$this->getRequest()->getParam('idcurso');
+            $option=$this->getRequest()->getParam('opt');
+            if($option=='ins'){
+                $cursousuario->setCursoUsuario($idusuario, $idcurso);
+            }
+            else{
+                 $cursousuario->unsetCursoUsuario($idusuario, $idcurso);
+            }
+            echo "1";
+        }
+    }
+    
+    public function listarcursodocenteajaxAction() {
+        $this->verificarInactividad();
+        $this->_helper->layout->disableLayout();
+    } 
+    
+    public function obtenerdocenteajaxAction(){
+        $docente=new Application_Model_Docente();
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+            $parametro=$this->getRequest()->getParam('parametro');
+            $opcion=$this->getRequest()->getParam('opt');
+            if($opcion=='dni'){
+                $resuslt=$docente->listardocentebydni($parametro);
+               
+            }else{$result=$docente->listardocentebyapellido($parametro);}
+            if(sizeof($result)>0){
+                $json = Zend_Json::encode($result);
+                echo $json;
+            }else{}
+        }
+    }
+    
 }

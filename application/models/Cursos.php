@@ -17,6 +17,7 @@ class Application_Model_Cursos{
                             from cursos cur
                             inner join seccion sec on cur.Seccion_iSeccIdSeccion = sec.iSeccIdSeccion
                             inner join grado gr on sec.Grado_iGradoIdGrado=gr.iGradoIdGrado
+                            where gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico=".$idperiodoacademicoactual."
                             order by gr.iGradoIdGrado, sec.vSeccDescripcion, vCursNombreCurso");
              
             $result = $stmt->fetchAll();
@@ -258,5 +259,41 @@ class Application_Model_Cursos{
                 
         }
     }
-        
+    
+    public function listarCursosPeriodoActualActivos(){
+        $periodoacademico= new Application_Model_PeriodoAcademico();
+        $idperiodoacademicoactual=$periodoacademico->getPeriodoActualId();
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("SELECT cur.iCursIdCursos, gr.vGradoDescripcion, sec.vSeccDescripcion, cur.vCursNombreCurso, cur.iCursDescripcion, cur.tiCursActivo
+                    FROM cursos cur
+                    INNER JOIN seccion sec ON cur.Seccion_iSeccIdSeccion = sec.iSeccIdSeccion
+                    INNER JOIN grado gr ON sec.Grado_iGradoIdGrado = gr.iGradoIdGrado
+                    where gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico=".$idperiodoacademicoactual." and cur.tiCursActivo = 'A'
+                    ORDER BY gr.iGradoIdGrado, sec.vSeccDescripcion, vCursNombreCurso");
+
+        $result = $stmt->fetchAll();
+
+        if(isset($result)){
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
+    
+    public function obtenerdocentescurso($idcurso){
+        $dbAdapter= Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("
+                    SELECT cusu.Cursos_iCursIdCursos, cusu.Usuarios_iUsuIdUsuario
+                    FROM cursosusuarios cusu
+                    inner join usuarios usu on usu.iUsuIdUsuario=cusu.Usuarios_iUsuIdUsuario
+                    inner join tipousuario tusu on tusu.iTiUsuarioIdTipoUsuario=usu.TipoUsuario_iTiUsuarioIdTipoUsuario
+                    WHERE tusu.iTiUsuarioIdTipoUsuario='2' and cusu.Cursos_iCursIdCursos='".$idcurso."'
+                    ");
+        $result = $stmt->fetchAll();
+        if(isset($result)){
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
 }
