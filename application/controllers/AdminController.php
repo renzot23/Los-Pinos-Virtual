@@ -606,6 +606,21 @@ class AdminController extends Zend_Controller_Action{
         $mysession->paginaActual = 'Aperturar Cursos';        
     }
     
+    public function nuevaaperturaAction(){
+        $idseccion=$this->getRequest()->getParam('cboseccion');
+        
+        if(isset($idseccion)){
+           $seccion = new Application_Model_Seccion();
+           $seccion->aperturarSeccion($idseccion);
+           return $this->_redirect('/admin/aperturarcursos');
+        }
+        else{
+            return $this->_redirect('/');
+        }
+        
+        
+    }
+    
     public function listaralumnosseccionAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();

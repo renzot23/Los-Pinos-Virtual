@@ -71,23 +71,31 @@
             <h4><img src="/main/img/course.gif" alt="Cursos" title="Cursos"> Aperturar Año Académico</h4>
             <ul>';
         
-        if($peraca->validarExistePeriodo()>1){
-            if($peraca->validarNotasFinales()){
+        if($peraca->validarExistePeriodo()>0){
+            if($peraca->validarNotasCerradas()){
                 //Promover alumnos
                 $contenido .= '<li><a href=""><img src="/main/img/accept.png"/> Cerrar Notas</a></li>';
                 $contenido .= '<li><a href="promoveralumnos"><img src="/main/img/online.png"/> Promover Alumnos</a></li>';
                 $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Aperturar Cursos (Nuevo Periodo)</a></li>';
             }
             else{
-                //Mensaje de que aun no se cierran las notas finales
-               $contenido .= '<li><a href="cerrarnotas"><img src="/main/img/online.png"/> Cerrar Notas</a></li>';
-               $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Promover Alumnos</a></li>';
-               $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Aperturar Cursos (Nuevo Periodo)</a></li>';
+                if(date("n")>2 && date("n")>11){
+                    //Mensaje de que aun no se cierran las notas finales
+                    $contenido .= '<li><a href="cerrarnotas"><img src="/main/img/online.png"/> Cerrar Notas</a></li>';
+                    $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Promover Alumnos</a></li>';
+                    $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Aperturar Cursos (Nuevo Periodo)</a></li>';
+                }
+                else{
+                    $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Cerrar Notas</a></li>';
+                    $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Promover Alumnos</a></li>';
+                    $contenido .= '<li><a href="aperturarcursos"><img src="/main/img/online.png"/> Aperturar Cursos</a></li>';
+                }
             }
         }
+        
         else{
-             $contenido .= '<li><a href=""><img src="/main/img/accept.png"/> Cerrar Notas</a></li>';
-             $contenido .= '<li><a href=""><img src="/main/img/accept.png"/> Promover Alumnos</a></li>';
+             $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Cerrar Notas</a></li>';
+             $contenido .= '<li><a href=""><img src="/main/img/offline.png"/> Promover Alumnos</a></li>';
              $contenido .= '<li><a href="aperturarcursos"><img src="/main/img/online.png"/> Aperturar Cursos</a></li>';
         }
         $contenido .= '              

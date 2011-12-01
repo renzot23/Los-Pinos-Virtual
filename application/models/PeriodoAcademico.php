@@ -83,6 +83,7 @@ class Application_Model_PeriodoAcademico extends Zend_Db_Table_Abstract{
             }
         
     }
+    
     public function validarActivarGrado(){
         if ((int)date("Y")==(int)$this->getPeriodoActualAnual() && (int)date("n")==1){
             return true;
@@ -109,7 +110,8 @@ class Application_Model_PeriodoAcademico extends Zend_Db_Table_Abstract{
                 $dbAdapter = Zend_Db_Table::getDefaultAdapter();
                 $dbAdapter->insert("periodoacademico", array(
                     'vPerAcaDescripcion'     =>  date("Y"),
-                    'cPerAcaEstado'     =>  'A'));
+                    'cPerAcaEstado'     =>  'A',
+                    'cPerAcaNotas '=>'A'));
                 return true;
             case 'B':
                 return false;
@@ -124,7 +126,8 @@ class Application_Model_PeriodoAcademico extends Zend_Db_Table_Abstract{
 
                 $dbAdapter->insert("periodoacademico", array(
                     'vPerAcaDescripcion'=>  date("Y"),
-                    'cPerAcaEstado'=> 'A'
+                    'cPerAcaEstado'=> 'A',
+                    'cPerAcaNotas '=>'A'
                     ));
                 return true;
                 break;
@@ -142,10 +145,26 @@ class Application_Model_PeriodoAcademico extends Zend_Db_Table_Abstract{
                 return '0';
             }
     }
-
+    
+    public function getEstadoNotasPeriodo(){
+        $idperiodoacademicoactual=$this->getPeriodoActualId();
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("Select pera.cPerAcaNotas 
+                            from periodoacademico pera 
+                            where pera.iPerAcaIdPeriodoAcademico=".$idperiodoacademicoactual);    
+        $result = $stmt->fetchAll();
+        
+    }
     //FALTAAAA
-    public function validarNotasFinales(){
-        return true;
+    public function validarNotasCerradas(){
+        $estnotas=$this->getEstadoNotasPeriodo();
+        //C: Notas cerradas, A: Notas Activas
+            if($estnotas[0]['cPerAcaNotas']=='C'){
+                return true;
+            }
+            else{
+                return false;
+            }
     }
     
 }

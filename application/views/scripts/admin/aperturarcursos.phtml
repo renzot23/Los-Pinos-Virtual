@@ -31,12 +31,37 @@ function cargaralumnos(){
                        }
                        else{
                            for (var x = 0 ; x < alumnos.length ; x++) {
-                                option+='<tr>\n\
-                                            <td colspan="5">\n\
-                                                <center>'+alumnos[x].vUsuUsuario+'</center>\n\
+                                if(x%2==0){option+='<tr class="row_even">';}
+                                else{option+='<tr class="row_odd">';}
+                                option+='\n\
+                                            <td>\n\
+                                                <center>'+alumnos[x].iUsuIdUsuario+'</center>\n\
+                                            </td>\n\\n\
+                                            <td>\n\
+                                                '+alumnos[x].vUsuUsuario+'\n\
+                                            </td>\n\\n\
+                                            <td>\n\
+                                                '+alumnos[x].vUsuApellidoPat+' '+alumnos[x].vUsuApellidoMat+', '+alumnos[x].vUsuNombre+'\n\
+                                            </td>\n\\n\
+                                            <td>\n\
+                                                <center><img width=50px heigth=50px src="/'+alumnos[x].tFoto+'"/></center>\n\
+                                            </td>\n\\n\
+                                            <td>\n\
+                                                <center>'+alumnos[x].cUsuDni+'</center\n\
                                             </td>\n\
-                                        </tr>';
+                                        </tr>\n\
+                                             ';
                             }
+                            option+='\n\
+                                    <tr>\n\
+                                        <td colspan="5">\n\
+                                            <center>\n\
+                                                <button type="submit" class="save">\n\
+                                                    Aperturar Cursos\n\
+                                                </button>\n\
+                                            </center>\n\
+                                        </td>\n\
+                                    </tr>';
                        }
                     }
                     else{
@@ -119,51 +144,37 @@ function cargaralumnos(){
            
         $contenido = '
             <div id="submain">
+                <form method="POST" action="/admin/nuevaapertura" name="form_attendance_list">  
                 <div class="actions" style="margin-bottom:30px">
-                    <select id="cbogrados" onchange="cargarseccion();">
+                    <select id="cbogrados" name="cbogrados" onchange="cargarseccion();">
                         <option value="0" >Seleccionar Grado</option>';
-                    
-                    $grados=new Application_Model_Grado();
-                    $listagrados=$grados->listarGradosActivos();
-                        foreach($listagrados as $aux){
-                            $contenido.='<option value="'.$aux['iGradoIdGrado'].'">'.$aux['vGradoDescripcion'].'</option>';
+                        $grados=new Application_Model_Grado();
+                        $listagrados=$grados->listarGradosActivos();
+                            foreach($listagrados as $aux){
+                                $contenido.='<option value="'.$aux['iGradoIdGrado'].'">'.$aux['vGradoDescripcion'].'</option>';
                         }
                     $contenido .= '
                     </select>
-                    <select id="cboseccion" onchange="cargaralumnos();">
+                    <select id="cboseccion" name="cboseccion" onchange="cargaralumnos();">
                     </select>
-                </div><form method="post" action="" name="form_attendance_list">
-                <table class="data_table">
-                    <thead>
-                        <tr class="row_odd">
-                            <th style="width:20px;">&nbsp;</th>
-                            <th><a>Nombre</a></th>
-                            <th><a>Descripción</a></th>
-                            <th style="width:90px;"><a>Asistencias</a></th>
-                            <th style="text-align:center">Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaalumnos">
-                        <tr class="row_even">
-                            <td><input type="checkbox" name="id[]" value="1"></td>
-                            <td><a href="">1er Trimestre</a></td>
-                            <td>-</td>
-                            <td><center>0</center></td>
-                            <td><center><a href=""><img src="/main/img/icons/22/edit.png" alt="Editar" title="Editar"></a>&nbsp;<a onclick=""><img src="/main/img/icons/22/delete.png" alt="Eliminar" title="Eliminar"></a></center></td>
-                        </tr>
-                    <tbody>
-                </table>
-                <table style="width:100%;">
-                    <tbody>
-                        <tr>
-                            <td colspan="2"><br>
-                                <button type="submit" class="save">
-                                    Guardar
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                </div>
+                    <div class="centraTabla">
+                            <table class="data_table" style="width:auto;">
+                                <thead>
+                                    <tr class="row_odd">
+                                        <th style="width:20px;">Id</th>
+                                        <th><a>Usuario</a></th>
+                                        <th><a>Nombre</a></th>
+                                        <th style="width:90px;"><a>Imagen</a></th>
+                                        <th style="text-align:center">DNI</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaalumnos">
+                                   
+                                <tbody>
+                            </table>
+                      </div>
+                
                 </form>
                 <div class="clear">&nbsp;</div>
             </div>';

@@ -76,7 +76,7 @@ ul#navigation {
     margin: 0px;
     padding: 0px;
     top: 30px;
-    right: -80px;
+    right: -130px;
     list-style: none;
     z-index:20;
 }
@@ -957,6 +957,17 @@ span.form_error {
  *****************************************************/
 
 /* header cell in data table in tools */
+.centraTabla{
+    text-align: center;
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
+}
+
+.centraTabla table {
+    margin: 0 auto;
+    text-align: left;
+}
+
 .data_table {
     margin-top: 8px;    
     border-collapse: collapse;

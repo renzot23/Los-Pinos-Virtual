@@ -266,19 +266,13 @@ class Application_Model_Seccion {
         
         public function listarCursosAlumnosbySeccion($idseccion){
             $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-//            $stmt=$dbAdapter->query("
-//                SELECT *
-//                FROM cursosusuarios curusu
-//                INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos=cur.iCursIdCursos
-//                INNER JOIN alumnos al ON cur.Seccion_iSeccIdSeccion = al.Seccion_iSeccIdSeccion
-//                WHERE cur.Seccion_iSeccIdSeccion = ".$idseccion);
             $stmt=$dbAdapter->query("
                 SELECT *
                 FROM cursosusuarios curusu
                 INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos = cur.iCursIdCursos
                 INNER JOIN usuarios usu ON usu.iUsuIdUsuario = curusu.Usuarios_iUsuIdUsuario
                 WHERE cur.Seccion_iSeccIdSeccion = ".$idseccion."
-                 AND TipoUsuario_iTiUsuarioIdTipoUsuario =1");
+                 AND TipoUsuario_iTiUsuarioIdTipoUsuario =1 AND cUsuActivo='A' ");
              
             $result = $stmt->fetchAll();
             
@@ -288,5 +282,37 @@ class Application_Model_Seccion {
                 return FALSE;   
             }
         }
+        
+        public function listarCursosxSeccionbyIdSeccion($idseccion){
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $stmt=$dbAdapter->query("
+                SELECT *
+                FROM cursos
+                WHERE Seccion_iSeccIdSeccion=".$idseccion);
+             
+            $result = $stmt->fetchAll();
+            
+            if(sizeof($result)>0){
+                return $result;
+            }else{
+                return NULL;   
+            }
+        }
+        
+        public function aperturarSeccion($idseccion){
+            $listacursos=$this->listarCursosxSeccionbyIdSeccion($idseccion);
+            $listaalumnos=$this->listarAlumnosporSecciones($idseccion);
+            if(isset($listacursos) && isset($listaalumnos)){
+                $cursosusuarios = new Application_Model_CursosUsuario(); 
+                foreach($listaalumnos as $alumno){
+                    foreach($listacursos as $curso){
+                        $idcurso=$curso['iCursIdCursos'];
+                        $idalumnousuario=$alumno['iUsuIdUsuario'];
+                        $cursosusuarios->setCursoUsuario($idalumnousuario, $idcurso);
+                    }
+                }
+            }
+        }
+        
 }
  

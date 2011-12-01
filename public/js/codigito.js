@@ -311,6 +311,7 @@ function infoDocenteCurso(idcurso){
                             datoshtml='<ul style="list-style-type:none"><li><h3>Docente : '+docente[x].vUsuApellidoPat+' '+docente[x].vUsuApellidoMat+' '+docente[x].vUsuNombre+'</h3></li><li><h3>Especialidad : '+docente[x].tDocEspecialidad +'</h3></li></ul>';
                         }
                         $("#dialog").html(datoshtml);
+                        setTimeout('$("#dialog").dialog("close");',2000);
                 }
             }else{
               $("#dialog").html("<p><h4>No se encuentra datos del docente</h4></p>");

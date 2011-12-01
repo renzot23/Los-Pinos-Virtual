@@ -957,6 +957,17 @@ span.form_error {
  *****************************************************/
 
 /* header cell in data table in tools */
+.centraTabla{
+    text-align: center;
+}
+
+.centraTabla table {
+    margin: 0 auto;
+    text-align: left;
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
+}
+
 .data_table {
     margin-top: 8px;    
     border-collapse: collapse;
