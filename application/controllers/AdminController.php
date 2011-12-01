@@ -252,6 +252,26 @@ class AdminController extends Zend_Controller_Action{
         $form = new Application_Form_FormNuevoCurso();
         if (!$form->isValid($_POST)) {           
             $this->view->formularioagregarcurso = $form;
+            
+            //
+                $cursos = new Application_Model_Cursos();
+        
+                $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+                $this->view->page=$this->getRequest()->getParam('page');
+                if(!isset($this->view->nroreg)){
+                    $this->view->nroreg=5;
+                    $this->view->page=1;
+                }  
+
+                $listacursos = $cursos->listarCursosPeriodoActual();
+                $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listacursos));
+
+
+                $paginator->setItemCountPerPage($this->view->nroreg);
+                $paginator->setCurrentPageNumber($this->view->page,1);
+
+                $this->view->paginator=$paginator;
+            //
             return $this->render('nuevocurso');
         } 
         
@@ -263,7 +283,7 @@ class AdminController extends Zend_Controller_Action{
         
         $cursos->registrarCurso($nombrecurso, $descripcion, $idseccion);
         
-        return $this->_redirect('/admin/nuevocurso');
+        return $this->_redirect('/admin/nuevocurso?page=1&nroreg=6');
          
     }
     
@@ -390,9 +410,10 @@ class AdminController extends Zend_Controller_Action{
         $nombre=$form->getValue('nombre');
         $appaterno=$form->getValue('appaterno');
         $apmaterno=$form->getValue('apmaterno');
+        $sexo=$form->getValue('sexo');
         
         $usuario = new Application_Model_Usuario();
-        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '3');
+        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '3', $sexo);
         
         $apoderado= new Application_Model_Apoderado();
         $apoderado->registrarApoderado($idusuario);
@@ -421,16 +442,41 @@ class AdminController extends Zend_Controller_Action{
         $nombre=$form->getValue('nombre');
         $appaterno=$form->getValue('appaterno');
         $apmaterno=$form->getValue('apmaterno');
+        $sexo=$form->getValue('sexo');
         
         $idapoderado=$form->getValue('idapo');
         $idseccion=$form->getValue('cboseccion');
         
         $usuario = new Application_Model_Usuario();
-        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '1');
+        $idusuario=$usuario->registrarUsuario($nombreusuario, $clave, $email, $dni, $nombre, $appaterno, $apmaterno, '1', $sexo);
         
         $alumno= new Application_Model_Alumno;
         $alumno->registrarAlumno($idusuario, $idseccion, $idapoderado);
         
+        /* Uploading Document File on Server */
+        $upload = new Zend_File_Transfer_Adapter_Http();
+        $upload->setDestination("main/fotos");
+         try {
+         // upload received file(s)
+             $upload->receive();
+             $name = $upload->getFileName('foto');
+             $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+             $renameFile = $idusuario.'.'.$extension;
+
+             $fullFilePath = 'main/fotos/'.$renameFile;
+
+             // Rename uploaded file using Zend Framework
+             $filterFileRename = new Zend_Filter_File_Rename(array('target' => $fullFilePath, 'overwrite' => true));
+
+             $filterFileRename -> filter($name);
+             
+             $usuario->actualizarFoto($idusuario, $fullFilePath);
+        }
+        catch (Zend_File_Transfer_Exception $e) {
+            $e->getMessage();
+        }
+             
         return $this->_redirect('/admin/nuevoalumno');
     }
 
@@ -559,4 +605,57 @@ class AdminController extends Zend_Controller_Action{
         $mysession = new Zend_Session_Namespace('sesion');                    
         $mysession->paginaActual = 'Aperturar Cursos';        
     }
+    
+    public function listaralumnosseccionAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $seccion=new Application_Model_Seccion();
+        $idSeccion=$this->_request->idseccion;
+        if($seccion->listarCursosAlumnosbySeccion($idSeccion)==FALSE){
+            $array_re=$seccion->listarAlumnosporSecciones($idSeccion);
+            $json = Zend_Json::encode($array_re);
+            echo $json;
+        }
+        else{
+            
+            echo '[{"rpta":"SI"}]';
+        }
+    }
+    
+    public function listarnombreusuarioAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $usunombre=$this->getRequest()->getParam('usunombre');
+        $usuario = new Application_Model_Usuario();
+        
+        $result = $usuario->buscarNombredeUsuario($usunombre);
+        
+        if($result==true){
+            echo "existe";
+        }
+        else{
+            echo "";
+        }
+    }
+    
+    public function buscardniusuarioAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $usunombre=$this->getRequest()->getParam('usudni');
+        $usuario = new Application_Model_Usuario();
+        
+        $result = $usuario->buscardniusuario($usunombre);
+        
+        if($result==true){
+            echo "existe";
+        }
+        else{
+            echo "";
+        }
+    }
+
+
 }

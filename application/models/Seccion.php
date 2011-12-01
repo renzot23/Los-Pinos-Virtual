@@ -229,5 +229,64 @@ class Application_Model_Seccion {
          
             return $contenido;
         }
+
+        public function listarAlumnosporSecciones($idseccion){
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $stmt=$dbAdapter->query("
+                SELECT *
+                FROM alumnos al 
+                INNER JOIN usuarios usu on usu.iUsuIdUsuario = al.Usuarios_iUsuIdUsuario
+                WHERE Seccion_iSeccIdSeccion=".$idseccion);
+             
+            $result = $stmt->fetchAll();
+            
+            if(isset($result)){
+                return $result;
+            }else{
+                return NULL;   
+            }
+        }
+
+        public function listarUsuariosSeccion($idseccion){
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $stmt=$dbAdapter->query("
+                SELECT *
+                FROM cursosusuarios curusu
+                INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos=cur.iCursIdCursos
+                WHERE cur.Seccion_iSeccIdSeccion = ".$idseccion);
+             
+            $result = $stmt->fetchAll();
+            
+            if(isset($result)){
+                return true;
+            }else{
+                return false;   
+            }
+        }
+        
+        public function listarCursosAlumnosbySeccion($idseccion){
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+//            $stmt=$dbAdapter->query("
+//                SELECT *
+//                FROM cursosusuarios curusu
+//                INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos=cur.iCursIdCursos
+//                INNER JOIN alumnos al ON cur.Seccion_iSeccIdSeccion = al.Seccion_iSeccIdSeccion
+//                WHERE cur.Seccion_iSeccIdSeccion = ".$idseccion);
+            $stmt=$dbAdapter->query("
+                SELECT *
+                FROM cursosusuarios curusu
+                INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos = cur.iCursIdCursos
+                INNER JOIN usuarios usu ON usu.iUsuIdUsuario = curusu.Usuarios_iUsuIdUsuario
+                WHERE cur.Seccion_iSeccIdSeccion = ".$idseccion."
+                 AND TipoUsuario_iTiUsuarioIdTipoUsuario =1");
+             
+            $result = $stmt->fetchAll();
+            
+            if(sizeof($result)>0){
+                return TRUE;
+            }else{
+                return FALSE;   
+            }
+        }
 }
  

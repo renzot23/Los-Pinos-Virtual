@@ -11,6 +11,7 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
     protected $email;
     protected $dni;
     protected $activo;
+    protected $sexo;
     protected $idusuario; 
     protected $_name = 'usuarios';
     protected $_primary = 'iUsuIdUsuario';
@@ -114,6 +115,40 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
         return $result;
     }
     
+    public function buscarNombredeUsuario($nombreUsuario){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $select = $dbAdapter->select()
+                ->from(array('u' => 'usuarios'))
+                ->where('vUsuUsuario = ?', $nombreUsuario);
+
+        $stmt = $dbAdapter->query($select);
+        
+        $result = $stmt->fetchAll();
+        
+        if(sizeof($result)>0){
+                return TRUE;
+            }else{
+                return FALSE;   
+            }
+    }
+    
+    public function buscardniusuario($dni){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $select = $dbAdapter->select()
+                ->from(array('u' => 'usuarios'))
+                ->where('cUsuDni = ?', $dni);
+
+        $stmt = $dbAdapter->query($select);
+        
+        $result = $stmt->fetchAll();
+        
+        if(sizeof($result)>0){
+                return TRUE;
+            }else{
+                return FALSE;   
+            }
+    }
+    
     public function getInactivo(){
         $mysession = new Zend_Session_Namespace('sesion');
         if (isset($mysession->actividad)){
@@ -124,7 +159,7 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
         }
     }
    
-    public function registrarUsuario($vUsuUsuario,$vUsuClave,$vUsuEmail,$cUsuDni,$vUsuNombre, $vUsuApellidoPat, $vUsuApellidoMat, $TipoUsuario_iTiUsuarioIdTipoUsuario){
+    public function registrarUsuario($vUsuUsuario,$vUsuClave,$vUsuEmail,$cUsuDni,$vUsuNombre, $vUsuApellidoPat, $vUsuApellidoMat, $TipoUsuario_iTiUsuarioIdTipoUsuario, $sexo){
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
         $dbAdapter->insert("usuarios", array(
                 'vUsuUsuario'     =>  $vUsuUsuario,
@@ -136,9 +171,16 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
                 'vUsuApellidoMat'     =>  $vUsuApellidoMat,
                 'cUsuActivo'     =>  'A',
                 'cUsuEstado'     =>  'A',
+                'cSexo' =>  $sexo,
                 'TipoUsuario_iTiUsuarioIdTipoUsuario'     =>  $TipoUsuario_iTiUsuarioIdTipoUsuario,
             ));
         $id = $dbAdapter->lastInsertId();
         return $id;
+    }
+    
+    public function actualizarFoto($idUsuario,$filename){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter(); 
+        $data = array('tFoto' =>  $filename );
+        $dbAdapter->update('usuarios',$data,'iUsuIdUsuario = ' . $idUsuario);
     }
 }

@@ -57,15 +57,16 @@
                 </a>
             </li>
         </ul>';
-    $peranterior=date("Y")-1;
+        $peranterior=date("Y")-1;
+        
         $periodoacademico = new Application_Model_PeriodoAcademico();
         $idperacademico=$periodoacademico->getPeriodoActualId();
         
-        switch($periodoacademico){
+        switch($idperacademico){
             case 'A':
-                $contenido =  '
+                $contenido = '
                 <h2>Actualizar Periodo</h2><div class="warning-message">
-                <b>No existe Periodo Academico Activo</b></div>';
+                <b>No se ha registrado algún Periodo Academico</b></div>'.$this->formactperiodo;
     
                 break;
             case 'B':
@@ -76,16 +77,16 @@
             default:
                 $mysession->id_periodoacademico=$idperacademico;
                 $contenido =  '
-                <h2>Actualizar Periodo</h2><div class="warning-message">
+                <h2>Actualizar Periodo'.$idperacademico.'</h2><div class="warning-message">
                     <b>ADVERTENCIA:</b> Al aceptar el registro actual se inhabilitará el periodo académico anterior ('.$peranterior.').
                     Recuerde que esta operación quedará registrada y no podrá modificarla hasta el siguiente periodo académico.</div>'.$this->formactperiodo;
                 break;
             }
-        
-        $contenido =  '
-            <h2>Actualizar Periodo</h2><div class="warning-message">
-                <b>ADVERTENCIA:</b> Al aceptar el registro actual se inhabilitará el periodo académico anterior ('.$peranterior.').
-                    Recuerde que esta operación quedará registrada y no podrá modificarla hasta el siguiente periodo académico.</div>'.$this->formactperiodo;
-    
+//        
+//        $contenido =  '
+//            <h2>Actualizar Periodo</h2><div class="warning-message">
+//                <b>ADVERTENCIA:</b> Al aceptar el registro actual se inhabilitará el periodo académico anterior ('.$peranterior.').
+//                    Recuerde que esta operación quedará registrada y no podrá modificarla hasta el siguiente periodo académico.</div>'.$this->formactperiodo;
+//    
     print $html->crearWrapper(null, null, null, $h3, $h4 ,$this->layout()->content, null,$contenido);
 ?>

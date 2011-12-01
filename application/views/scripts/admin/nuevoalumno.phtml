@@ -29,16 +29,11 @@
     $script='<script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" > </script>
             <script type="text/javascript" src="/js/codigito.js" > </script>
             <script type="text/javascript" src="/js/mascarainput.js" > </script>
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    $("#appaterno").validaTexto("s","registrar");
-                });
-            </script >
-            <script type="text/javascript">
-                jQuery(function($){
-                    $("#dnis").mask("99999999");
-                });
-            </script>';
+            <script>$(document).ready(function(){
+            $("#nombreusuario").validaTexto("usuario");
+            $("#dni").validaTexto("dni");
+            $("#dni").mask("99999999");
+        });</script>';
     
     $this->script=$script;
     $css='<link media="projection, screen" href="/js/jquery-ui/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">';

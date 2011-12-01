@@ -18,12 +18,12 @@ function ActDelSeccion(secc,estado,e,opt){
                         case 'act':
                             var dat="secc="+secc+"&"+"est="+estado;
                             var url="/admin/actualizarseccionajax/";
-                            ajaxselectivo(url,dat,"listadoseccionesajax",".setenta");
+                            ajaxselectivo(url,dat,"listadoseccionesajax",".setenta","modificar");
                             break;
                         case 'del':
                             var dat="secc="+secc;
                             var url="/admin/eliminarseccionajax/";
-                            ajaxselectivo(url,dat,"listadoseccionesajax",".setenta");
+                            ajaxselectivo(url,dat,"listadoseccionesajax",".setenta","modificar");
                             break;
                     }
                 },
@@ -116,7 +116,7 @@ function verificarusuario(nameclass,geturl)
 
 (function(a){
 a.fn.extend({
-        validaTexto: function(texto,id){
+        validaTexto: function(opt){
 /*Recorre todos los elementos encapsulados*/
 this.each(function(){
 /*Aquí se cambia el contexto, por lo que 'this' se refiere al elemento DOM por el que se está pasando*/
@@ -124,16 +124,27 @@ var $this = a(this); //Convertimos a jQuery
 
 /*Cuando pierde el foco, si está vacío, pone el texto por defecto y cambia el color*/
 $this.blur(function(){
-if(a.trim($this.val()).length!==0){
-// $this.css("color",disabledColor).val(texto);
-$.get("listarnombreusuario/?usunombre="+a.trim($this.val()), function(data){
+    if(a.trim($this.val()).length!==0){
+        // $this.css("color",disabledColor).val(texto);
+        if(opt=="usuario"){
+            $.get("listarnombreusuario/?usunombre="+a.trim($this.val()), function(data){
 
-        if(data=='existe'){
-            document.getElementById(id).disabled=true;
-            alert("usuario ya existe");
+            if(data=='existe'){
+                $this.val("");
+                alert("El Nombre de Usuario ya existe");
+            }
+            });
         }
-        });
-}
+        else if(opt=="dni"){
+            $.get("buscardniusuario/?usudni="+a.trim($this.val()), function(data){
+
+            if(data=='existe'){
+                $this.val("");
+                alert("El Nro de Dni ya existe");
+            }
+            });
+        }
+    }
 });
 });
 }
@@ -143,8 +154,9 @@ $.get("listarnombreusuario/?usunombre="+a.trim($this.val()), function(data){
 function buscaapoderado(){
     $.fx.speeds._default = 1000;
 $("#buscaap").html(" ");
-document.getElementById("apellidos").value="";
-document.getElementById("dnis").value="";
+document.getElementById("idapo").value="";
+document.getElementById("nombreapo").value="";
+document.getElementById("dniapo").value="";
     $(function() {
         $( "#dialog-form" ).dialog({
             autoOpen: false,
@@ -198,7 +210,33 @@ function buscardocente(opcion,obj){
     if(docente!=null){
          if(docente.length>0){
              for (var x = 0 ; x < docente.length ; x++) {
-                fila+='<tr><td><center>'+docente[x].iUsuIdUsuario+'</center></td><td><center>'+docente[x].tDocEspecialidad+'</center></td><td><center>'+docente[x].vUsuNombre+'</center></td><td><center>'+docente[x].vUsuApellidoPat+'</center></td><td><center>'+docente[x].vUsuApellidoMat+'</center></td><td><center>'+docente[x].cUsuDni+'</center></td><td><center><a style="cursor:pointer" alt="Seleccionar" onclick="inscribedocente(\''+docente[x].iUsuIdUsuario+'\''+',\'ins\','+idcurso+');" ><span class="ui-icon ui-icon-check"></span></a></center> </td></tr>';
+                fila+='<tr>\n\
+                            <td>\n\
+                                <center>'+docente[x].iUsuIdUsuario+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>'+docente[x].tDocEspecialidad+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>'+docente[x].vUsuNombre+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>'+docente[x].vUsuApellidoPat+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>'+docente[x].vUsuApellidoMat+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>'+docente[x].cUsuDni+'</center>\n\
+                            </td>\n\
+                            <td>\n\
+                                <center>\n\
+                                    <a style="cursor:pointer" alt="Seleccionar" onclick="inscribedocente(\''+docente[x].iUsuIdUsuario+'\''+',\'ins\','+idcurso+');" >\n\
+                                        <span class="ui-icon ui-icon-check"></span>\n\
+                                    </a>\n\
+                                </center>\n\
+                            </td>\n\
+                        </tr>';
             }
             $("#buscaap").html(fila);
             }
@@ -251,10 +289,11 @@ function buscarapoderado(opcion,obj){
 
 function selecapoderado(id,nombre,dni){
 // alert(id+nombre+dni);
+    document.getElementById("idapoderado").value=id;
     document.getElementById("idapo").value=id;
     document.getElementById("nombreapo").value=nombre;
     document.getElementById("dniapo").value=dni;
-    $( "#dialog-form" ).dialog( "close" );
+    $("#dialog-form").dialog( "close" );
 // $("#nombre").val=id;
 
 }

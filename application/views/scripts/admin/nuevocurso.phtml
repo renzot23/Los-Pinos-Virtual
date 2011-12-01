@@ -12,8 +12,11 @@
                  $("#cboseccion").html(option);
            });
         }    
-
+      
+      $(document).ready(function (){cargarseccion();} );
+      
 </script>
+
 <?php
     $this->titulopagina='Los Pinos - Nuevo Curso';
     $html= new Application_Model_Html();
@@ -25,17 +28,10 @@
     $nombreUsuario=$mysession->usuario_nombre;
     $usuario_id=$mysession->usuario_id;
     
-    $script='<script type="text/javascript" src="/js/jquery.form.js" ></script>
+    $script='
         <script type="text/javascript" src="/js/codigito.js" > </script>
         <script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" > </script>
-        <script type="text/javascript">
-
-        $(document).ready(function() {
-        $("#formLogin").ajaxForm(function() {
-        $(".setenta").load("listadocursosajax");
-        });
-        });
-        </script>
+        
         ';
     $this->script=$script;
     $css='<link media="projection, screen" href="/js/jquery-ui/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">';

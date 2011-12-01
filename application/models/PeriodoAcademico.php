@@ -105,7 +105,12 @@ class Application_Model_PeriodoAcademico extends Zend_Db_Table_Abstract{
         $peracademicoactual = $this->getPeriodoActualId();
         
         switch($peracademicoactual){
-            case 'A': 
+            case 'A':
+                $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+                $dbAdapter->insert("periodoacademico", array(
+                    'vPerAcaDescripcion'     =>  date("Y"),
+                    'cPerAcaEstado'     =>  'A'));
+                return true;
             case 'B':
                 return false;
                 break;

@@ -9,7 +9,13 @@
     $paginaActual=$mysession->paginaActual ;
     $nombreUsuario=$mysession->usuario_nombre;
     $usuario_id=$mysession->usuario_id;
-    
+    $this->script='<script type="text/javascript" src="/js/codigito.js" > </script>
+        <script type="text/javascript" src="/js/mascarainput.js" > </script>
+        <script>$(document).ready(function(){
+            $("#nombreusuario").validaTexto("usuario");
+            $("#dni").validaTexto("dni");
+            $("#dni").mask("99999999");
+        });</script>';
     $h3 = '
         <ul id="logout">
             <li>

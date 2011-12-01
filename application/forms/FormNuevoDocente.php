@@ -8,7 +8,7 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
         
         $nombreusuario = $this->createElement('text', 'nombreusuario', array('label' => 'Nombre del Usuario', 'placeholder' => 'Máximo 25 caracteres'));
         $nombreusuario->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
-                      ->addValidator('regex',true,array('patern'=>'/^[(a-zA-Z)]+$/',array('regexNotMatch'=>'Solo Letras')))
+                      ->addValidator('alpha')
                       ->addValidator('stringLength',false,array(5,25,'messages'=>"Entre 5 y 25 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper");
@@ -24,7 +24,7 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
         
         $clave = $this->createElement('password', 'clave', array('label' => 'Contraseña'));
         $clave->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
-                      ->addValidator('regex',true,array('patern'=>'/^[(a-zA-Z 0-9)]+$/',array('regexNotMatch'=>'Solo Letras y numeros')))
+                      ->addValidator('alpha')
                       ->addValidator('stringLength',false,array(5,20,'messages'=>"Entre 5 y 20 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper");
@@ -71,7 +71,7 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
         
         $nombre = $this->createElement('text', 'nombre', array('label' => 'Nombre '));
         $nombre->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
-                      ->addValidator('regex',true,array('patern'=>'/^[(a-z A-Z)]+$/',array('regexNotMatch'=>'Solo Letras')))
+                      ->addValidator('alpha')
                       ->addValidator('stringLength',false,array(2,150,'messages'=>"Entre 2 y 150 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper")
@@ -89,7 +89,7 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
         $appaterno = $this->createElement('text', 'appaterno', array('label' => 'Apellido Paterno '));
         $appaterno->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
                       ->addValidator('alpha')
-                      ->addValidator('stringLength',false,array(5,150,'messages'=>"Entre 5 y 150 caracteres"))
+                      ->addValidator('stringLength',false,array(2,150,'messages'=>"Entre 2 y 150 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper")
                       ->addFilter("StringTrim");
@@ -105,8 +105,8 @@ class Application_Form_FormNuevoDocente extends Zend_Form{
 
         $apmaterno = $this->createElement('text', 'apmaterno', array('label' => 'Apellido Materno '));
         $apmaterno->addValidator('notEmpty',true,array('messages'=>array('isEmpty'=>'Campo Requerido')))
-                      ->addValidator('regex',true,array('patern'=>'/^[(a-z A-Z)Ñ]+$/',array('regexNotMatch'=>'Solo Letras')))
-                      ->addValidator('stringLength',false,array(5,150,'messages'=>"Entre 5 y 150 caracteres"))
+                      ->addValidator('alpha')
+                      ->addValidator('stringLength',false,array(2,150,'messages'=>"Entre 2 y 150 caracteres"))
                       ->setRequired(true)
                       ->addFilter("StringToUpper")
                       ->addFilter("StringTrim");

@@ -3,15 +3,21 @@
                 <tbody>
                     <tr>';
     
+    if(isset($_GET['nroreg'])){
+        $nroregistros=$_GET['nroreg'];
+    }
+    else{
+        $nroregistros=5;
+    }
     if(isset($this->previous)){
-        print '<th><a href="?page='.$this->first.'&nroreg='.$_GET['nroreg'].'">Primero</a></th>';
+        print '<th><a href="?page='.$this->first.'&nroreg='.$nroregistros.'">Primero</a></th>';
     }
     else{
         print '<th><a>Primero</a></th>';
     }
     
     if(isset($this->previous)){
-        print '<th><a href="?page='.$this->previous.'&nroreg='.$_GET['nroreg'].'">Anterior</a></th>';
+        print '<th><a href="?page='.$this->previous.'&nroreg='.$nroregistros.'">Anterior</a></th>';
     }
     else{
         print '<th><a>Anterior</a></th>';
@@ -21,7 +27,7 @@
     foreach($this->pagesInRange as $page){
        
         if($this->current != $page){
-            echo '<a href="?page='.$page.'&nroreg='.$_GET['nroreg'].'">'.$page.' </a>';
+            echo '<a href="?page='.$page.'&nroreg='.$nroregistros.'">'.$page.' </a>';
         }
         else{
             echo $page.' ';
@@ -30,14 +36,14 @@
     print '</th>';
     
     if(isset($this->next)){
-        print '<th><a href="?page='.$this->next.'&nroreg='.$_GET['nroreg'].'">Siguiente</a></th>';
+        print '<th><a href="?page='.$this->next.'&nroreg='.$nroregistros.'">Siguiente</a></th>';
     }
     else{
         print '<th><a>Siguiente</a></th>';
     }
     
     if(isset($this->next)){
-        print '<th><a href="?page='.$this->last.'&nroreg='.$_GET['nroreg'].'">Ultimo</a></th>';
+        print '<th><a href="?page='.$this->last.'&nroreg='.$nroregistros.'">Ultimo</a></th>';
     }
     else{
         print '<th><a>Ultimo</a></th>';

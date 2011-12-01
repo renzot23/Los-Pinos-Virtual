@@ -1,3 +1,64 @@
+<script type="text/javascript">
+function cargarseccion(){
+        var valor=$("#cbogrados").val();
+            elem=document.getElementById('cboseccion');
+            $("#cboseccion").html('<option>Cargando...</option>');
+            var option;
+            $.getJSON("listarsecciongrado/?codgrad="+valor, function(data){
+                var seccion = data;var option;
+                for (var x = 0 ; x < seccion.length ; x++) {
+                    option+='<option value='+seccion[x].iSeccIdSeccion+'>'+seccion[x].vSeccDescripcion+'</option>';
+                }
+                 $("#cboseccion").html(option);
+                 cargaralumnos();
+           });
+        }
+function cargaralumnos(){
+        var valor=$("#cboseccion").val();
+            $.getJSON("listaralumnosseccion/?idseccion="+valor, function(data){
+                var alumnos = data;
+                var option;
+                if(alumnos!=null){
+                    if(alumnos.length>0){
+                       
+                        if(alumnos[0].rpta=='SI'){
+                            
+                           $("#tablaalumnos").html('<tr>\n\
+                                        <td colspan="5">\n\
+                                            <center>Ya se aperturó esta sección</center>\n\
+                                        </td>\n\
+                                    </tr>');
+                       }
+                       else{
+                           for (var x = 0 ; x < alumnos.length ; x++) {
+                                option+='<tr>\n\
+                                            <td colspan="5">\n\
+                                                <center>'+alumnos[x].vUsuUsuario+'</center>\n\
+                                            </td>\n\
+                                        </tr>';
+                            }
+                       }
+                    }
+                    else{
+                         $("#tablaalumnos").html('<tr>\n\
+                                        <td colspan="5">\n\
+                                            <center>No Existen alumnos asignados a esta Seccion</center>\n\
+                                        </td>\n\
+                                    </tr>');
+                    }
+                }
+                else{
+                    $("#tablaalumnos").html('<tr>\n\
+                                        <td colspan="5">\n\
+                                            <center>No Existen Datos</center>\n\
+                                        </td>\n\
+                                    </tr>');
+                }
+                 $("#tablaalumnos").html(option);
+           });
+        }
+</script>
+
 <?php
     $this->titulopagina='Los Pinos - Aperturar Cursos';
     $html= new Application_Model_Html();
@@ -59,19 +120,21 @@
         $contenido = '
             <div id="submain">
                 <div class="actions" style="margin-bottom:30px">
-                    <select name="action">
-                        <option value="0">Selecionar Grado</option>';
+                    <select id="cbogrados" onchange="cargarseccion();">
+                        <option value="0" >Seleccionar Grado</option>';
                     
-        $grados=new Application_Model_Grado();
-        $listagrados=$grados->listarGradosActivos();
-            foreach($listagrados as $aux){
-                $contenido.='<option value="'.$aux['iGradoIdGrado'].'">'.$aux['vGradoDescripcion'].'</option>';
-            }
+                    $grados=new Application_Model_Grado();
+                    $listagrados=$grados->listarGradosActivos();
+                        foreach($listagrados as $aux){
+                            $contenido.='<option value="'.$aux['iGradoIdGrado'].'">'.$aux['vGradoDescripcion'].'</option>';
+                        }
                     $contenido .= '
+                    </select>
+                    <select id="cboseccion" onchange="cargaralumnos();">
                     </select>
                 </div><form method="post" action="" name="form_attendance_list">
                 <table class="data_table">
-                    <tbody>
+                    <thead>
                         <tr class="row_odd">
                             <th style="width:20px;">&nbsp;</th>
                             <th><a>Nombre</a></th>
@@ -79,6 +142,8 @@
                             <th style="width:90px;"><a>Asistencias</a></th>
                             <th style="text-align:center">Opciones</th>
                         </tr>
+                    </thead>
+                    <tbody id="tablaalumnos">
                         <tr class="row_even">
                             <td><input type="checkbox" name="id[]" value="1"></td>
                             <td><a href="">1er Trimestre</a></td>
@@ -86,7 +151,7 @@
                             <td><center>0</center></td>
                             <td><center><a href=""><img src="/main/img/icons/22/edit.png" alt="Editar" title="Editar"></a>&nbsp;<a onclick=""><img src="/main/img/icons/22/delete.png" alt="Eliminar" title="Eliminar"></a></center></td>
                         </tr>
-                    </tbody>
+                    <tbody>
                 </table>
                 <table style="width:100%;">
                     <tbody>
