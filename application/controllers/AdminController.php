@@ -60,10 +60,7 @@ class AdminController extends Zend_Controller_Action{
             return $this->_redirect('/');
         }
     }
-    
-    public function listausuariosAction(){
-    }
-    
+   
     public function nuevodirectorAction(){
     }
         
@@ -245,6 +242,24 @@ class AdminController extends Zend_Controller_Action{
             $this->view->paginator=$paginator;
     }
     
+    public function listausuariosAction(){        
+        $usuarios = new Application_Model_Usuario();
+        $listausuarios = $usuarios->listarUsuarios();
+
+        $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listausuarios));
+
+        $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+            
+            if($this->view->nroreg==null){
+                $this->view->nroreg=2;
+            }  
+            
+        $paginator->setItemCountPerPage($this->view->nroreg);
+        $paginator->setCurrentPageNumber($this->_getParam('page'),1);
+
+        $this->view->paginator=$paginator;
+    }
+    
     public function agregarcursoAction(){
         if (!$this->getRequest()->isPost()) { 
             return $this->_forward('nuevocurso');
@@ -387,7 +402,28 @@ class AdminController extends Zend_Controller_Action{
         $this->view->paginator=$paginator;
         
     }
-      
+    
+    public function listadousuariosajaxAction(){
+        $this->verificarInactividad();
+        $this->_helper->layout->disableLayout();
+        
+        $usuarios = new Application_Model_Usuario();
+        $listausuarios = $usuarios->listarUsuarios();
+
+        $paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($listausuarios));
+
+        $this->view->nroreg=$this->getRequest()->getParam('nroreg');
+
+        if($this->view->nroreg==null){
+            $this->view->nroreg=2;
+        }  
+
+        $paginator->setItemCountPerPage($this->view->nroreg);
+        $paginator->setCurrentPageNumber($this->_getParam('page'),1);
+
+        $this->view->paginator=$paginator;
+    }
+    
     public function nuevoapoderadoAction() {
         $form = new Application_Form_FormNuevoApoderado();
         $this->view->formularionuevoapoderado = $form;

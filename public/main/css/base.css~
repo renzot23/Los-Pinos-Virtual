@@ -101,6 +101,10 @@ h1,h2,h3,h4,h5,h6 {
 	padding:15px;
 }
 
+.userportal-course-item:hover{
+	background-color:#A5C1CE;
+}
+
 .session_box_title {
     margin-bottom: 7px;
 }
@@ -2044,7 +2048,7 @@ input.maininput:focus {
 /* Fixes the administration block section */
 .admin_section div {    
     /* margin: 5px 0 14px 5px; 
-    margin-left: 39px;*/
+    margin-left: 39px; */
 }
 
 .rounded_div {

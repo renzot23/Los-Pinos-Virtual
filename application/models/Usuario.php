@@ -183,4 +183,111 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
         $data = array('tFoto' =>  $filename );
         $dbAdapter->update('usuarios',$data,'iUsuIdUsuario = ' . $idUsuario);
     }
+    
+    public function listarUsuarios(){  
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("SELECT usu . * , tip.vDescripcion as tipousuario
+                            FROM usuarios usu
+                            INNER JOIN tipousuario tip ON usu.TipoUsuario_iTiUsuarioIdTipoUsuario = tip.iTiUsuarioIdTipoUsuario
+                            ORDER BY vUsuApellidoPat, vUsuApellidoMat, vUsuNombre, cUsuDni");
+
+        $result = $stmt->fetchAll();
+
+        if(sizeof($result)>0){
+            return $result;
+        }else{
+            return NULL;   
+        }
+    }
+    
+    public function crearTablaUsuarios($data,$page=null,$nroreg=null){
+             $contenido = ' 
+            <table class="data_table">
+                <tbody>
+                    <tr class="row_odd">
+                        <th>&nbsp;</th>
+                        <th>Foto</th>
+                        <th>Codigo</th>
+                        <th><a href="">Ap. Paterno</a></th>                    
+                        <th><a href="">Ap. Materno</a></th>
+                        <th><a href="">Nombres</a></th>
+                        <th><a href="">Tipo de Usuario</a></th>  
+                        <th><a href="">Estado</a></th>
+                    </tr>';
+        $cont=0;
+        foreach ($data as $aux){
+            if ($cont % 2){
+                $contenido.='<tr class="row_even">';
+            }
+            else{
+                $contenido .= '<tr class="row_odd">';
+            }
+            $contenido.='
+                        <td>
+                            <input type="checkbox" name="id" value="'.$aux['iUsuIdUsuario'].'">
+                        </td>
+                        <td>
+                            <center><img src="/'.$aux['tFoto'].'" width="50px" height="50px"/></center>
+                        </td>
+                        <td>
+                            <center>'.$aux['iUsuIdUsuario'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vUsuApellidoPat'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vUsuApellidoMat'].'</center>
+                        </td>
+                        <td>
+                            <center>'.$aux['vUsuNombre'].'</center>
+                        </td>
+                        <td>
+                            <center>'.($aux['tipousuario']=='Alumno'? "<a href='' style='color:blue;'>ALUMNO</a>" : ($aux['tipousuario']=='Docente'? "<a href='' style='color:green;'>DOCENTE</a>" : ($aux['tipousuario']=='Director'? "<a href='' style='color:green;'>DIRECTOR</a>" : ($aux['tipousuario']=='Apoderado'? "<a href='' style='color:red;'>APODERADO</a>" :"<a href='' style='color:black;'>ADMINISTRADOR</a>")))).'</center>
+                        </td>
+                        <td>
+                            <center>';
+                            if($page==NULL && $nroreg==NULL){
+                                if($aux['cUsuEstado']=='A'){
+                                    $contenido.='<a href="" onclick="ActDelCurso('.$aux['iUsuIdUsuario'].',\'I\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/accept.png" alt="Desactivar" title="Desactivar"></a>';
+                                }
+                                else{
+                                    $contenido.='<a href="" onclick="ActDelCurso('.$aux['iUsuIdUsuario'].',\'A\',event,\'act\');" ><img id="img_4" src="/main/img/icons/16/error.png" alt="Activar" title="Activar"></a>';
+                                }
+                            }
+                            else{
+                                if($aux['cUsuEstado']=='A'){
+                                    $contenido.='<a href="" onclick="ActDelCurso('.$aux['iUsuIdUsuario'].',\'I\',event,\'act\','.$page.','.$nroreg.');" ><img id="img_4" src="/main/img/icons/16/accept.png" alt="Desactivar" title="Desactivar"></a>';
+                                }
+                                else{
+                                    $contenido.='<a href="" onclick="ActDelCurso('.$aux['iUsuIdUsuario'].',\'A\',event,\'act\','.$page.','.$nroreg.');" ><img id="img_4" src="/main/img/icons/16/error.png" alt="Activar" title="Activar"></a>';
+                                }
+                            }
+                                
+            $contenido.='
+                           </center>
+                        </td>
+                    </tr>';
+            $cont++;
+        }
+        
+	$contenido .= '</tbody>
+                </table>';
+         
+            return $contenido;
+        }
+
+    public function getFotobyIdUsuario($idusuario){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("SELECT tFoto
+                                FROM usuarios
+                                WHERE iUsuIdUsuario = ".$idusuario);
+
+        $result = $stmt->fetchAll();
+
+        if(sizeof($result)>0){
+            return $result[0]['tFoto'];
+        }else{
+            return NULL;   
+        }
+    }    
 }

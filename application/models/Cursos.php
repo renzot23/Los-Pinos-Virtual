@@ -318,4 +318,22 @@ class Application_Model_Cursos{
             return NULL;
         }
     }
+
+    public function getDocenteCursobyIdCurso($idcurso){
+        $dbAdapter= Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query('
+            SELECT *
+            FROM cursosusuarios curusu
+            INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos = cur.iCursIdCursos
+            INNER JOIN usuarios usu ON usu.iUsuIdUsuario = curusu.Usuarios_iUsuIdUsuario
+            WHERE cur.iCursIdCursos = '.$idcurso.' AND usu.TipoUsuario_iTiUsuarioIdTipoUsuario=2 AND curusu.tiCursUsuActivo = "A"');
+
+        $result = $stmt->fetchAll();
+
+        if(isset($result)){
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
 }

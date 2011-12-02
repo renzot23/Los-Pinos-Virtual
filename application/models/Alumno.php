@@ -15,5 +15,22 @@ class Application_Model_Alumno extends Zend_Db_Table_Abstract{
         $id = $dbAdapter->lastInsertId();
         return $id;
     }
+
+    public function listarCursosAlumno($idUsuarioAl){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("SELECT *
+                            FROM cursosusuarios curusu
+                            INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos = cur.iCursIdCursos
+                            INNER JOIN usuarios usu ON usu.iUsuIdUsuario = curusu.Usuarios_iUsuIdUsuario
+                            WHERE usu.iUsuIdUsuario = ".$idUsuarioAl);
+        
+        $result = $stmt->fetchAll();
+
+        if(sizeof($result)>0){
+            return $result;
+        }else{
+            return NULL;   
+        }
+    }
 }
 ?>

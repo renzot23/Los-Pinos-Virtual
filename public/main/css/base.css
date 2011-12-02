@@ -101,6 +101,10 @@ h1,h2,h3,h4,h5,h6 {
 	padding:15px;
 }
 
+.userportal-course-item:hover{
+	background-color:#CADBE4;
+}
+
 .session_box_title {
     margin-bottom: 7px;
 }
