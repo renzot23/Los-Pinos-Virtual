@@ -17,12 +17,18 @@ class Application_Model_Alumno extends Zend_Db_Table_Abstract{
     }
 
     public function listarCursosAlumno($idUsuarioAl){
+        $peracademico = new Application_Model_PeriodoAcademico();
+        $idperiodoacademico = $peracademico->getPeriodoActualId();
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
         $stmt=$dbAdapter->query("SELECT *
                             FROM cursosusuarios curusu
                             INNER JOIN cursos cur ON curusu.Cursos_iCursIdCursos = cur.iCursIdCursos
                             INNER JOIN usuarios usu ON usu.iUsuIdUsuario = curusu.Usuarios_iUsuIdUsuario
-                            WHERE usu.iUsuIdUsuario = ".$idUsuarioAl);
+                            INNER JOIN seccion secc ON secc.iSeccIdSeccion = cur.Seccion_iSeccIdSeccion
+                            INNER JOIN grado gr ON gr.iGradoIdGrado = secc.Grado_iGradoIdGrado
+                            INNER JOIN periodoacademico peraca ON peraca.iPerAcaIdPeriodoAcademico = gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico
+                            WHERE usu.iUsuIdUsuario = ".$idUsuarioAl." 
+                            AND peraca.iPerAcaIdPeriodoAcademico = ".$idperiodoacademico);
         
         $result = $stmt->fetchAll();
 

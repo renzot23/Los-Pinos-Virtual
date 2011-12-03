@@ -227,7 +227,7 @@ class Application_Model_Usuario extends Zend_Db_Table_Abstract{
                             <input type="checkbox" name="id" value="'.$aux['iUsuIdUsuario'].'">
                         </td>
                         <td>
-                            <center><img src="/'.$aux['tFoto'].'" width="50px" height="50px"/></center>
+                            <center><img src="/'.($aux['tFoto']==NULL? "main/img/unknown.jpg" : $aux['tFoto']).'" width="50px" height="50px"/></center>
                         </td>
                         <td>
                             <center>'.$aux['iUsuIdUsuario'].'</center>

@@ -29,11 +29,11 @@ class AlumnoController extends Zend_Controller_Action{
     }
     public function cursosAction(){
         $mysession = new Zend_Session_Namespace('sesion');                    
-        $mysession->paginaActual = 'Cursos';        
+        $mysession->paginaActual = 'Mis Cursos';        
     }
     public function agendaAction(){
         $mysession = new Zend_Session_Namespace('sesion');                    
-        $mysession->paginaActual = 'Agenda';        
+        $mysession->paginaActual = 'Mi Agenda';        
     }
     
 }

@@ -41,7 +41,7 @@ class IndexController extends Zend_Controller_Action
                         
             $mysession = new Zend_Session_Namespace('sesion');
             $mysession->actividad='SI';
-            $mysession->setExpirationSeconds(60,'actividad');
+            $mysession->setExpirationSeconds(60*5,'actividad');
             //$mysession->usuario_id =  $usuario->getIdUsuario();
             $mysession->usuario_nombre = $result->getIdentity();
             $aux=$usuario->getUsuariobyNombreUsuario($mysession->usuario_nombre);

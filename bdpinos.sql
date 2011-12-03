@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 01-12-2011 a las 04:24:13
+-- Tiempo de generación: 03-12-2011 a las 16:26:36
 -- Versión del servidor: 5.1.58
 -- Versión de PHP: 5.3.6-13ubuntu3.2
 
@@ -340,7 +340,7 @@ INSERT INTO `cursos` (`iCursIdCursos`, `vCursNombreCurso`, `tiCursActivo`, `dCur
 (2, 'MATEMATICA', 'A', 1322697651, 'MATEMATICA BASICA', 5),
 (3, 'MATEMATICA', 'A', 1322697660, 'LOGICA Y RAZONAMIENTO', 3),
 (4, 'MATEMATICA', 'A', 1322697754, 'LOGICA Y RAZONAMIENTO', 6),
-(5, 'COMUNICACION', 'I', 1322697775, 'CASTELLANO', 4),
+(5, 'COMUNICACION', 'A', 1322697775, 'CASTELLANO', 4),
 (6, 'CIENCIA Y AMBIENTE', 'A', 1322697874, 'CTA', 3),
 (7, 'COMUNICACION', 'A', 1322700943, 'GRAMATICA', 6);
 
@@ -368,7 +368,49 @@ CREATE TABLE IF NOT EXISTS `cursosusuarios` (
 
 INSERT INTO `cursosusuarios` (`Cursos_iCursIdCursos`, `Usuarios_iUsuIdUsuario`, `tiCursUsuActivo`, `tiCursUsuCompletado`, `tiCursUsuPorcentaje`, `tiCursUsuCalificacion`, `tiCursUsuFechaRegistro`) VALUES
 (3, 2, 'A', NULL, NULL, NULL, 1322728398),
-(4, 3, 'A', NULL, NULL, NULL, 1322728412);
+(4, 3, 'A', NULL, NULL, NULL, 1322728412),
+(6, 28, 'A', NULL, NULL, NULL, 1322767850),
+(3, 28, 'A', NULL, NULL, NULL, 1322767850),
+(6, 27, 'A', NULL, NULL, NULL, 1322767850),
+(3, 27, 'A', NULL, NULL, NULL, 1322767850),
+(6, 26, 'A', NULL, NULL, NULL, 1322767850),
+(3, 26, 'A', NULL, NULL, NULL, 1322767850),
+(6, 25, 'A', NULL, NULL, NULL, 1322767850),
+(3, 25, 'A', NULL, NULL, NULL, 1322767850),
+(6, 24, 'A', NULL, NULL, NULL, 1322767850),
+(3, 24, 'A', NULL, NULL, NULL, 1322767850),
+(6, 23, 'A', NULL, NULL, NULL, 1322767850),
+(3, 23, 'A', NULL, NULL, NULL, 1322767850),
+(6, 22, 'A', NULL, NULL, NULL, 1322767850),
+(3, 22, 'A', NULL, NULL, NULL, 1322767850),
+(6, 21, 'A', NULL, NULL, NULL, 1322767850),
+(3, 21, 'A', NULL, NULL, NULL, 1322767850),
+(6, 20, 'A', NULL, NULL, NULL, 1322767850),
+(3, 20, 'A', NULL, NULL, NULL, 1322767850),
+(6, 19, 'A', NULL, NULL, NULL, 1322767850),
+(3, 19, 'A', NULL, NULL, NULL, 1322767850),
+(6, 18, 'A', NULL, NULL, NULL, 1322767850),
+(3, 18, 'A', NULL, NULL, NULL, 1322767850),
+(4, 39, 'A', NULL, NULL, NULL, 1322767873),
+(7, 39, 'A', NULL, NULL, NULL, 1322767873),
+(4, 40, 'A', NULL, NULL, NULL, 1322767873),
+(7, 40, 'A', NULL, NULL, NULL, 1322767873),
+(4, 41, 'A', NULL, NULL, NULL, 1322767873),
+(7, 41, 'A', NULL, NULL, NULL, 1322767873),
+(4, 42, 'A', NULL, NULL, NULL, 1322767873),
+(7, 42, 'A', NULL, NULL, NULL, 1322767873),
+(4, 43, 'A', NULL, NULL, NULL, 1322767873),
+(7, 43, 'A', NULL, NULL, NULL, 1322767873),
+(4, 44, 'A', NULL, NULL, NULL, 1322767873),
+(7, 44, 'A', NULL, NULL, NULL, 1322767873),
+(4, 45, 'A', NULL, NULL, NULL, 1322767873),
+(7, 45, 'A', NULL, NULL, NULL, 1322767873),
+(4, 46, 'A', NULL, NULL, NULL, 1322767873),
+(7, 46, 'A', NULL, NULL, NULL, 1322767873),
+(4, 47, 'A', NULL, NULL, NULL, 1322767873),
+(7, 47, 'A', NULL, NULL, NULL, 1322767873),
+(4, 48, 'A', NULL, NULL, NULL, 1322767873),
+(7, 48, 'A', NULL, NULL, NULL, 1322767873);
 
 -- --------------------------------------------------------
 
@@ -531,7 +573,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `iLogTimeStamp` int(10) DEFAULT NULL,
   `cAcciIdAccion` char(1) DEFAULT NULL,
   PRIMARY KEY (`iLogIdLog`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=106 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=218 ;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -642,7 +684,119 @@ INSERT INTO `log` (`iLogIdLog`, `iUsuIdUsuario`, `iLogTimeStamp`, `cAcciIdAccion
 (102, 1, 1322728322, 'B'),
 (103, 1, 1322728337, 'A'),
 (104, 1, 1322730426, 'B'),
-(105, 1, 1322730434, 'A');
+(105, 1, 1322730434, 'A'),
+(106, 1, 1322732024, 'B'),
+(107, 1, 1322732033, 'A'),
+(108, 1, 1322732590, 'B'),
+(109, 1, 1322732597, 'A'),
+(110, NULL, 1322735627, 'B'),
+(111, 1, 1322735632, 'A'),
+(112, NULL, 1322737901, 'B'),
+(113, 1, 1322737907, 'A'),
+(114, NULL, 1322757435, 'B'),
+(115, 1, 1322757441, 'A'),
+(116, 1, 1322757807, 'B'),
+(117, 1, 1322757811, 'A'),
+(118, 1, 1322758614, 'B'),
+(119, 1, 1322758620, 'A'),
+(120, 1, 1322758877, 'B'),
+(121, 1, 1322758883, 'A'),
+(122, 1, 1322759594, 'B'),
+(123, 1, 1322759600, 'A'),
+(124, 1, 1322759933, 'B'),
+(125, 1, 1322759939, 'A'),
+(126, 1, 1322760234, 'B'),
+(127, 1, 1322760246, 'A'),
+(128, 1, 1322760630, 'B'),
+(129, 1, 1322760637, 'A'),
+(130, 1, 1322761597, 'B'),
+(131, 1, 1322761602, 'A'),
+(132, 1, 1322761865, 'B'),
+(133, 1, 1322761873, 'A'),
+(134, 1, 1322763027, 'B'),
+(135, 1, 1322763033, 'A'),
+(136, 1, 1322764845, 'B'),
+(137, 1, 1322764850, 'A'),
+(138, 1, 1322765434, 'B'),
+(139, 1, 1322765439, 'A'),
+(140, 1, 1322766460, 'B'),
+(141, 1, 1322766466, 'A'),
+(142, 1, 1322766743, 'B'),
+(143, 1, 1322766749, 'A'),
+(144, 1, 1322768602, 'B'),
+(145, 1, 1322768607, 'A'),
+(146, 1, 1322769382, 'B'),
+(147, 1, 1322769388, 'A'),
+(148, 1, 1322769590, 'B'),
+(149, 1, 1322769597, 'A'),
+(150, NULL, 1322769774, 'B'),
+(151, NULL, 1322769774, 'B'),
+(152, 1, 1322769967, 'B'),
+(153, 1, 1322769972, 'A'),
+(154, 1, 1322771119, 'B'),
+(155, 1, 1322771197, 'A'),
+(156, 1, 1322771384, 'B'),
+(157, 1, 1322771394, 'A'),
+(158, 1, 1322772064, 'B'),
+(159, 1, 1322772071, 'A'),
+(160, 1, 1322772430, 'B'),
+(161, 1, 1322772435, 'A'),
+(162, 1, 1322772941, 'B'),
+(163, 1, 1322772947, 'A'),
+(164, 1, 1322773345, 'B'),
+(165, 1, 1322773364, 'A'),
+(166, NULL, 1322773391, 'B'),
+(167, NULL, 1322773391, 'B'),
+(168, 1, 1322775177, 'B'),
+(169, 1, 1322775193, 'A'),
+(170, 1, 1322775622, 'B'),
+(171, 1, 1322775626, 'A'),
+(172, NULL, 1322777493, 'B'),
+(173, 1, 1322777518, 'A'),
+(174, 1, 1322778174, 'B'),
+(175, 1, 1322778179, 'A'),
+(176, 1, 1322778976, 'B'),
+(177, 1, 1322778981, 'A'),
+(178, 1, 1322779453, 'B'),
+(179, 1, 1322779457, 'A'),
+(180, 1, 1322780061, 'B'),
+(181, NULL, 1322780067, 'B'),
+(182, 19, 1322780076, 'A'),
+(183, 19, 1322780340, 'B'),
+(184, 19, 1322780358, 'A'),
+(185, 19, 1322781195, 'B'),
+(186, 1, 1322781205, 'A'),
+(187, 1, 1322781246, 'B'),
+(188, 19, 1322781253, 'A'),
+(189, 19, 1322781736, 'B'),
+(190, 1, 1322782317, 'A'),
+(191, 1, 1322782321, 'B'),
+(192, 19, 1322782328, 'A'),
+(193, 19, 1322782898, 'B'),
+(194, 1, 1322782970, 'A'),
+(195, 1, 1322783174, 'B'),
+(196, 19, 1322783183, 'A'),
+(197, 19, 1322783426, 'B'),
+(198, 19, 1322783434, 'A'),
+(199, 19, 1322841051, 'B'),
+(200, 1, 1322841069, 'A'),
+(201, 1, 1322841111, 'B'),
+(202, 19, 1322841118, 'A'),
+(203, 19, 1322841373, 'B'),
+(204, NULL, 1322861110, 'B'),
+(205, 19, 1322861121, 'A'),
+(206, NULL, 1322861420, 'B'),
+(207, NULL, 1322861420, 'B'),
+(208, 19, 1322861845, 'A'),
+(209, 19, 1322867989, 'B'),
+(210, 19, 1322867995, 'A'),
+(211, 19, 1322868314, 'B'),
+(212, 19, 1322868319, 'A'),
+(213, 19, 1322868692, 'B'),
+(214, 19, 1322868800, 'A'),
+(215, 19, 1322868823, 'B'),
+(216, 1, 1322868829, 'A'),
+(217, NULL, 1322947218, 'B');
 
 -- --------------------------------------------------------
 
@@ -708,6 +862,7 @@ CREATE TABLE IF NOT EXISTS `periodoacademico` (
   `iPerAcaIdPeriodoAcademico` int(11) NOT NULL AUTO_INCREMENT,
   `vPerAcaDescripcion` char(4) DEFAULT NULL,
   `cPerAcaEstado` char(1) DEFAULT NULL,
+  `cPerAcaNotas` char(1) NOT NULL,
   PRIMARY KEY (`iPerAcaIdPeriodoAcademico`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -715,8 +870,8 @@ CREATE TABLE IF NOT EXISTS `periodoacademico` (
 -- Volcado de datos para la tabla `periodoacademico`
 --
 
-INSERT INTO `periodoacademico` (`iPerAcaIdPeriodoAcademico`, `vPerAcaDescripcion`, `cPerAcaEstado`) VALUES
-(1, '2011', 'A');
+INSERT INTO `periodoacademico` (`iPerAcaIdPeriodoAcademico`, `vPerAcaDescripcion`, `cPerAcaEstado`, `cPerAcaNotas`) VALUES
+(1, '2011', 'A', 'A');
 
 -- --------------------------------------------------------
 
