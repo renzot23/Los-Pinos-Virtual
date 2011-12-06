@@ -35,5 +35,4 @@ class AlumnoController extends Zend_Controller_Action{
         $mysession = new Zend_Session_Namespace('sesion');                    
         $mysession->paginaActual = 'Mi Agenda';        
     }
-    
 }

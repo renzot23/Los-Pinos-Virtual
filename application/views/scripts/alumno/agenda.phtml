@@ -1,5 +1,5 @@
 <?php
-    $this->titulopagina='Los Pinos - "Cursos"';
+    $this->titulopagina='Los Pinos - "Agenda"';
     $html= new Application_Model_Html();
     $menu= new Application_Model_Menu();
     $usuario= new Application_Model_Usuario();    
@@ -18,7 +18,7 @@
             </li>
         </ul>';
  
-    $tipo=$mysession->tipo_usuario;
+    $tipo = $mysession->tipo_usuario;
     $result = $menu->getMenu($tipo);
     
     $h3 .= '<ul>'; 
@@ -45,16 +45,15 @@
                 </a>
             </li>
             <li>
-                <a href="cursos" class="breadcrumb breadcrumb0" target="_top">
-                    <span>Cursos</span>
+                <a href="agenda" class="breadcrumb breadcrumb0" target="_top">
+                    <span>Agenda</span>
                 </a>
             </li>
         </ul>';
-    $content = '
-        <h1>
-            <img src="/main/img/icons/22/course.png" alt="Mis cursos" title="Mis cursos"> Mis cursos
-           </h1>
-         ';
     
-    print $html->crearWrapper(null, null, null, $h3, $h4 ,$content, null);
+    $cursos = new Application_Model_Cursos();
+    $content = $cursos->crearVistaCurso(6, "alumno");
+        
+    print $html->crearWrapper(null, null, null, $h3, $h4 ,null, null,$content);
+    //print $html->crearCabecera(null, null, null, $h3, $h4) ;
 ?>

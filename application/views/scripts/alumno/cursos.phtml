@@ -61,9 +61,10 @@
         <h1>
             <img src="/main/img/icons/22/course.png" alt="Mis cursos" title="Mis cursos"> Mis cursos
            </h1>';
+        if($listacursos!=NULL){
         foreach($listacursos as $curso){
             $arraydocente=$arraycursos->getDocenteCursobyIdCurso($curso['iCursIdCursos']);
-            $nombredocente=($arraydocente==NULL? "No hay docente asignado":$arraydocente[0]['vUsuNombre'].' '.$arraydocente[0]['vUsuApellidoPat']);
+            $nombredocente=($arraydocente==NULL? "-- Sin Responsable --":$arraydocente[0]['vUsuNombre'].' '.$arraydocente[0]['vUsuApellidoPat']);
             
             $content.= '<div id="plugin-mycourses_main"></div>
                 <div class="userportal-course-item">
@@ -86,6 +87,8 @@
                         <img title="-- Documento -- Desde su última visita: visible (26/10/2011 23:23)." src="http://localhost:3001/chamilo/main/img/folder_document.gif" border="0" align="absbottom">
                     </a>&nbsp;
                 </div>';
+        }
+        
         }
     $menuwrapper='
         <div id="menu-wrapper">

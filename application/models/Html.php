@@ -307,6 +307,137 @@ class Application_Model_Html{
            print 'ERROR NO HAY CONTENIDO';
         }
     } 
+
+    public function crearCabecera($navigation=null, $header1=null,$header2=null,$header3=null,$header4=null){
+        //Inicio del Div Wrapper y ul Navigation
+        print '
+            <div id="wrapper">
+                <ul id="navigation">';
+        if (!$navigation==null){
+            print $navigation;
+        }
+        else{
+//            print '
+//                    <li class="report">
+//                            <a href="#" target="_blank">
+//                            <img src="/main/img/chat.png" style="vertical-align: middle;" alt="Comunicar un error" title="Dejar un Mensaje">
+//                              <a>1 Tello</a>
+//                              <a>2 Tello</a>
+//                            </a>
+//                    </li>';  
+            if (Zend_Session::sessionExists()){
+            print '
+                    <li class="report">
+                            <img src="/main/img/chat.png" style="vertical-align: middle;" alt="Comunicar un error" title="Dejar un Mensaje">
+                            <div id="chatdiv">
+                                
+                                <div>
+                                    <a href="">
+                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/372617_1420530801_1579660712_q.jpg" class="pic">
+                                         <span class="name">Luis Salazar</span>                                   
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="">
+                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/276299_1643254581_840383293_q.jpg" class="pic">
+                                        <span class="name">Harumy Ac</span>                                    
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="">
+                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/371572_1320182226_1371922053_q.jpg" class="pic">
+                                        <span class="name">Margori Miñano</span>                                     
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="">
+                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/274006_1394739207_3741528_q.jpg" class="pic">
+                                        <span class="name">José Vinces Ortiz</span>                                     
+                                    </a>
+                                </div>
+                                
+                            </div>
+                    </li>'; 
+                }
+        }
+        //Fin de Div Navigation
+        print '</ul>';
+        
+        //Inicio del div Header
+        print '<div id="header">';
+        
+            //Inicio del div header1
+            print '<div id="header1">';
+            if (!$header1==null){
+                print $header1;
+            }
+            else{
+                print '
+                    <div id="top_corner">
+                    </div>
+                    <div id="logo">
+                        <a href="/"/>
+                            <img title="INE Los Pinos - Los Pinos" src="/main/css/tesis/images/header-logo.png" alt="INE Los Pinos - Los Pinos">
+                        </a>
+                    </div>
+                    <div id="plugin-header">
+                    </div>';                
+            }
+            //Fin del Div header1
+            print '</div>';
+            
+            //Inicio del div header2
+            print '<div id="header2">';
+            if (!$header2==null){
+                print $header2;
+            }
+            else{
+                print '
+                    <div id="Header2Right">
+                        <ul>
+                            <li>
+                            </li>
+                            <li>
+                                <a href="" target="_top" title="Usuarios en línea">
+                                    <img width="13px" src="/main/img/members.gif" title="Usuarios en línea"> 1
+                                </a>
+                            </li>
+                        </ul>
+                    </div>';                
+            }
+            //Fin del Div header2
+            print '</div>';
+            
+            if (!$header3==null){
+                 //Inicio del div header3
+                print '<div id="header3">';
+                print $header3;
+                
+                //Fin del Div header3
+                print '</div>';
+            } 
+            
+            //Inicio del div header4
+            print '<div id="header4">';
+            if (!$header4==null){
+                print $header4;
+            }/*
+            else{
+                print '';                
+            }*/
+            //Fin del Div header4
+            print '</div>';
+            
+            //Inicio del Div Clear
+            print '
+                <div class="clear">
+                </div>';
+            //Fin del Div Clear
+           
+        //Fin del Div Header
+        print '</div>';
+    }
+    
 }
 
 ?>
