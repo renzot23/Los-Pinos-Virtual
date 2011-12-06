@@ -1,13 +1,5 @@
 <?php
 class Application_Model_Html{
-    /*protected $layoutt;
-    public function setLayoutt($layoutt){
-        $this->layoutt=$layoutt;
-    }
-    
-    public function getLayoutt($layoutt){
-        return $this->layoutt;
-    }*/
     public function crearDoctype(){
         return '
             <!DOCTYPE html>
@@ -139,44 +131,33 @@ class Application_Model_Html{
             print $navigation;
         }
         else{
-//            print '
-//                    <li class="report">
-//                            <a href="#" target="_blank">
-//                            <img src="/main/img/chat.png" style="vertical-align: middle;" alt="Comunicar un error" title="Dejar un Mensaje">
-//                              <a>1 Tello</a>
-//                              <a>2 Tello</a>
-//                            </a>
-//                    </li>';  
             if (Zend_Session::sessionExists()){
-            print '
+                print '
                     <li class="report">
                             <img src="/main/img/chat.png" style="vertical-align: middle;" alt="Comunicar un error" title="Dejar un Mensaje">
-                            <div id="chatdiv">
+                            <div id="chatdiv">';
+                    $chat= new Application_Model_Chat();
+                    $result=$chat->usuariosconectados();
+                    $arratemp="";
+                    if($result==0){
+                        
+                    }
+                    else{
+                        foreach($result as $aux){
+                            $nombre = $aux['vUsuNombre'].' '.$aux['vUsuApellidoPat'];
+                            $nombre = substr($nombre,0,10).'...';
+                            print '
+                                <div>
+                                    <a onclick="javascript:chatWith(\''.strtoupper($aux['vUsuUsuario']).'\')" href="javascript:void(0)">
+                                        <img src="/'.($aux['tFoto']==NULL? "main/img/unknown.jpg":$aux['tFoto']).'" width="28" height="28" class="pic">
+                                        <span class="name">'.$nombre.'</span>
+                                    </a>
+                                </div>';
+                        } 
+                    }
+                        
                                 
-                                <div>
-                                    <a href="">
-                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/372617_1420530801_1579660712_q.jpg" class="pic">
-                                         <span class="name">Luis Salazar</span>                                   
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="">
-                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/276299_1643254581_840383293_q.jpg" class="pic">
-                                        <span class="name">Harumy Ac</span>                                    
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="">
-                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/371572_1320182226_1371922053_q.jpg" class="pic">
-                                        <span class="name">Margori Miñano</span>                                     
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="">
-                                        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/274006_1394739207_3741528_q.jpg" class="pic">
-                                        <span class="name">José Vinces Ortiz</span>                                     
-                                    </a>
-                                </div>
+             print '          
                                 
                             </div>
                     </li>'; 

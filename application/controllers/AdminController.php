@@ -708,5 +708,16 @@ class AdminController extends Zend_Controller_Action{
         }
     }
 
-
+    public function editarunidadesAction(){
+        $mysession = new Zend_Session_Namespace('sesion');                    
+        $mysession->paginaActual = 'Editar Unidades'; 
+    }
+    
+    public function agregarunidadAction(){
+        $fechaini = $this->_request->fechaini;
+        $fechafin = $this->_request->fechafin;
+            
+        $unidades = new Application_Model_Unidades();
+        $unidades->registrarUnidad("UNIDAD 1", $fechaini, $fechafin);
+    }
 }
