@@ -1,5 +1,5 @@
 <?php
- $this->titulopagina='Los Pinos - "Editar Unidades"';
+ $this->titulopagina='Los Pinos - "Editar Documentos"';
     $html= new Application_Model_Html();
     $menu= new Application_Model_Menu();
     $usuario= new Application_Model_Usuario();    
@@ -72,15 +72,78 @@
 ?>
 <div id="main">
     <div id="submain">
+        <?php
+            if ($this->crearcar==1){
+                ?>
+        <form action="/docente/crearcarpeta?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $this->iddocpadre;?>" method="post">
+            <div class="row">
+                <div class="form_header">
+                    Crear una carpeta
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">
+                    <span class="form_required">*</span>Nombre de la nueva carpeta
+                </div>
+                <div class="formw">
+                    &nbsp;&nbsp;&nbsp;<input type="text" name="txtnombrecarpeta">
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">&nbsp;</div>
+                <div class="formw">
+                    <button type="submit" class="add">Crear la carpeta</button>
+                </div>
+            </div>
+        </form>
+        <div style="clear: both; margin-bottom: 10px;"></div>
+                <?php
+            }
+            else if($this->crearcar==2){
+                ?>
+                 <form action="/docente/cargararchivo?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $this->iddocpadre;?>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form_header">
+                    Cargar un archivo
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">
+                    <span class="form_required">*</span>Nombre del Archivo
+                </div>
+                <div class="formw">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="90000000" />
+                    &nbsp;&nbsp;&nbsp;<input type="text" name="txtnombre"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">
+                    <span class="form_required">*</span>Ruta del Archivo
+                </div>
+                <div class="formw">
+                    &nbsp;&nbsp;&nbsp;<input type="file" name="filee">
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">&nbsp;</div>
+                <div class="formw">
+                    <button type="submit" class="add">Enviar Archivo</button>
+                </div>
+            </div>
+        </form>
+        <div style="clear: both; margin-bottom: 10px;"></div>
+                <?php
+            }
+        ?>
         <div class="actions">
-            <a href="">
+            <a href="/docente/documentos?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $this->iddocpadre;?>&crearcar=1">
                 <img src="/main/img/icons/32/new_folder.png" alt="Crear una carpeta" title="Crear una carpeta">
             </a>
-            <a href="">
+            <a href="/docente/documentos?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $this->iddocpadre;?>&crearcar=2">
                 <img src="/main/img/icons/32/upload_file.png" alt="Cargar un archivo" title="Cargar un archivo">
             </a>
         </div>
-        <div><h2>Carpeta Actual: xx</h2></div>
+        <div><h2>Carpeta Actual: <?php echo $documentos->obternerruta($this->iddocpadre);?></h2></div>
         <table class="data_table">
             <tr class="row_odd">
                 <th style="width:30px;">
@@ -110,13 +173,24 @@
             <tr class="row_even">
                 <td>
                     <center>
-                    <a href="" title="Audio" target="_self" style="float:left">
-                        <img hspace="5" align="middle" height="22" width="22" src="/main/img/folder_audio.gif" alt="" title="">
-                    </a>
-                        </center>
+                        <?php
+                            if($documento['vDocuTipoDocumento']=="folder"){?>
+                        <a href="" title="<?php echo $documento['vDocuTitulo'];?>" target="_self" style="float:left">
+                            <img hspace="5" align="middle" height="22" width="22" src="/main/img/folder_document.gif" alt="" title="">
+                        </a>
+                        <?php
+                            }
+                            else{
+                                ?>
+                                <img hspace="5" align="middle" height="22" width="22" src="/main/img/file_txt.gif" alt="" title="">
+                            <?php
+                            }
+                        ?>
+                       
+                    </center>
                 </td>
                 <td>
-                    <a href="" title="Audio">
+                    <a href="/docente/documentos?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $iddocumento;?>" title="<?php echo $documento['vDocuTitulo'];?>">
                         <?php echo $documento['vDocuTitulo'];?>
                     </a>
                     <a href="" style="float:right">
@@ -127,10 +201,7 @@
                 </td>
                 <td>
                     <center>
-                        <span style="display:none;">
-                            147854
-                        </span>
-                        144.39k
+                        <?php echo $documento['vDocuTamano'];?>
                     </center>
                 </td>
                 <td>
@@ -143,7 +214,7 @@
                             $dias_diferencia = $segundos_diferencia / (60 * 60 * 24);
                             $dias_diferencia = abs($dias_diferencia);
                             $dias_diferencia = floor($dias_diferencia);
-                            if($dias_diferencia<7){    
+                            if($dias_diferencia<7){
                                 if($dias_diferencia==0){
                                     echo "Hoy";
                                 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-12-2011 a las 20:15:57
+-- Tiempo de generación: 10-12-2011 a las 12:13:23
 -- Versión del servidor: 5.1.58
 -- Versión de PHP: 5.3.6-13ubuntu3.2
 
@@ -46,6 +46,38 @@ INSERT INTO `accion` (`cAccIdAccion`, `vAccDescripcion`) VALUES
 ('G', 'Carga Archivos'),
 ('H', 'Comenta'),
 ('I', 'Practica');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `agenda`
+--
+
+CREATE TABLE IF NOT EXISTS `agenda` (
+  `iAgeIdAgenda` int(11) NOT NULL AUTO_INCREMENT,
+  `tAgeFechaInicio` int(10) NOT NULL,
+  `tAgeFechaFin` int(10) NOT NULL,
+  `iAgeVisibleDocente` int(11) NOT NULL,
+  `iAgeVisibleAlumno` int(11) NOT NULL,
+  `iAgeVisibleApoderado` int(11) NOT NULL,
+  `tAgeTitulo` text NOT NULL,
+  `tAgeContenido` text NOT NULL,
+  `tAgeUrlAcceso` int(11) NOT NULL,
+  `Usuarios_iUsuIdUsuario` int(11) NOT NULL,
+  `Cursos_iCursIdCursos` int(11) NOT NULL,
+  PRIMARY KEY (`iAgeIdAgenda`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Volcado de datos para la tabla `agenda`
+--
+
+INSERT INTO `agenda` (`iAgeIdAgenda`, `tAgeFechaInicio`, `tAgeFechaFin`, `iAgeVisibleDocente`, `iAgeVisibleAlumno`, `iAgeVisibleApoderado`, `tAgeTitulo`, `tAgeContenido`, `tAgeUrlAcceso`, `Usuarios_iUsuIdUsuario`, `Cursos_iCursIdCursos`) VALUES
+(1, 1323234000, 1323234000, 0, 0, 0, 'HOAL', 'contenido', 0, 2, 0),
+(5, 1323147600, 1323147600, 0, 0, 0, 'HOAL', 'contenido', 0, 2, 2),
+(7, 1325307600, 1325307600, 0, 0, 0, 'TELLO SONSO', 'contenido', 0, 2, 2),
+(8, 1324443600, 1324443600, 0, 0, 0, 'TEMAS', 'contenido', 0, 2, 2),
+(10, 1320123600, 1320123600, 0, 0, 0, 'salida', 'contenido', 0, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -609,23 +641,41 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `vDocuComentario` varchar(500) COLLATE utf8_spanish_ci DEFAULT NULL,
   `vDocuTitulo` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
   `vDocuTipoDocumento` set('archivo','folder') COLLATE utf8_spanish_ci NOT NULL,
-  `vDocuTamano` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `vDocuTamano` varchar(11) COLLATE utf8_spanish_ci DEFAULT '0kB',
   `iDocuFechaCreacion` int(10) NOT NULL,
   `iDocuFechaModificado` int(10) DEFAULT NULL,
   `cDocuEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`iDocuIdDocumento`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=24 ;
 
 --
 -- Volcado de datos para la tabla `documentos`
 --
 
 INSERT INTO `documentos` (`iDocuIdDocumento`, `iDocuPadre`, `iDocu_iCursIdCursos`, `iDocu_iLeccIdLeccion`, `tDocuRuta`, `vDocuComentario`, `vDocuTitulo`, `vDocuTipoDocumento`, `vDocuTamano`, `iDocuFechaCreacion`, `iDocuFechaModificado`, `cDocuEstado`) VALUES
-(1, 0, 3, NULL, 'main/documentos/3/Videos', 'Carpeta de Videos', 'Videos', 'folder', NULL, 1323460902, 1323460902, 'A'),
-(2, 0, 3, NULL, 'main/documentos/3/Audios', 'Carpeta de Audios', 'Audios', 'folder', NULL, 1323460902, 1323460902, 'A'),
-(3, 0, 3, NULL, 'main/documentos/3/Imagenes', 'Carpeta de Imagenes', 'Imagenes', 'folder', NULL, 1323460902, 1323460902, 'A'),
-(4, 0, 3, NULL, 'main/documentos/3/Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'folder', NULL, 1323460902, 1323460902, 'A'),
-(5, 0, 3, NULL, 'main/documentos/3/Lecciones', 'Carpeta de Lecciones', 'Lecciones', 'folder', NULL, 1323460902, 1323460902, 'A');
+(1, 0, 3, NULL, 'main/documentos/3/Videos', 'Carpeta de Videos', 'Videos', 'folder', '0kB', 1323460902, 1323460902, 'A'),
+(2, 0, 3, NULL, 'main/documentos/3/Audios', 'Carpeta de Audios', 'Audios', 'folder', '0kB', 1323460902, 1323460902, 'A'),
+(3, 0, 3, NULL, 'main/documentos/3/Imagenes', 'Carpeta de Imagenes', 'Imagenes', 'folder', '0kB', 1323460902, 1323460902, 'A'),
+(4, 0, 3, NULL, 'main/documentos/3/Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'folder', '0kB', 1323460902, 1323460902, 'A'),
+(5, 0, 3, NULL, 'main/documentos/3/Lecciones', 'Carpeta de Lecciones', 'Lecciones', 'folder', '0kB', 1323460902, 1323460902, 'A'),
+(6, 1, 3, NULL, 'main/documentos/3/Videos/Videos1', NULL, 'Videos1', 'folder', '0kB', 1323487418, 1323487418, 'A'),
+(7, 0, 3, NULL, 'main/documentos/3/Otros', NULL, 'Otros', 'folder', '0kB', 1323487436, 1323487436, 'A'),
+(8, 6, 3, NULL, 'main/documentos/3/Videos/Videos1/Logica', NULL, 'Logica', 'folder', '0kB', 1323487546, 1323487546, 'A'),
+(9, 0, 3, NULL, 'main/documentos/3/main/documentos/3/assalto_en.png/fotoCurso', NULL, 'fotoCurso', 'archivo', '36.8kB', 1323503158, 1323503158, 'A'),
+(10, 0, 3, NULL, 'main/documentos/3/fotocur', NULL, 'fotocur', 'archivo', '36.8kB', 1323503335, 1323503335, 'A'),
+(11, 0, 3, NULL, 'main/documentos/3main/documentos/3/assalto_en.png/videitomandaa', NULL, 'videitomandaa', 'archivo', '36.8kB', 1323503449, 1323503449, 'A'),
+(12, 0, 3, NULL, 'main/documentos/3/assalto_en.png/renztt', NULL, 'renztt', 'archivo', '36.8kB', 1323503487, 1323503487, 'A'),
+(13, 0, 3, NULL, 'main/documentos/3/assalto_en.png', NULL, 'jj', 'archivo', '36.8kB', 1323503753, 1323503753, 'A'),
+(14, 5, 3, NULL, 'main/documentos/3/Lecciones/assalto_en.png', NULL, 'yasbaes', 'archivo', '36.8kB', 1323503822, 1323503822, 'A'),
+(15, 5, 3, NULL, 'main/documentos/3/Lecciones/assalto_en.png', NULL, 'yasbaes', 'archivo', '36.8kB', 1323503862, 1323503862, 'A'),
+(16, 5, 3, NULL, 'main/documentos/3/Lecciones/assalto_en.png', NULL, 'yasbaes', 'archivo', '36.8kB', 1323504064, 1323504064, 'A'),
+(17, 1, 3, NULL, 'main/documentos/3/Videos/Videos2', NULL, 'Videos2', 'folder', NULL, 1323530180, 1323530180, 'A'),
+(18, 1, 3, NULL, 'main/documentos/3/Videos/gigantografia 001.jpg', NULL, 'Imagen', 'archivo', '279.52kB', 1323530198, 1323530198, 'A'),
+(19, 1, 3, NULL, 'main/documentos/3/Videos/gigantografia 001.jpg', NULL, 'archivito2', 'archivo', '279.52kB', 1323531711, 1323531711, 'A'),
+(20, 1, 3, NULL, 'main/documentos/3/Videos/consultas.class.php', NULL, 'archivito3', 'archivo', '13.72kB', 1323531728, 1323531728, 'A'),
+(21, 1, 3, NULL, 'main/documentos/3/Videos/manual_ref.pdf', NULL, 'videitomandaaq', 'archivo', '853.04kB', 1323531844, 1323531844, 'A'),
+(22, 1, 3, NULL, 'main/documentos/3/Videos/2.zip', NULL, 'archivito1', 'archivo', '9.2kB', 1323532512, 1323532512, 'A'),
+(23, 0, 3, NULL, 'main/documentos/3/paulp_sp38.pdf', NULL, 'archivitoo', 'archivo', '2.53MB', 1323536364, 1323536364, 'A');
 
 -- --------------------------------------------------------
 
@@ -758,7 +808,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `iLogTimeStamp` int(10) DEFAULT NULL,
   `cAcciIdAccion` char(1) DEFAULT NULL,
   PRIMARY KEY (`iLogIdLog`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=539 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=582 ;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -1302,7 +1352,50 @@ INSERT INTO `log` (`iLogIdLog`, `iUsuIdUsuario`, `iLogTimeStamp`, `cAcciIdAccion
 (535, 2, 1323460324, 'A'),
 (536, 2, 1323461654, 'B'),
 (537, 2, 1323461658, 'A'),
-(538, 2, 1323479626, 'B');
+(538, 2, 1323479626, 'B'),
+(539, 2, 1323479903, 'A'),
+(540, 2, 1323480253, 'B'),
+(541, 2, 1323480262, 'A'),
+(542, 2, 1323481115, 'B'),
+(543, 2, 1323481186, 'A'),
+(544, 2, 1323482007, 'B'),
+(545, 2, 1323482012, 'A'),
+(546, 2, 1323490906, 'B'),
+(547, 2, 1323490919, 'A'),
+(548, 2, 1323491769, 'B'),
+(549, 2, 1323491774, 'A'),
+(550, 2, 1323492377, 'B'),
+(551, 2, 1323492383, 'A'),
+(552, 2, 1323494992, 'B'),
+(553, 2, 1323494996, 'A'),
+(554, 2, 1323495455, 'B'),
+(555, 2, 1323495732, 'A'),
+(556, 2, 1323497935, 'B'),
+(557, 2, 1323497941, 'A'),
+(558, 2, 1323498287, 'B'),
+(559, 2, 1323499369, 'A'),
+(560, 2, 1323501346, 'B'),
+(561, 2, 1323501561, 'A'),
+(562, 2, 1323502172, 'B'),
+(563, 2, 1323502177, 'A'),
+(564, 2, 1323506322, 'B'),
+(565, 2, 1323506344, 'A'),
+(566, 2, 1323506775, 'B'),
+(567, 2, 1323506782, 'A'),
+(568, 2, 1323527453, 'B'),
+(569, 2, 1323527468, 'A'),
+(570, 2, 1323528609, 'B'),
+(571, 2, 1323528618, 'A'),
+(572, 2, 1323533243, 'B'),
+(573, 2, 1323533253, 'A'),
+(574, 2, 1323533990, 'B'),
+(575, 2, 1323533995, 'A'),
+(576, 2, 1323535134, 'B'),
+(577, 2, 1323535144, 'A'),
+(578, NULL, 1323535728, 'B'),
+(579, NULL, 1323535728, 'B'),
+(580, 2, 1323536665, 'B'),
+(581, 2, 1323536670, 'A');
 
 -- --------------------------------------------------------
 

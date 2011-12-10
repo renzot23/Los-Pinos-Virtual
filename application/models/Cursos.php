@@ -412,10 +412,10 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_3" href="documentos?idcurso='.$idcurso.'" class="" target="_self">
+                                        <a id="tooldesc_3" href="documentos?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_3" src="/main/img/folder_document.gif" alt="Documentos" title="Documentos">
                                         </a>
-                                        <a id="istooldesc_3" href="documentos?idcurso='.$idcurso.'" class="" target="_self">
+                                        <a id="istooldesc_3" href="documentos?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             Documentos
                                         </a>
                                         </center>
@@ -434,10 +434,10 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_4" href="" class="" target="_self">
+                                        <a id="tooldesc_4" href="lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_4" src="/main/img/scorms.gif" alt="Lecciones" title="Lecciones">
                                         </a>
-                                        <a id="istooldesc_4" href="/main/newscorm/lp_controller.php?cidReq=002" class="" target="_self">
+                                        <a id="istooldesc_4" href="lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             Lecciones
                                         </a>
                                         </center>    
