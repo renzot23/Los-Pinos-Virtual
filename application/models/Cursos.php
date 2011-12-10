@@ -362,7 +362,7 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
         $seccion = new Application_Model_Seccion();
         $idseccion = $curso[0]['Seccion_iSeccIdSeccion'];
         $nroalumnos = sizeof($seccion->listarAlumnosporSecciones($idseccion));
-        if($tipoVista=="alumno"){
+        if($tipoVista=="docente"){
             $html.='
                     <div style="margin-left:10%; margin-right:10%;">
                         <table align="center">
@@ -402,20 +402,20 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_1" href="/main/course_description/?cidReq=002" class="" target="_self">
+                                        <a id="tooldesc_1" href="/main/course_description?cidReq=002" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_1" src="/main/img/info.gif" alt="Descripción del curso" title="Descripción del curso">
                                         </a>
-                                        <a id="istooldesc_1" href="/docente/descripcioncurso/?idcurso='.$idcurso.'&opt=ini" class="" target="_self">
+                                        <a id="istooldesc_1" href="/docente/descripcioncurso?idcurso='.$idcurso.'&opt=ini" class="" target="_self">
                                             Descripción del curso
                                         </a>
                                         </center>
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_3" href="" class="" target="_self">
+                                        <a id="tooldesc_3" href="documentos?idcurso='.$idcurso.'" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_3" src="/main/img/folder_document.gif" alt="Documentos" title="Documentos">
                                         </a>
-                                        <a id="istooldesc_3" href="" class="" target="_self">
+                                        <a id="istooldesc_3" href="documentos?idcurso='.$idcurso.'" class="" target="_self">
                                             Documentos
                                         </a>
                                         </center>
@@ -424,10 +424,10 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_25" href="" class="" target="_self">
+                                        <a id="tooldesc_25" href="editarunidades?idcurso='.$idcurso.'" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_25" src="/main/img/scormbuilder.gif" alt="Leccion 1" title="Leccion 1">
                                         </a>
-                                        <a id="istooldesc_25" href="" class="" target="_self">
+                                        <a id="istooldesc_25" href="editarunidades?idcurso='.$idcurso.'" class="" target="_self">
                                             Unidades
                                         </a>
                                         </center>

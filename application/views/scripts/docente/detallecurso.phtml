@@ -54,14 +54,14 @@
                 </a>
             </li>
             <li>
-                <a href="/docente/detallecurso/?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb0" target="_top">
+                <a href="/docente/detallecurso?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb0" target="_top">
                     <span>'.$infocurso[0]['vCursNombreCurso'].'</span>
                 </a>
             </li>
         </ul>';
     
     $cursos = new Application_Model_Cursos();
-    $content = $cursos->crearVistaCurso($this->idcurso, "alumno");
+    $content = $cursos->crearVistaCurso($this->idcurso, "docente");
     
     print $html->crearWrapper(null, null, null, $h3, $h4 ,null, null,$content);
     //print $html->crearCabecera(null, null, null, $h3, $h4) ;

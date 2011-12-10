@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li>
-                <a href="/docente/detallecurso/?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb1" target="_top">
+                <a href="/docente/detallecurso?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb1" target="_top">
                     <span>'.$infocurso[0]['vCursNombreCurso'].'</span>
                 </a>
             </li>
@@ -68,35 +68,6 @@
         </ul>';
     
     $cursos = new Application_Model_Cursos();
-    $content = '
-        <div class="actions" style="margin-bottom:30px">
-            <a href="?idcurso='.$this->idcurso.'&opt=ini">
-                <img src="/main/img/icons/32/info.png" alt="Descripción general" title="Descripción general">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=obj">
-                <img src="/main/img/icons/32/objective.png" alt="Objetivos" title="Objetivos">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=con">
-                <img src="/main/img/icons/32/topics.png" alt="Contenidos" title="Contenidos">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=met">
-                <img src="/main/img/icons/32/strategy.png" alt="Metodología" title="Metodología">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=mat">
-                <img src="/main/img/icons/32/laptop.png" alt="Materiales" title="Materiales">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=rec">
-                <img src="/main/img/icons/32/teacher.png" alt="Recursos humanos y técnicos" title="Recursos humanos y técnicos">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=eva">
-                <img src="/main/img/icons/32/assessment.png" alt="Evaluación" title="Evaluación">
-            </a>
-            <a href="?idcurso='.$this->idcurso.'&opt=nue">
-                <img src="/main/img/icons/32/wizard.png" alt="Apartado personalizado" title="Apartado personalizado">
-            </a>
-     </div>';
-        
-    //print $html->crearWrapper(null, null, null, $h3, $h4 ,null, null,$content);
     print $html->crearCabecera(null, null, null, $h3, $h4) ;
        
 ?>

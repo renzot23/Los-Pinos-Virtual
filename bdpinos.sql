@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-12-2011 a las 16:26:36
+-- Tiempo de generación: 09-12-2011 a las 20:15:57
 -- Versión del servidor: 5.1.58
 -- Versión de PHP: 5.3.6-13ubuntu3.2
 
@@ -190,6 +190,31 @@ CREATE TABLE IF NOT EXISTS `cache` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `capacidades`
+--
+
+CREATE TABLE IF NOT EXISTS `capacidades` (
+  `iCapIdCapacidad` int(11) NOT NULL AUTO_INCREMENT,
+  `iCompetencia_iComIdCompetencia` int(11) NOT NULL,
+  `tCapDescripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `tCapActitud` text COLLATE utf8_spanish_ci NOT NULL,
+  `cCapEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iCapIdCapacidad`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `capacidades`
+--
+
+INSERT INTO `capacidades` (`iCapIdCapacidad`, `iCompetencia_iComIdCompetencia`, `tCapDescripcion`, `tCapActitud`, `cCapEstado`) VALUES
+(1, 1, 'Capacidad Descripcion', 'Actitud Texto', 'A'),
+(2, 1, 'Capacidad Descripcion 2', 'Actitud Texto 2', 'A'),
+(3, 1, 'Capacidad Descripcion 3', 'Actitud Texto 3', 'A'),
+(4, 2, 'Capacito', 'Actitudeas', 'A');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `chat`
 --
 
@@ -201,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `chat` (
   `sent` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `recd` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
 
 --
 -- Volcado de datos para la tabla `chat`
@@ -255,8 +280,19 @@ INSERT INTO `chat` (`id`, `from`, `to`, `message`, `sent`, `recd`) VALUES
 (45, 'vin', 'ren', 'b-logb-{', '2011-11-24 21:20:06', 1),
 (46, 'vin', 'ren', '-bug-Ã±ou', '2011-11-24 21:20:07', 1),
 (47, 'ren', 'vin', 'pepe gil', '2011-11-24 21:20:14', 1),
-(48, 'vin', 'ren', 'fdfdf', '2011-11-25 04:09:16', 0),
-(49, '', 'ren', 'hola', '2011-11-25 04:34:19', 0);
+(48, 'vin', 'ren', 'fdfdf', '2011-11-25 04:09:16', 1),
+(49, '', 'ren', 'hola', '2011-11-25 04:34:19', 1),
+(50, 'yer', 'ren', 'hola', '2011-12-05 17:11:50', 1),
+(51, 'ren', 'yer', 'hello world', '2011-12-05 17:12:02', 1),
+(52, 'ren', 'yer', 'abre considerado', '2011-12-05 17:12:15', 1),
+(53, 'VIN', 'WALVAREZS', 'ol+', '2011-12-06 11:35:06', 1),
+(54, 'walvarezs', 'VIN', 'oe k', '2011-12-06 11:37:21', 0),
+(55, 'tsotol', 'WALVAREZS', 'hola', '2011-12-06 11:37:27', 1),
+(56, 'walvarezs', 'tsotol', 'hola profe', '2011-12-06 11:37:32', 1),
+(57, 'tsotol', 'walvarezs', 'ke tal', '2011-12-06 11:37:36', 1),
+(58, 'WALVAREZS', 'TSOTOL', 'profe', '2011-12-06 11:38:47', 1),
+(59, 'TSOTOL', 'WALVAREZS', 'habÃ±la tontin', '2011-12-06 11:38:58', 1),
+(60, 'JBLASA', 'TSOTOL', 'heble', '2011-12-06 19:28:53', 1);
 
 -- --------------------------------------------------------
 
@@ -270,6 +306,29 @@ CREATE TABLE IF NOT EXISTS `chatmensajes` (
   PRIMARY KEY (`iChatMensIdChatMensaje`),
   KEY `fk_ChatMensajes_Chat1` (`Chat_iChatIdChat`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `competencia`
+--
+
+CREATE TABLE IF NOT EXISTS `competencia` (
+  `iComIdCompetencia` int(11) NOT NULL AUTO_INCREMENT,
+  `iCursoUnidades_IdCursosUnidades` int(11) NOT NULL,
+  `vComTitulo` varchar(300) COLLATE utf8_spanish_ci NOT NULL,
+  `vComDescripcion` varchar(300) COLLATE utf8_spanish_ci NOT NULL,
+  `cComEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iComIdCompetencia`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `competencia`
+--
+
+INSERT INTO `competencia` (`iComIdCompetencia`, `iCursoUnidades_IdCursosUnidades`, `vComTitulo`, `vComDescripcion`, `cComEstado`) VALUES
+(1, 1, 'Competencia Titulo', 'Competencia - Descripcion', 'A'),
+(2, 1, 'Competencia Titulo 2', 'Descripcion Competencia 2', 'A');
 
 -- --------------------------------------------------------
 
@@ -295,6 +354,30 @@ INSERT INTO `configuracion` (`cConfValor`, `cConfTipo`, `tConfDescripcion`) VALU
 ('P', '4', 'CUARTO'),
 ('P', '5', 'QUINTO'),
 ('P', '6', 'SEXTO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `conocimiento`
+--
+
+CREATE TABLE IF NOT EXISTS `conocimiento` (
+  `iConIdConocimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `iCapacidad_IdCapacidad` int(11) NOT NULL,
+  `tConDescripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `cConEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iConIdConocimiento`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `conocimiento`
+--
+
+INSERT INTO `conocimiento` (`iConIdConocimiento`, `iCapacidad_IdCapacidad`, `tConDescripcion`, `cConEstado`) VALUES
+(1, 1, 'Conocimiento Descripcion', 'A'),
+(2, 2, 'Conocimiento', 'A'),
+(3, 2, 'Conocimi', 'A'),
+(4, 4, 'Conoci', 'A');
 
 -- --------------------------------------------------------
 
@@ -415,17 +498,63 @@ INSERT INTO `cursosusuarios` (`Cursos_iCursIdCursos`, `Usuarios_iUsuIdUsuario`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cursos_lecciones`
+-- Estructura de tabla para la tabla `cursos_unidades`
 --
 
-CREATE TABLE IF NOT EXISTS `cursos_lecciones` (
+CREATE TABLE IF NOT EXISTS `cursos_unidades` (
+  `IdCursosUnidades` int(11) NOT NULL AUTO_INCREMENT,
   `Cursos_iCursIdCursos` int(11) NOT NULL,
-  `Lecciones_siLeccIdLeccion` mediumint(8) NOT NULL,
-  `tCurLeccDescripcion` text,
-  PRIMARY KEY (`Cursos_iCursIdCursos`,`Lecciones_siLeccIdLeccion`),
-  KEY `fk_Cursos_has_Lecciones_Lecciones1` (`Lecciones_siLeccIdLeccion`),
+  `Unidades_IdUnidad` int(11) NOT NULL,
+  `vNombreUnidad` varchar(300) NOT NULL,
+  `cEstado` char(1) NOT NULL,
+  PRIMARY KEY (`IdCursosUnidades`),
+  KEY `fk_Cursos_has_Lecciones_Lecciones1` (`Unidades_IdUnidad`),
   KEY `fk_Cursos_has_Lecciones_Cursos1` (`Cursos_iCursIdCursos`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+
+--
+-- Volcado de datos para la tabla `cursos_unidades`
+--
+
+INSERT INTO `cursos_unidades` (`IdCursosUnidades`, `Cursos_iCursIdCursos`, `Unidades_IdUnidad`, `vNombreUnidad`, `cEstado`) VALUES
+(1, 3, 1, 'NUMERO, RELACIONES Y OPERACIONES', 'A'),
+(2, 3, 2, 'FRACCIONES', 'A'),
+(3, 3, 3, 'UNIDAD 3', 'A'),
+(4, 3, 4, 'UNIDAD 4', 'A'),
+(5, 3, 5, 'UNIDAD 5', 'A'),
+(6, 3, 6, 'UNIDAD 6', 'A'),
+(7, 3, 7, 'DECIMALES', 'A'),
+(8, 3, 8, 'SISTEMA MONETARIO NACIONAL', 'A'),
+(9, 3, 10, 'UNIDAD 9', 'A'),
+(10, 4, 1, 'UNIDAD INICIAL', 'A'),
+(11, 4, 2, 'UNIDAD 2', 'A'),
+(12, 4, 3, 'UNIDAD 3', 'A'),
+(13, 4, 4, 'UNIDAD 4', 'A'),
+(14, 4, 5, 'UNIDAD 5', 'A'),
+(15, 4, 6, 'UNIDAD 6', 'A'),
+(16, 4, 7, 'UNIDAD 7', 'A'),
+(17, 4, 8, 'UNIDAD 8', 'A'),
+(18, 4, 10, 'UNIDAD 9', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detallecurso`
+--
+
+CREATE TABLE IF NOT EXISTS `detallecurso` (
+  `Cursos_iCursIdCursos` int(11) NOT NULL,
+  `vDescripcion` varchar(200) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `tValor` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  KEY `Cursos_iCursIdCursos` (`Cursos_iCursIdCursos`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `detallecurso`
+--
+
+INSERT INTO `detallecurso` (`Cursos_iCursIdCursos`, `vDescripcion`, `tValor`) VALUES
+(3, 'obj', '&lt;p&gt;\r\n	&lt;img alt=&quot;heart&quot; height=&quot;20&quot; src=&quot;http://primer-proyecto.local/ckeditor/plugins/smiley/images/heart.gif&quot; title=&quot;heart&quot; width=&quot;20&quot; /&gt;vinces&lt;/p&gt;\r\n');
 
 -- --------------------------------------------------------
 
@@ -464,6 +593,39 @@ INSERT INTO `docentes` (`iDocIdDocentes`, `tDocEspecialidad`, `Usuarios_iUsuIdUs
 (2, 'LICENCIADA EN EDUCACION PRIMARIA', 3),
 (3, 'LICENCIADO EN MATEMATICA', 4),
 (4, 'DOCTORADO EN EDUCACION PRIMARIA', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `documentos`
+--
+
+CREATE TABLE IF NOT EXISTS `documentos` (
+  `iDocuIdDocumento` int(11) NOT NULL AUTO_INCREMENT,
+  `iDocuPadre` int(11) DEFAULT NULL,
+  `iDocu_iCursIdCursos` int(11) NOT NULL,
+  `iDocu_iLeccIdLeccion` int(11) DEFAULT NULL,
+  `tDocuRuta` text COLLATE utf8_spanish_ci NOT NULL,
+  `vDocuComentario` varchar(500) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `vDocuTitulo` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
+  `vDocuTipoDocumento` set('archivo','folder') COLLATE utf8_spanish_ci NOT NULL,
+  `vDocuTamano` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `iDocuFechaCreacion` int(10) NOT NULL,
+  `iDocuFechaModificado` int(10) DEFAULT NULL,
+  `cDocuEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iDocuIdDocumento`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `documentos`
+--
+
+INSERT INTO `documentos` (`iDocuIdDocumento`, `iDocuPadre`, `iDocu_iCursIdCursos`, `iDocu_iLeccIdLeccion`, `tDocuRuta`, `vDocuComentario`, `vDocuTitulo`, `vDocuTipoDocumento`, `vDocuTamano`, `iDocuFechaCreacion`, `iDocuFechaModificado`, `cDocuEstado`) VALUES
+(1, 0, 3, NULL, 'main/documentos/3/Videos', 'Carpeta de Videos', 'Videos', 'folder', NULL, 1323460902, 1323460902, 'A'),
+(2, 0, 3, NULL, 'main/documentos/3/Audios', 'Carpeta de Audios', 'Audios', 'folder', NULL, 1323460902, 1323460902, 'A'),
+(3, 0, 3, NULL, 'main/documentos/3/Imagenes', 'Carpeta de Imagenes', 'Imagenes', 'folder', NULL, 1323460902, 1323460902, 'A'),
+(4, 0, 3, NULL, 'main/documentos/3/Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'folder', NULL, 1323460902, 1323460902, 'A'),
+(5, 0, 3, NULL, 'main/documentos/3/Lecciones', 'Carpeta de Lecciones', 'Lecciones', 'folder', NULL, 1323460902, 1323460902, 'A');
 
 -- --------------------------------------------------------
 
@@ -549,6 +711,29 @@ INSERT INTO `grado` (`iGradoIdGrado`, `vGradoDescripcion`, `tiGradoEstado`, `Per
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `indicadores`
+--
+
+CREATE TABLE IF NOT EXISTS `indicadores` (
+  `iIndIdIndicadores` int(11) NOT NULL AUTO_INCREMENT,
+  `iCapacidad_IdCapacidad` int(11) NOT NULL,
+  `tIndDescripcion` text COLLATE utf8_spanish_ci NOT NULL,
+  `cIndEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iIndIdIndicadores`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `indicadores`
+--
+
+INSERT INTO `indicadores` (`iIndIdIndicadores`, `iCapacidad_IdCapacidad`, `tIndDescripcion`, `cIndEstado`) VALUES
+(1, 1, 'Indicador descripcion', 'A'),
+(2, 1, 'Indicador Descripcion 2', 'A'),
+(3, 2, 'Indicador Descripcion', 'A');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `lecciones`
 --
 
@@ -573,7 +758,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `iLogTimeStamp` int(10) DEFAULT NULL,
   `cAcciIdAccion` char(1) DEFAULT NULL,
   PRIMARY KEY (`iLogIdLog`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=218 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=539 ;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -796,7 +981,328 @@ INSERT INTO `log` (`iLogIdLog`, `iUsuIdUsuario`, `iLogTimeStamp`, `cAcciIdAccion
 (214, 19, 1322868800, 'A'),
 (215, 19, 1322868823, 'B'),
 (216, 1, 1322868829, 'A'),
-(217, NULL, 1322947218, 'B');
+(217, NULL, 1322947218, 'B'),
+(218, 1, 1322951286, 'A'),
+(219, 1, 1322951302, 'B'),
+(220, 2, 1322951894, 'A'),
+(221, 2, 1322952083, 'B'),
+(222, 19, 1322952090, 'A'),
+(223, 19, 1322952486, 'B'),
+(224, 2, 1322952495, 'A'),
+(225, 2, 1322952941, 'B'),
+(226, 2, 1322952948, 'A'),
+(227, 2, 1322953328, 'B'),
+(228, 19, 1322953412, 'A'),
+(229, 19, 1322953414, 'B'),
+(230, 2, 1322953420, 'A'),
+(231, 2, 1322953948, 'B'),
+(232, 3, 1322953959, 'A'),
+(233, 3, 1322953971, 'B'),
+(234, 4, 1322953982, 'A'),
+(235, 4, 1322954237, 'B'),
+(236, 2, 1322954246, 'A'),
+(237, 2, 1322955295, 'B'),
+(238, 2, 1322955305, 'A'),
+(239, NULL, 1323029457, 'B'),
+(240, 19, 1323030194, 'A'),
+(241, NULL, 1323037829, 'B'),
+(242, 1, 1323037833, 'A'),
+(243, 1, 1323037885, 'B'),
+(244, 19, 1323037891, 'A'),
+(245, 19, 1323037912, 'B'),
+(246, 2, 1323037918, 'A'),
+(247, 2, 1323038834, 'B'),
+(248, 19, 1323038973, 'A'),
+(249, 19, 1323039171, 'B'),
+(250, NULL, 1323039179, 'B'),
+(251, NULL, 1323039179, 'B'),
+(252, 19, 1323039185, 'A'),
+(253, 19, 1323039821, 'B'),
+(254, 19, 1323039827, 'A'),
+(255, 19, 1323040400, 'B'),
+(256, 19, 1323040411, 'A'),
+(257, 19, 1323040801, 'B'),
+(258, 19, 1323040807, 'A'),
+(259, 19, 1323041230, 'B'),
+(260, 19, 1323041238, 'A'),
+(261, 19, 1323042049, 'B'),
+(262, 19, 1323042055, 'A'),
+(263, 19, 1323042520, 'B'),
+(264, 19, 1323042529, 'A'),
+(265, 19, 1323044647, 'B'),
+(266, 19, 1323044654, 'A'),
+(267, 19, 1323045102, 'B'),
+(268, 19, 1323045113, 'A'),
+(269, 19, 1323046366, 'B'),
+(270, 1, 1323046372, 'A'),
+(271, 1, 1323046374, 'B'),
+(272, 19, 1323046380, 'A'),
+(273, 19, 1323046953, 'B'),
+(274, 19, 1323046958, 'A'),
+(275, 19, 1323047800, 'B'),
+(276, 19, 1323047807, 'A'),
+(277, 19, 1323048038, 'B'),
+(278, 19, 1323048060, 'A'),
+(279, 19, 1323048414, 'B'),
+(280, 19, 1323048420, 'A'),
+(281, 19, 1323048896, 'B'),
+(282, 19, 1323048904, 'A'),
+(283, 19, 1323055535, 'B'),
+(284, 19, 1323055597, 'A'),
+(285, 19, 1323056008, 'B'),
+(286, 19, 1323056015, 'A'),
+(287, 19, 1323056706, 'B'),
+(288, 19, 1323057300, 'A'),
+(289, 19, 1323058355, 'B'),
+(290, 19, 1323058362, 'A'),
+(291, 19, 1323058758, 'B'),
+(292, 19, 1323058878, 'A'),
+(293, 19, 1323059861, 'B'),
+(294, 19, 1323059868, 'A'),
+(295, 19, 1323060074, 'B'),
+(296, 19, 1323060079, 'A'),
+(297, NULL, 1323098581, 'B'),
+(298, 19, 1323098591, 'A'),
+(299, 19, 1323100275, 'A'),
+(300, 19, 1323100567, 'B'),
+(301, 19, 1323100573, 'A'),
+(302, NULL, 1323104750, 'B'),
+(303, 19, 1323104757, 'A'),
+(304, NULL, 1323109301, 'B'),
+(305, 19, 1323109306, 'A'),
+(306, NULL, 1323114189, 'B'),
+(307, 19, 1323114195, 'A'),
+(308, 19, 1323114997, 'B'),
+(309, 19, 1323115002, 'A'),
+(310, 19, 1323115229, 'B'),
+(311, 19, 1323115233, 'A'),
+(312, 19, 1323116262, 'B'),
+(313, 2, 1323116268, 'A'),
+(314, 2, 1323120014, 'B'),
+(315, 2, 1323120022, 'A'),
+(316, 2, 1323121505, 'B'),
+(317, 2, 1323121511, 'A'),
+(318, 2, 1323122322, 'B'),
+(319, 2, 1323122330, 'A'),
+(320, 2, 1323123178, 'B'),
+(321, 2, 1323123183, 'A'),
+(322, 2, 1323124722, 'B'),
+(323, 19, 1323124726, 'A'),
+(324, 19, 1323126557, 'B'),
+(325, 2, 1323126562, 'A'),
+(326, 2, 1323128587, 'B'),
+(327, 2, 1323128601, 'A'),
+(328, 2, 1323143392, 'B'),
+(329, NULL, 1323143432, 'B'),
+(330, 2, 1323143502, 'A'),
+(331, 2, 1323143970, 'B'),
+(332, 2, 1323143976, 'A'),
+(333, 2, 1323145410, 'A'),
+(334, 2, 1323146483, 'B'),
+(335, 2, 1323146489, 'A'),
+(336, 2, 1323146819, 'B'),
+(337, 2, 1323146829, 'A'),
+(338, NULL, 1323179558, 'B'),
+(339, 2, 1323179563, 'A'),
+(340, 2, 1323180758, 'B'),
+(341, 2, 1323180763, 'A'),
+(342, 2, 1323183243, 'B'),
+(343, 2, 1323183756, 'A'),
+(344, NULL, 1323186536, 'B'),
+(345, 2, 1323186544, 'A'),
+(346, 39, 1323187049, 'A'),
+(347, 2, 1323187465, 'B'),
+(348, 2, 1323187513, 'A'),
+(349, 39, 1323187521, 'B'),
+(350, 39, 1323187531, 'A'),
+(351, 2, 1323187861, 'B'),
+(352, 2, 1323187868, 'A'),
+(353, 39, 1323187892, 'B'),
+(354, NULL, 1323188112, 'B'),
+(355, NULL, 1323188112, 'B'),
+(356, 1, 1323188129, 'A'),
+(357, 2, 1323188204, 'B'),
+(358, 2, 1323188209, 'A'),
+(359, 2, 1323188244, 'A'),
+(360, NULL, 1323188261, 'B'),
+(361, NULL, 1323188261, 'B'),
+(362, NULL, 1323188266, 'B'),
+(363, 2, 1323188273, 'A'),
+(364, 2, 1323189055, 'B'),
+(365, 2, 1323189071, 'A'),
+(366, 39, 1323189104, 'A'),
+(367, 2, 1323189427, 'A'),
+(368, 39, 1323189435, 'A'),
+(369, 2, 1323189510, 'B'),
+(370, 39, 1323189514, 'B'),
+(371, 39, 1323189516, 'A'),
+(372, 2, 1323189521, 'A'),
+(373, 39, 1323189599, 'B'),
+(374, 2, 1323189818, 'B'),
+(375, 2, 1323189841, 'A'),
+(376, 2, 1323191386, 'B'),
+(377, 2, 1323191392, 'A'),
+(378, 2, 1323192697, 'B'),
+(379, 1, 1323192712, 'A'),
+(380, 1, 1323194020, 'B'),
+(381, 1, 1323194024, 'A'),
+(382, 1, 1323195864, 'B'),
+(383, 1, 1323195877, 'A'),
+(384, 1, 1323196471, 'B'),
+(385, 1, 1323196476, 'A'),
+(386, 1, 1323197315, 'B'),
+(387, 1, 1323197320, 'A'),
+(388, 1, 1323197990, 'B'),
+(389, 1, 1323197994, 'A'),
+(390, 1, 1323204244, 'B'),
+(391, 1, 1323204249, 'A'),
+(392, 1, 1323208469, 'B'),
+(393, 1, 1323208474, 'A'),
+(394, 1, 1323217594, 'B'),
+(395, 2, 1323217599, 'A'),
+(396, 2, 1323217716, 'B'),
+(397, 19, 1323217722, 'A'),
+(398, 19, 1323217737, 'B'),
+(399, NULL, 1323217742, 'B'),
+(400, 2, 1323217752, 'A'),
+(401, 2, 1323217781, 'B'),
+(402, 1, 1323217785, 'A'),
+(403, 1, 1323218515, 'B'),
+(404, 1, 1323218520, 'A'),
+(405, 1, 1323219135, 'B'),
+(406, NULL, 1323219178, 'B'),
+(407, NULL, 1323222263, 'B'),
+(408, 1, 1323222268, 'A'),
+(409, 1, 1323223388, 'B'),
+(410, 1, 1323223393, 'A'),
+(411, 1, 1323224620, 'B'),
+(412, 1, 1323224629, 'A'),
+(413, 1, 1323224732, 'B'),
+(414, 1, 1323233010, 'A'),
+(415, 1, 1323235255, 'B'),
+(416, 1, 1323235261, 'A'),
+(417, 1, 1323236730, 'B'),
+(418, 1, 1323236735, 'A'),
+(419, 1, 1323239158, 'B'),
+(420, 2, 1323239167, 'A'),
+(421, 2, 1323240421, 'B'),
+(422, 2, 1323240429, 'A'),
+(423, 2, 1323240876, 'B'),
+(424, 1, 1323240983, 'A'),
+(425, 1, 1323240995, 'B'),
+(426, 2, 1323241000, 'A'),
+(427, 2, 1323243170, 'B'),
+(428, 1, 1323243192, 'A'),
+(429, 1, 1323264506, 'B'),
+(430, 2, 1323264515, 'A'),
+(431, 2, 1323265352, 'B'),
+(432, 2, 1323265358, 'A'),
+(433, 2, 1323266168, 'B'),
+(434, 2, 1323266175, 'A'),
+(435, 2, 1323267400, 'B'),
+(436, 2, 1323267407, 'A'),
+(437, 2, 1323268710, 'B'),
+(438, 1, 1323268717, 'A'),
+(439, 1, 1323268804, 'B'),
+(440, 2, 1323268809, 'A'),
+(441, 2, 1323271163, 'B'),
+(442, 2, 1323271179, 'A'),
+(443, 2, 1323273791, 'B'),
+(444, 2, 1323273798, 'A'),
+(445, 2, 1323276464, 'B'),
+(446, 2, 1323276470, 'A'),
+(447, 2, 1323277165, 'B'),
+(448, 2, 1323277173, 'A'),
+(449, 2, 1323281423, 'B'),
+(450, 2, 1323281799, 'A'),
+(451, 2, 1323285370, 'B'),
+(452, 1, 1323285376, 'A'),
+(453, 1, 1323285382, 'B'),
+(454, 2, 1323285389, 'A'),
+(455, 2, 1323286018, 'B'),
+(456, 2, 1323286025, 'A'),
+(457, 2, 1323286785, 'B'),
+(458, 2, 1323286794, 'A'),
+(459, 2, 1323287469, 'B'),
+(460, 2, 1323287475, 'A'),
+(461, 2, 1323288205, 'B'),
+(462, 2, 1323288210, 'A'),
+(463, 2, 1323288658, 'B'),
+(464, 2, 1323288687, 'A'),
+(465, 2, 1323290693, 'B'),
+(466, 2, 1323290698, 'A'),
+(467, 2, 1323290727, 'B'),
+(468, NULL, 1323290735, 'B'),
+(469, 3, 1323290741, 'A'),
+(470, 3, 1323290796, 'B'),
+(471, 2, 1323290803, 'A'),
+(472, 2, 1323291810, 'B'),
+(473, 2, 1323291814, 'A'),
+(474, 2, 1323293540, 'B'),
+(475, 2, 1323293547, 'A'),
+(476, 2, 1323297631, 'B'),
+(477, 2, 1323297637, 'A'),
+(478, 2, 1323297807, 'B'),
+(479, 1, 1323297812, 'A'),
+(480, 1, 1323297835, 'B'),
+(481, 2, 1323297840, 'A'),
+(482, 2, 1323317630, 'B'),
+(483, 1, 1323378864, 'A'),
+(484, 1, 1323378938, 'B'),
+(485, NULL, 1323378945, 'B'),
+(486, 2, 1323378957, 'A'),
+(487, NULL, 1323383003, 'B'),
+(488, NULL, 1323383003, 'B'),
+(489, 2, 1323383677, 'B'),
+(490, 2, 1323383681, 'A'),
+(491, 2, 1323384499, 'B'),
+(492, 2, 1323384504, 'A'),
+(493, 2, 1323385330, 'B'),
+(494, 2, 1323385359, 'A'),
+(495, 2, 1323385859, 'B'),
+(496, 2, 1323385864, 'A'),
+(497, 2, 1323386971, 'B'),
+(498, 2, 1323386977, 'A'),
+(499, 2, 1323388314, 'B'),
+(500, 2, 1323388319, 'A'),
+(501, 2, 1323392817, 'B'),
+(502, 2, 1323405343, 'A'),
+(503, 2, 1323440084, 'A'),
+(504, 2, 1323444036, 'B'),
+(505, 2, 1323444156, 'A'),
+(506, 2, 1323446337, 'B'),
+(507, 2, 1323446341, 'A'),
+(508, 2, 1323448989, 'B'),
+(509, 2, 1323449404, 'A'),
+(510, 2, 1323449779, 'B'),
+(511, 2, 1323450206, 'A'),
+(512, 2, 1323451075, 'B'),
+(513, 2, 1323451079, 'A'),
+(514, 2, 1323451402, 'B'),
+(515, 2, 1323451408, 'A'),
+(516, 2, 1323452089, 'B'),
+(517, 2, 1323452096, 'A'),
+(518, 2, 1323452442, 'B'),
+(519, 2, 1323452448, 'A'),
+(520, 2, 1323452756, 'B'),
+(521, 2, 1323452770, 'A'),
+(522, 2, 1323453985, 'B'),
+(523, 2, 1323453990, 'A'),
+(524, 2, 1323457799, 'B'),
+(525, 2, 1323457804, 'A'),
+(526, 2, 1323458303, 'B'),
+(527, 2, 1323458309, 'A'),
+(528, 2, 1323459184, 'B'),
+(529, 3, 1323459192, 'A'),
+(530, 3, 1323459214, 'B'),
+(531, 2, 1323459219, 'A'),
+(532, 2, 1323459765, 'B'),
+(533, 2, 1323459770, 'A'),
+(534, 2, 1323460319, 'B'),
+(535, 2, 1323460324, 'A'),
+(536, 2, 1323461654, 'B'),
+(537, 2, 1323461658, 'A'),
+(538, 2, 1323479626, 'B');
 
 -- --------------------------------------------------------
 
@@ -1000,6 +1506,37 @@ INSERT INTO `tipousuario` (`iTiUsuarioIdTipoUsuario`, `vDescripcion`, `vUrl`, `E
 (3, 'Apoderado', 'apoderado/apoderado_principal.php', 'A'),
 (4, 'Director', 'director/director_principal.php', 'A'),
 (5, 'Administrador', 'admin/admin_principal.php', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `unidades`
+--
+
+CREATE TABLE IF NOT EXISTS `unidades` (
+  `IdUnidad` int(11) NOT NULL AUTO_INCREMENT,
+  `vUniDescripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
+  `iNroUnidad` tinyint(4) NOT NULL,
+  `dFechaInicio` int(11) NOT NULL,
+  `dFechaFin` int(11) NOT NULL,
+  `IdPeriodoAcademico` int(11) NOT NULL,
+  PRIMARY KEY (`IdUnidad`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=11 ;
+
+--
+-- Volcado de datos para la tabla `unidades`
+--
+
+INSERT INTO `unidades` (`IdUnidad`, `vUniDescripcion`, `iNroUnidad`, `dFechaInicio`, `dFechaFin`, `IdPeriodoAcademico`) VALUES
+(1, 'UNIDAD 1', 1, 1299042000, 1301893200, 1),
+(2, 'UNIDAD 2', 2, 1301979600, 1304485200, 1),
+(3, 'UNIDAD 3', 3, 1304571600, 1306990800, 1),
+(4, 'UNIDAD 4', 4, 1307077200, 1309928400, 1),
+(5, 'UNIDAD 5', 5, 1310014800, 1313038800, 1),
+(6, 'UNIDAD 6', 6, 1313211600, 1315198800, 1),
+(7, 'UNIDAD 7', 7, 1315285200, 1317877200, 1),
+(8, 'UNIDAD 8', 8, 1317963600, 1320814800, 1),
+(10, 'UNIDAD 9', 9, 1320901200, 1323406800, 1);
 
 -- --------------------------------------------------------
 

@@ -1,11 +1,12 @@
 <?php
 class Application_Model_Unidades extends Zend_Db_Table_Abstract{ 
-    public function existeUnidades(){
+    public function listarUnidades(){
         $periodoacademico = new Application_Model_PeriodoAcademico();
         $idperiodoactual = $periodoacademico->getPeriodoActualId();
         
         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        $stmt=$dbAdapter->query("SELECT *
+        $stmt=$dbAdapter->query("
+                                SELECT *
                                 FROM unidades
                                 WHERE IdPeriodoAcademico = ".$idperiodoactual);
 
@@ -52,7 +53,7 @@ class Application_Model_Unidades extends Zend_Db_Table_Abstract{
         }
     }
 
-    public function registrarUnidad($descripcion,$fechainicio,$fechafin){
+    public function registrarUnidad($descripcion,$fechainicio,$fechafin,$nro){
         $periodoacademico = new Application_Model_PeriodoAcademico();
         $idperiodoactual=$periodoacademico->getPeriodoActualId();
         
@@ -62,6 +63,14 @@ class Application_Model_Unidades extends Zend_Db_Table_Abstract{
                 'dFechaInicio'     =>  $fechainicio,
                 'dFechaFin'     =>  $fechafin,
                 'IdPeriodoAcademico'     =>  $idperiodoactual,
+                'iNroUnidad'     =>  $nro
                ));
     }
+
+    public function eliminarUnidad($idUnidad){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $dbAdapter->delete("unidades", "IdUnidad=".$idUnidad);
+    }
+    
+    
 }

@@ -716,8 +716,25 @@ class AdminController extends Zend_Controller_Action{
     public function agregarunidadAction(){
         $fechaini = $this->_request->fechaini;
         $fechafin = $this->_request->fechafin;
-            
-        $unidades = new Application_Model_Unidades();
-        $unidades->registrarUnidad("UNIDAD 1", $fechaini, $fechafin);
+        if($fechaini!=NULL && $fechafin !=NULL){
+            $unidades = new Application_Model_Unidades();
+        
+            $result = $unidades->listarUnidades();
+            $contUni = sizeof($result) + 1;
+        
+            $unidades->registrarUnidad("UNIDAD ".$contUni ,strtotime($fechaini), strtotime($fechafin),$contUni);
+        }
+        return $this->_redirect('/admin/editarunidades');
     }
+    
+    public function eliminarunidadAction(){
+         $idunidad = $this->_request->id;
+         
+         $unidades = new Application_Model_Unidades();
+         $result = $unidades->eliminarUnidad($idunidad);
+         
+         return $this->_redirect('/admin/editarunidades');
+     }
+     
+     
 }

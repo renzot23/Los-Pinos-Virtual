@@ -12,6 +12,7 @@
     
     $ultimaunidad=$unidades->getUltimaUnidadActualRegistrada();
     
+    $includes = new Application_Model_Includes();
     if($ultimaunidad==0){
        $finicio= "2011,2,1";
        $ffin= "2011,3,5";
@@ -19,7 +20,15 @@
     else{
         $idultimaunidad=$ultimaunidad[0]['id'];
         $datosultimaunidad = $unidades->getUnidad($idultimaunidad);
-        $finicio= $datosultimaunidad[0]['dFechaFin'];
+        
+        $dia=strftime("%e",$datosultimaunidad[0]['dFechaFin']) + 1;
+        $mes=strftime("%m",$datosultimaunidad[0]['dFechaFin']) - 1;
+        $anual=(int)strftime("%Y",$datosultimaunidad[0]['dFechaFin']);
+        
+        $finicio= $anual.','.$mes.','.$dia;
+        
+        $tomorrow = mktime(0,0,0,$mes,$dia+40,$anual);
+        $ffin=strftime("%Y",$tomorrow).','.strftime("%m",$tomorrow).','.strftime("%l",$tomorrow);
     }
         
     $script='
@@ -29,7 +38,8 @@
                     var dates = $( "#from, #to" ).datepicker({
                             minDate: new Date('.$finicio.'),
                             maxDate: new Date('.$ffin.'),
-                            "dateFormat": "yy-mm-dd",    
+                            defaultDate: new Date('.$finicio.'),
+                            "dateFormat": "mm/dd/yy",    
                             changeMonth: true,
                             numberOfMonths: 1,
                             onSelect: function( selectedDate ) {
@@ -100,7 +110,7 @@
         </ul>';
         $unidades = new Application_Model_Unidades();
         
-        $validaunidades=$unidades->existeUnidades();
+        $validaunidades=$unidades->listarUnidades();
         $contenido ='
             <div class="admin_section treinta">
                 <h4>Crear Unidad</h4>
@@ -144,7 +154,7 @@
                         </tr>';
         
        
-        $listaunidades = $unidades->existeUnidades();
+        $listaunidades = $unidades->listarUnidades();
         
         $cont=0;
         if($listaunidades==0){
@@ -161,46 +171,40 @@
                 else{
                     $contenido .= '<tr class="row_odd">';
                 }
+                $fechaini=strftime("%Y",$aux['dFechaInicio']).'/'.strftime("%m",$aux['dFechaInicio']).'/'.strftime("%d",$aux['dFechaInicio']);
+                $fechafin=strftime("%Y",$aux['dFechaFin']).'/'.strftime("%m",$aux['dFechaFin']).'/'.strftime("%d",$aux['dFechaFin']);
                 $contenido.='
                         <td>
                             <input type="checkbox" name="id[]" value="4">
+                        </td>
+                          <td>
+                            <center>'.$aux['IdUnidad'].'</center>
                         </td>
                         <td>
                             <center>'.$aux['vUniDescripcion'].'</center>
                         </td>
                         <td>
-                            <center>'.$aux['dFechaInicio'].'</center>
+                            <center>'.$fechaini.'</center>
                         </td>
                         <td>
-                            <center>'.$aux['dFechaFin'].'</center>
+                            <center>'.$fechafin.'</center>
                         </td>
                         <td>
-                            <center>
-                                <a href="">
-                                    <img src="/main/img/icons/22/edit.png" alt="Editar" title="Editar">
-                                </a>&nbsp';
+                            <center>';
 
-                                    if ($cont<sizeof($listaunidades)-1){
-                                        if($aux['vGradoDescripcion']==$listasecciones[$cont+1]['vGradoDescripcion']){
-                                            $contenido.='
-                                <a>
-                                    <img src="/main/img/icons/22/delete_na.png" alt="No Eliminar" title="No Puede Eliminarse">
-                                </a>';
-                                        }
-                                        else{
-                                            $contenido.='
-                                <a onclick="ActDelSeccion('.$aux['iSeccIdSeccion'].',\'nad\',event,\'del\');" href="/admin/eliminarseccion/?secc='.$aux['iSeccIdSeccion'].'">
-                                    <img src="/main/img/icons/22/delete.png" alt="Eliminar?" title="Eliminar?">
-                                </a>';
-                                        }
+                                if ($cont<sizeof($listaunidades)-1){
+                                    $contenido.='
+                                        <a>
+                                            <img src="/main/img/icons/22/delete_na.png" alt="No Eliminar" title="No Puede Eliminarse">
+                                        </a>';
                                     }
                                     else {
-                                        $contenido.='
-                                <a onclick="ActDelSeccion('.$aux['iSeccIdSeccion'].',\'nad\',event,\'del\');" href="/admin/eliminarseccion/?secc='.$aux['iSeccIdSeccion'].'">
-                                    <img src="/main/img/icons/22/delete.png" alt="Eliminar?" title="Eliminar?">
-                                </a>';
+                                    $contenido.='
+                                        <a href="eliminarunidad?id='.$aux['IdUnidad'].'">
+                                            <img src="/main/img/icons/22/delete.png" alt="Eliminar?" title="Eliminar?">
+                                        </a>';
 
-                            }
+                                }
 
                            $contenido.='
                             </center>     
