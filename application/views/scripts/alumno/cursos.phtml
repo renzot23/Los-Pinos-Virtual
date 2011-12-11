@@ -69,23 +69,20 @@
             $content.= '<div id="plugin-mycourses_main"></div>
                 <div class="userportal-course-item">
                     <div style="float:right;">
-                        <a id="document_preview_1_0" class="document_preview" href="javascript:void();">
+                        <a id="document_preview_1_0" class="document_preview">
                             <img align="absmiddle" src="/main/img/icons/22/folder.png" alt="Documentos" title="Documentos">
                         </a>
                         <div id="document_result_1_0" class="document_preview_container" style="display: none; ">
                         </div>
                     </div>
                     <div style="float: left; margin-right: 10px;">
-                        <a href="/courses/002/?id_session=0">
+                        <a href="detallecurso?idcurso='.$curso['iCursIdCursos'].'">
                             <img width="48px" src="/main/img/blackboard.png" alt="Curso" title="Curso">
                         </a>
                     </div>
                     <span class="userportal-course-item-title">
-                        <a href="'.$curso['iCursIdCursos'].'">'.$curso['vCursNombreCurso'].'</a>
+                        <a href="detallecurso?idcurso='.$curso['iCursIdCursos'].'">'.$curso['vCursNombreCurso'].'</a>
                     </span><br>'.$nombredocente.'&nbsp;
-                    <a href="/main/document/document.php?cidReq=002&amp;ref=204&amp;gidReq=0&amp;id_session=0">
-                        <img title="-- Documento -- Desde su última visita: visible (26/10/2011 23:23)." src="http://localhost:3001/chamilo/main/img/folder_document.gif" border="0" align="absbottom">
-                    </a>&nbsp;
                 </div>';
         }
         

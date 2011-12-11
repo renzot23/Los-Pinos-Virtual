@@ -35,4 +35,11 @@ class AlumnoController extends Zend_Controller_Action{
         $mysession = new Zend_Session_Namespace('sesion');                    
         $mysession->paginaActual = 'Mi Agenda';        
     }
+    public function detallecursoAction(){
+        $mysession = new Zend_Session_Namespace('sesion');                    
+        $mysession->paginaActual = 'Mis Cursos';  
+        $idcurso = $this->_request->idcurso;
+        $this->view->idcurso = $idcurso;
+    }
+    
 }
