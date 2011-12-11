@@ -267,7 +267,14 @@ class DocenteController extends Zend_Controller_Action{
     
     public function leccionesAction(){
         $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = (isset($this->_request->opt)?$this->_request->opt:0);
+        $idleccion = (isset($this->_request->idleccion)?$this->_request->idleccion:0);
+        
         $this->view->idcurso=$idcurso;
+        $this->view->idcurunidad=$idcurunidad;
+        $this->view->opt=$opt;
+        $this->view->idleccion=$idleccion;
     }
     
     public function agendaAction(){
@@ -353,4 +360,38 @@ class DocenteController extends Zend_Controller_Action{
         
     }
     
+    public function agregarleccionAction(){
+        $leccion = new Application_Model_Leccion();
+        
+        $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = $this->_request->opt;
+        $idleccionpadre = (isset($this->_request->idleccpadre)?$this->_request->idleccpadre:0);
+        
+        $nombreleccion = $this->getRequest()->getParam('txtnombreleccion');
+        $fechaexp = $this->getRequest()->getParam('fechaexp');
+        
+        //$postArray = &$_POST;
+        $postArray = $this->getRequest()->getParam('editor1');
+        
+        if(strcmp($opt, "add")==0){
+                $leccion->registrarLeccion($idcurunidad, $nombreleccion, htmlspecialchars($postArray), $idleccionpadre, strtotime($fechaexp));
+            }
+//        foreach ($postArray as $sForm => $value){
+//            if (get_magic_quotes_gpc()){
+//               $postedValue = htmlspecialchars(stripslashes($value)) ;
+//            }
+//            else{
+//               $postedValue = htmlspecialchars($value);
+//            }
+////            $postedValue=htmlentities(addslashes($postedValue));
+//            if(strcmp($opt, "add")==0){
+//                $leccion->registrarLeccion($idcurunidad, $nombreleccion, $postedValue, $idleccionpadre, strtotime($fechaexp));
+//            }
+//            
+//        }
+        
+        return $this->_redirect('docente/lecciones?idcurso='.$this->_request->idcurso.'&idcurunidad='.$idcurunidad);
+    
+    }
 }

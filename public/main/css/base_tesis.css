@@ -1985,7 +1985,7 @@ Document title
 	background:#efefef;
     border:1px solid #ccc; 
     margin-bottom: 5px;
-    height:32px;
+    /*height:32px;*/
     padding:2px;     
     vertical-align:middle;
 }

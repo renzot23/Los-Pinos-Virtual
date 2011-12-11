@@ -959,13 +959,13 @@ span.form_error {
 /* header cell in data table in tools */
 .centraTabla{
     text-align: center;
-    border: 1px solid #DDDDDD;
-    border-collapse: collapse;
 }
 
 .centraTabla table {
     margin: 0 auto;
     text-align: left;
+    border: 1px solid #DDDDDD;
+    border-collapse: collapse;
 }
 
 .data_table {

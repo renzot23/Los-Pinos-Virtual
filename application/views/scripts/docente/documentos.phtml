@@ -112,7 +112,7 @@
                     <span class="form_required">*</span>Nombre del Archivo
                 </div>
                 <div class="formw">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="90000000" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
                     &nbsp;&nbsp;&nbsp;<input type="text" name="txtnombre"/> 
                 </div>
             </div>
@@ -190,7 +190,15 @@
                     </center>
                 </td>
                 <td>
-                    <a href="/docente/documentos?idcurso=<?php echo $this->idcurso;?>&iddocpadre=<?php echo $iddocumento;?>" title="<?php echo $documento['vDocuTitulo'];?>">
+                    <?php
+                        if($documento['vDocuTipoDocumento']=="folder"){
+                            $href="/docente/documentos?idcurso=".$this->idcurso."&iddocpadre=".$iddocumento;
+                        }
+                        else{
+                            $href="/".$documento['tDocuRuta'];
+                        }
+                    ?>
+                    <a href="<?php echo $href;?>" title="<?php echo $documento['vDocuTitulo'];?>">
                         <?php echo $documento['vDocuTitulo'];?>
                     </a>
                     <a href="" style="float:right">

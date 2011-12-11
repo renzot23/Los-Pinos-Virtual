@@ -1,4 +1,5 @@
 <?php
+include_once "ckeditor/ckeditor.php";
  $this->titulopagina='Los Pinos - "Lecciones"';
     $html= new Application_Model_Html();
     $menu= new Application_Model_Menu();
@@ -10,6 +11,49 @@
     $paginaActual=$mysession->paginaActual ;
     $nombreUsuario=$mysession->usuario_nombre;
     $usuario_id=$mysession->usuario_id;
+    
+    $script = '
+        <script type="text/javascript" src="/main/inc/lib/javascript/jquery-ui/smoothness/jquery-ui-1.8.16.custom.min.js">
+        </script>
+        ';
+    
+    $opt=$this->opt;
+    
+    if(strcmp($opt,"add") == 0){
+        $unidades = new Application_Model_Unidades();
+        $unidad = $unidades->getUnidad($this->idcurunidad);
+
+        $diai=strftime("%e",$unidad[0]['dFechaInicio']) + 1;
+        $mesi=strftime("%m",$unidad[0]['dFechaInicio']) - 1;
+        $anuali=(int)strftime("%Y",$unidad[0]['dFechaInicio']);
+
+        $diaf=strftime("%e",$unidad[0]['dFechaFin']) + 1;
+        $mesf=strftime("%m",$unidad[0]['dFechaFin']) - 1;
+        $anualf=(int)strftime("%Y",$unidad[0]['dFechaFin']);
+
+        $finicio= $anuali.','.$mesi.','.$diai;
+        $ffin= $anualf.','.$mesf.','.$diaf;
+        
+        $script .= '<script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" > </script>
+        <script>
+        $(function() {
+                var dates = $( "#from" ).datepicker({
+                        minDate: new Date('.$finicio.'),
+                        maxDate: new Date('.$ffin.'),
+                        defaultDate: new Date('.$finicio.'),
+                        "dateFormat": "mm/dd/yy",    
+                        changeMonth: true,
+                        numberOfMonths: 1
+                });
+        });
+        </script>';
+    }
+    
+    $css='
+        <link rel="stylesheet" href="/main/inc/lib/javascript/jquery-ui/smoothness/jquery-ui-1.8.16.custom.css" type="text/css">
+        <link rel="stylesheet" href="/main/inc/lib/javascript/jquery-ui/default.css" type="text/css">';
+    $this->script=$script;
+    $this->css=$css;
     
     $urlFoto=$usuario->getFotobyIdUsuario($usuario_id);
     $h3 = '
@@ -61,7 +105,7 @@
                 </a>
             </li>
             <li>
-                <a href="/docente/lecciones?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb2">
+                <a href="/docente/lecciones?idcurso='.$this->idcurso.'&idcurunidad='.$this->idcurunidad.'" class="breadcrumb breadcrumb2">
                     <span>Lecciones</span>
                 </a>
             </li>
@@ -74,54 +118,118 @@
 <div id="main">
     <div id="submain">
         <div class="actions">
-            <a href="" title="Añadir lección">
-                <img src="/main/img/icons/32/add_learnpath_section.png" alt="Añadir lección" title="Añadir lección">
-            </a>
-            <img src="/main/img/i.gif" alt="i.gif" title="i.gif">
+            <h2>&nbsp;CURSO: <a style="vertical-align: top"><?php echo $infocurso[0]['vCursNombreCurso'];?></a></h2>
         </div>
         
         <table width="100%" cellpadding="0" cellspacing="0" class="lp_build">
             <tbody>
                 <tr style="vertical-align: top;">
-                    <td class="tree">
+                    <td class="tree" width="60px">
                         <div class="lp_tree">
                             <div class="dtree">
                                 <?php
                                 foreach($listaunidades as $unidad){
                                     ?>
                                 <div class="dTreeNode">
-                                    <a>
+                                    <a href="/docente/lecciones?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $unidad['IdCursosUnidades'];?>">
                                         <img id="im0" src="/main/img/icons/22/learnpath.png" alt="">
-                                        <?php echo $unidad['vUniDescripcion'].': '.$unidad['vNombreUnidad']; ?>
+                                        
+                                        <?php echo ($this->idcurunidad==$unidad['IdCursosUnidades']?'<b style="color:red">'.$unidad['vUniDescripcion'].': '.$unidad['vNombreUnidad'].'</b>': $unidad['vUniDescripcion'].': '.$unidad['vNombreUnidad']); ?>
                                     </a>
                                 </div>
                                 <?php
-                    }
-                    ?>
-                            <div id="dm0" style="display:block;">
-                                <div class="dTreeNode">
-                                    <img src="/main/img/joinbottom.gif" alt="">
-                                    <img id="im1" src="/main/img/lp_document.png" alt="">
-                                    <a id="sm1" class="nodeSel" href="">ListeningComprehension</a>
-                                </div>
-                            </div>
+                                    $lecciones = new Application_Model_Leccion();
+                                    $listalecciones = $lecciones->getLeccionesbyIdCursosUnidad($unidad['IdCursosUnidades']);
+                                    if(is_array($listalecciones)){
+                                        foreach($listalecciones as $leccion){
+                                            
+                                            ?>
+                                            <div id="dm0" style="display:block;">
+                                                <div class="dTreeNode">
+                                                    <img src="/main/img/joinbottom.gif" alt="">
+                                                    <img id="im1" src="/main/img/lp_document.png" alt="">
+                                                    <a id="sm1" class="nodeSel" href="/docente/lecciones?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $unidad['IdCursosUnidades'];?>&idleccion=<?php echo $leccion['iLeccIdLeccion'];?>">
+                                                        <?php echo $leccion['vLeccNombre'];?>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
                             </div>
                         </div>
-                        
                     </td>
                     <td class="workspace">
                         <!--<div class="normal-message">
                             Lección añadida
                         </div>-->
-                        <div class="normal-message">
-                            <p></p>
-                            <h2>Bienvenido a la herramienta de creación de lecciones!</h2><br>
-                            <a href="" title="Añadir lección">
-                                 <img style="vertical-align: middle;" src="/main/img/icons/22/add_learnpath_section.png" alt="Añadir lección" title="Añadir lección"> Añadir Lección
-                            </a>: Capítulo 1, Capítulo 2 o Semana 1, Semana 2, etc<br>
-                            <br><br>
-                            <p></p>
+                        <?php
+                        if ($this->idcurunidad==0){
+                        ?>
+                        <div class="normal-message" style="margin-left: 20px">
+                            <h2>Bienvenido a la herramienta de creación de lecciones!</h2>
+                            Primero debe de seleccionar una Unidad.
                         </div>
+                        <?php
+                        }
+                        else{
+                            $curunidad = $cursounidad->getunidadCurso($this->idcurunidad);
+                        ?>
+                            <div class="normal-message"  style="margin-left: 15px">
+                                <h2>Unidad: <?php echo $curunidad[0]['vNombreUnidad'];?></h2>
+                                
+                                <div class="actions">
+                                    <a href="/docente/lecciones?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&opt=add" title="Añadir lección">
+                                        <img src="/main/img/icons/32/add_learnpath_section.png" alt="Añadir lección" title="Añadir lección"> Añadir Lección
+                                    </a>
+                                </div>
+                                <?php
+                                    if(strcmp($this->idleccion,"0")!=0){
+                                        $infoleccion = $lecciones->getLeccionbyIdLeccion($this->idleccion);
+                                        ?>
+                                    <div class="actions" style="background: white; padding: 0 10px 0 10px">
+                                            <p>
+                                                <?php echo html_entity_decode($infoleccion[0]['tLeccMetaDatos']);?>
+                                            </p>
+                                    </div>
+                                        <?php
+                                    }
+                                    else {
+                                        ?>
+                                        <p>Seleccionar leccion</p>
+                                        <?php
+                                    }
+                                    
+                                    if(strcmp($this->opt,"add")==0){
+                                        ?>
+                                <form action="/docente/agregarleccion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&opt=add" method="post">
+                                    <p>
+                                        Titulo de la Leccion: <input type="text" name="txtnombreleccion"/><br/><br/>
+                                    <?php
+                                        //$result = $detcur->getDetalle($this->idcurso, $this->opt);
+                                        //$initialValue = ($result==0? "" : html_entity_decode($result[0]['tValor']));
+                                        $initialValue ="Escriba aquí el contenido de esta leccion";
+                                        $CKEditor = new CKEditor();
+                                        $CKEditor->basePath = '/ckeditor/';
+                                        $CKEditor->editor("editor1", ''.$initialValue);
+                                    ?><br/>
+                                        Fecha de Expiración: <input size="12" name="fechaexp" id="from" type="text"><br/>
+                                        <input type="submit" value="Grabar"/>
+                                        
+                                       
+                                        
+                                    </p>
+                                </form>
+                                        <?php
+                                    }
+                                ?>
+                                
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </td>
                 </tr>
             </tbody>

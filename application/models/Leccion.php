@@ -1,61 +1,58 @@
 <?php
-require_once(realpath(dirname(__FILE__)) . '/CursosLecciones.php');
-require_once(realpath(dirname(__FILE__)) . '/Archivo.php');
-require_once(realpath(dirname(__FILE__)) . '/Contenido.php');
-require_once(realpath(dirname(__FILE__)) . '/Examen.php');
+class Application_Model_Leccion extends Zend_Db_Table_Abstract{
+    protected $iLeccIdLeccion;
+    protected $iLecc_IdCursosUnidades;
+    protected $vLeccNombre;
+    protected $tLeccMetaDatos;
+    protected $iLeccIdLeccionPadre;
+    protected $iLeccFechaModificado;
+    protected $iLeccFechaExpiracion;
+    protected $cLeccEstado;
+    
+    public function getLeccionbyIdLeccion($idleccion){
+         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("
+                                SELECT *
+                                FROM lecciones
+                                WHERE iLeccIdLeccion = ".$idleccion);
+        $result = $stmt->fetchAll();
 
-/**
- * Guarda Información de las Clases
- */
-class Leccion {
-	private $idLeccion;
-	private $nombre;
-	private $estado;
-	private $metaDato;
-	private $fechaCreado;
-	/**
-	 * @AssociationType 
-	 * @AssociationMultiplicity 1..*
-	 */
-	public $unnamed_CursosLecciones_ = array();
-	/**
-	 * @AssociationType Archivo
-	 */
-	private $unnamed_Archivo_;
-	/**
-	 * @AssociationType Contenido
-	 * @AssociationMultiplicity 1..*
-	 */
-	private $unnamed_Contenido_ = array();
-	/**
-	 * @AssociationType Examen
-	 * @AssociationMultiplicity 1..*
-	 */
-	private $unnamed_Examen_ = array();
+        if(sizeof($result)>0){
+            return $result;
+        }
+        else{
+            return "0";   
+        } 
+    }
+    
+    public function getLeccionesbyIdCursosUnidad($idcurunidad){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("
+                                SELECT *
+                                FROM lecciones
+                                WHERE iLecc_IdCursosUnidades = ".$idcurunidad);
+        $result = $stmt->fetchAll();
 
-	private $cn;
-	public function __construct()
-	{
-		$this->cn = new Db();
-	}	
-	
-	public function setLeccion() {
-		// Not yet implemented
-	}
+        if(sizeof($result)>0){
+            return $result;
+        }
+        else{
+            return "0";   
+        } 
+    }
 
-	public function getLeccion() {
-		// Not yet implemented
-	}
-
-	public function ModificarLeccion() {
-		// Not yet implemented
-	}
-
-	/**
-	 * Archivo
-	 */
-	public function eliminarLecciones() {
-		// Not yet implemented
-	}
+    public function registrarLeccion($idcurunidad,$nombreleccion,$datosleccion,$idleccpadre,$iLeccFechaExpiracion){
+         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+         $dbAdapter->insert("lecciones", array(
+                'iLecc_IdCursosUnidades'     =>  $idcurunidad,
+                'vLeccNombre'     =>  $nombreleccion,
+                'tLeccMetaDatos'     =>  $datosleccion,
+                'iLeccIdLeccionPadre' =>  $idleccpadre,
+                'iLeccFechaCreacion' =>  time(),
+                'iLeccFechaModificado' =>  time(),
+                'iLeccFechaExpiracion' =>  $iLeccFechaExpiracion,
+                'cLeccEstado' =>  "A"
+            ));
+    }
 }
 ?>
