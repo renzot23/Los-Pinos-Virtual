@@ -53,7 +53,8 @@ class Application_Model_Seccion {
             $idperiodoacademicoactual=$periodoacademico->getPeriodoActualId();
   
             $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-            $stmt=$dbAdapter->query("Select sec.iSeccIdSeccion, sec.vSeccDescripcion, sec.Grado_iGradoIdGrado , gr.vGradoDescripcion 
+            $stmt=$dbAdapter->query("
+                            Select sec.iSeccIdSeccion, sec.vSeccDescripcion, sec.Grado_iGradoIdGrado , gr.vGradoDescripcion 
                             from seccion sec inner join grado gr on sec.Grado_iGradoIdGrado=gr.iGradoIdGrado 
                             inner join periodoacademico pera on gr.PeriodoAcademico_iPerAcaIdPeriodoAcademico=pera.iPerAcaIdPeriodoAcademico 
                             where pera.iPerAcaIdPeriodoAcademico='".$idperiodoacademicoactual."' and gr.tiGradoEstado='A' and sec.Grado_iGradoIdGrado ='".$idGrado."' order by sec.Grado_iGradoIdGrado, gr.vGradoDescripcion");
@@ -311,6 +312,23 @@ class Application_Model_Seccion {
                         $cursosusuarios->setCursoUsuario($idalumnousuario, $idcurso);
                     }
                 }
+            }
+        }
+        
+        public function getSeccionbyIdSeccion($idseccion){
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $stmt=$dbAdapter->query("
+                SELECT *
+                FROM seccion secc
+                INNER JOIN grado gr on secc.Grado_iGradoIdGrado=gr.iGradoIdGrado
+                WHERE secc.iSeccIdSeccion = ".$idseccion);
+             
+            $result = $stmt->fetchAll();
+            
+            if(sizeof($result)>0){
+                return $result;
+            }else{
+                return "0";   
             }
         }
         

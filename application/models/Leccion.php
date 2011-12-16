@@ -10,7 +10,7 @@ class Application_Model_Leccion extends Zend_Db_Table_Abstract{
     protected $cLeccEstado;
     
     public function getLeccionbyIdLeccion($idleccion){
-         $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
         $stmt=$dbAdapter->query("
                                 SELECT *
                                 FROM lecciones

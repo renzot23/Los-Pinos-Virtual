@@ -1,0 +1,720 @@
+<?php
+ $this->titulopagina='Los Pinos - "Evaluaciones"';
+    $html= new Application_Model_Html();
+    $menu= new Application_Model_Menu();
+    $usuario= new Application_Model_Usuario();
+    $includes = new Application_Model_Includes();
+    $cursounidades = new Application_Model_CursoUnidad();
+    $evaluaciones = new Application_Model_Evaluaciones();
+    $preguntasevaluacion = new Application_Model_PreguntasEvaluacion();
+    
+    $mysession = new Zend_Session_Namespace('sesion');                    
+    $paginaActual=$mysession->paginaActual ;
+    $nombreUsuario=$mysession->usuario_nombre;
+    $usuario_id=$mysession->usuario_id;
+    
+    $script = '
+        <script type="text/javascript" src="/js/jquery-ui/jquery-ui-1.8.16.custom.min.js">
+        </script>
+        <script>
+	$(function() {
+		$( "#accordion" ).accordion({
+			collapsible: true,
+                        active: -1
+		});
+	});
+	</script>
+        ';
+    
+    $css='
+        <link rel="stylesheet" href="/js/jquery-ui/jquery-ui-1.8.16.custom.css" type="text/css">';
+    $this->script=$script;
+    $this->css=$css;
+    
+    $urlFoto=$usuario->getFotobyIdUsuario($usuario_id);
+    $h3 = '
+        <ul id="logout">
+            <li>
+                <a href="/admin/logout/" target="_top">
+                    <span>Cerrar Sesión de '.$nombreUsuario.'</span>
+                </a>
+            </li>
+        </ul>';
+ 
+    $tipo = $mysession->tipo_usuario;
+    $result = $menu->getMenu($tipo);
+    
+    $h3 .= '<ul>'; 
+    foreach ($result as $aux) {
+       if ($paginaActual==$aux['Descripcion']){
+           $h3.='<li id="current">';
+       }
+       else {
+           $h3.='<li>';
+       }
+       
+       $h3.='
+           <a href="'.$aux['url'].'" target="_top">
+                    <span id="tab_active">'.$aux['Descripcion'].'</span>
+                </a>
+            </li>';
+    }
+    $h3 .= '</ul>';
+    
+    $curso = new Application_Model_Cursos();
+    $infocurso = $curso->getInfoCurso($this->idcurso);
+    $evaluacion = $evaluaciones->getEvaluacionbyIdEvaluacion($this->ideval); 
+    
+    $h4='<ul class="bread">
+             <li>
+                <a class="home" href="/">
+                    <img align="middle" src="/main/css/home.png" alt="Página principal" title="Página principal">
+                </a>
+            </li>
+            <li>
+                <a href="/docente/cursos" class="breadcrumb breadcrumb0" target="_top">
+                    <span>Cursos</span>
+                </a>
+            </li>
+            <li>
+                <a href="/docente/detallecurso?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb1" target="_top">
+                    <span>'.$infocurso[0]['vCursNombreCurso'].'</span>
+                </a>
+            </li>
+            <li>
+                <a href="/docente/evaluaciones?idcurso='.$this->idcurso.'&idcurunidad='.$this->idcurunidad.'" class="breadcrumb breadcrumb2">
+                    <span>Evaluaciones</span>
+                </a>
+            </li>
+            <li>
+                <a href="/docente/editarevaluacion?idcurso='.$this->idcurso.'&idcurunidad='.$this->idcurunidad.'&ideval='.$this->ideval.'&opt=edit&acc=ver" class="breadcrumb breadcrumb3">
+                    <span>'.$evaluacion[0]['iEvaDescripcion'].'</span>
+                </a>
+            </li>
+        </ul>';
+        
+    print $html->crearCabecera(null, null, null, $h3, $h4) ;
+?>
+<div id="main">
+    <div id="submain">
+       
+        <?php
+            if(strcmp($this->acc, "ver")==0){
+        ?>
+         <div class="actions">
+            <a href="">
+                <img src="/main/img/icons/32/preview_view.png" alt="Vista preliminar" title="Vista preliminar">
+            </a>
+            <a href="">
+                <img src="/main/img/icons/32/test_results.png" alt="Resultados" title="Resultados">
+            </a>
+            <a href="">
+                <img src="/main/img/icons/32/settings.png" alt="Modificar ejercicio" title="Modificar ejercicio">
+            </a>
+        </div>
+        <div class="actionsbig">
+            <ul class="question_menu">
+                <li>
+                    <div class="icon_image_content">
+                        <a href="/docente/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $this->ideval;?>&opt=edit&acc=uni">
+                            <img src="/main/img/mcua.gif" alt="Respuesta única" title="Respuesta única">
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon_image_content">
+                        <a href="/docente/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $this->ideval;?>&opt=edit&acc=mul">
+                            <img src="/main/img/mcma.gif" alt="Respuesta múltiple" title="Respuesta múltiple">
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon_image_content">
+                        <a href="/docente/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $this->ideval;?>&opt=edit&acc=abi">
+                            <img src="/main/img/open_answer.gif" alt="Respuesta abierta" title="Respuesta abierta">
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon_image_content">
+                        <a href="/docente/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $this->ideval;?>&opt=edit&acc=exa">
+                            <img src="/main/img/mcmac.gif" alt="Combinación exacta" title="Combinación exacta">
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon_image_content">
+                        <a href="/docente/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $this->ideval;?>&opt=edit&acc=ban">
+                            <img src="/main/img/database.png" alt="Banco de preguntas" title="Banco de preguntas">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <?php
+            }
+        ?>
+        <div style="clear:both;">
+            <div id="message"></div>
+        </div>
+        <?php
+            switch($this->acc){
+                case 'ver':
+                    $listapreguntas = $preguntasevaluacion->getPreguntasEvaluacionbyIdEvaluacion($this->ideval);
+                    if(is_array($listapreguntas)){
+                        ?>
+                    <div id="accordion">    
+                        <?php
+                        foreach($listapreguntas as $pregunta){
+                            ?>
+                    
+                        <h3><a style="display: inline" href="#"><?php echo $pregunta['tPreEvaPregunta'];?></a>
+                            <a style="display: inline; padding-left: 0;" href=""><img height="15px" src="/main/img/icons/22/edit.png" alt="Modificar" title="Modificar"></a>
+                            <a style="display: inline; padding-left: 0;" href=""><img height="15px" src="/main/img/icons/22/delete.png" alt="Eliminar" title="Eliminar"></a>
+                        </h3>
+                        
+                        <div>
+                            <?php
+                            switch ($pregunta['cPreEvaTipoPregunta']) {
+                                case 'UNI':
+                                    $tipopre="Respuesta única";
+                                    $rpta = "iPreEvaRpta".$pregunta['iPreEvaRptaCorrecta'];
+                                    ?>
+                            <span style="position: absolute;right: 10px;">Tipo de Pregunta: <b><?php echo $tipopre;?></b></span>
+                            <table>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="radio"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta1'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="radio"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta2'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="radio"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta3'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="radio"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta4'];?></td>                                        
+                                </tr>
+                            </table>
+                            <div style="float:right;">Rpta: <b><?php echo $pregunta[$rpta];?></b></div>
+                                    <?php
+                                    break;
+                                case 'MUL':
+                                    $tipopre="Respuesta Múltiple";
+                                    $rpta="";
+                                    $sCadena = $pregunta['iPreEvaRptaCorrecta'];
+                                    if(strcmp($sCadena[0], "1")==0){
+                                        $rpta .= $pregunta['iPreEvaRpta1'];
+                                    }
+                                    if(strcmp($sCadena[1], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta2'];
+                                        else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta2'];
+                                    }
+                                    if(strcmp($sCadena[2], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta3'];
+                                         else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta3'];
+                                    }
+                                    if(strcmp($sCadena[3], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta4'];
+                                         else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta4'];
+                                    }
+                                    
+                                    ?>
+                            <span style="position: absolute;right: 10px;">Tipo de Pregunta: <b><?php echo $tipopre;?></b></span>
+                            <table>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta1'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta2'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta3'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta4'];?></td>                                        
+                                </tr>
+                            </table>
+                            <div style="float:right;">Rpta: <b><?php echo $rpta;?></b></div>
+                                    <?php
+                                    break;
+                              case 'ABI':
+                                    $tipopre="Respuesta Abierta";                                    
+                                    ?>
+                                    <span style="position: absolute;right: 10px;">Tipo de Pregunta: <b><?php echo $tipopre;?></b></span>
+                                    <table>
+                                        <tr>
+                                            <td><textarea cols="70" rows="3"></textarea></td>                                        
+                                        </tr>
+                                    </table>
+                                    <?php
+                                    break;
+                                case 'EXA':
+                                    $tipopre="Respuesta Exacta";
+                                    $rpta="";
+                                    $sCadena = $pregunta['iPreEvaRptaCorrecta'];
+                                    if(strcmp($sCadena[0], "1")==0){
+                                        $rpta .= $pregunta['iPreEvaRpta1'];
+                                    }
+                                    if(strcmp($sCadena[1], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta2'];
+                                        else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta2'];
+                                    }
+                                    if(strcmp($sCadena[2], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta3'];
+                                         else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta3'];
+                                    }
+                                    if(strcmp($sCadena[3], "1")==0){
+                                        if($rpta == "")
+                                            $rpta .= $pregunta['iPreEvaRpta4'];
+                                         else
+                                             $rpta .=' y '. $pregunta['iPreEvaRpta4'];
+                                    }
+                                    
+                                    ?>
+                            <span style="position: absolute;right: 10px;">Tipo de Pregunta: <b><?php echo $tipopre;?></b></span>
+                            <table>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta1'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta2'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta3'];?></td>                                        
+                                </tr>
+                                <tr>
+                                    <td><input name="<?php echo $pregunta['iPreEva_IdPreguntaEvaluacion'];?>" type="checkbox"></td>
+                                    <td><?php echo $pregunta['iPreEvaRpta4'];?></td>                                        
+                                </tr>
+                            </table>
+                            <div style="float:right;">Rpta: <b><?php echo $rpta;?></b></div>
+                                    <?php
+                                    break;
+                               
+                            }
+                            
+                            ?>
+                            
+                        </div>
+                   
+                        <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                    }
+                    else{
+                    ?>
+                    <div class="warning-message">
+                        Actualmente no hay preguntas
+                    </div>
+                    <?php
+                    }
+                    break;
+                case 'uni':
+                    ?>
+                    <form action="/docente/agregarpregunta?idcurso=<?php echo $this->idcurso; ?>&idcurunidad=<?php echo $this->idcurunidad; ?>&ideval=<?php echo $this->ideval; ?>&opt=add&acc=uni" method="post">
+                        <div class="row">
+                            <div class="form_header">Añadir pregunta: Respuesta única</div>
+                        </div>
+                        <div class="form">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="form_required">*</span> Pregunta
+                                </div>
+                                <div class="formw">
+                                    <input size="80" name="questionName" type="text">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="label">
+                                Respuestas <br>
+                                <img src="/main/img/fill_field.png">
+                            </div>
+                            <div class="formw">
+                                <table class="data_table">
+                                    <tbody>
+                                        <tr style="text-align: center;">
+                                            <th width="10px">
+                                               Nº
+                                            </th>
+                                            <th width="10px">
+                                               Verdadero
+                                            </th>
+                                            <th width="auto">
+                                                Respuesta
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    1<input type="hidden" name="txtnro1" value="1">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct" value="1" type="radio">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input type="text" name="txtrespuesta1" size="70">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    2<input type="hidden" name="txtnro2" value="2">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct" value="2" type="radio">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input type="text" name="txtrespuesta2" size="70">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    3<input type="hidden" name="txtnro3" value="3">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct" value="3" type="radio">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input type="text" name="txtrespuesta3" size="70">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    4<input type="hidden" name="txtnro4" value="4">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct" value="4" type="radio">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input type="text" name="txtrespuesta4" size="70">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="add" name="submitQuestion" type="submit">Añadir pregunta</button>
+                            </div>
+                        </div>
+                        <div class="clear">
+                                &nbsp;
+                        </div>
+                    </form>
+                    <?php
+                    break;
+                case 'mul':
+                    ?>
+                    <form action="/docente/agregarpregunta?idcurso=<?php echo $this->idcurso; ?>&idcurunidad=<?php echo $this->idcurunidad; ?>&ideval=<?php echo $this->ideval; ?>&opt=add&acc=mul" method="post">
+                        <div class="row">
+                            <div class="form_header">Añadir pregunta: Respuesta Múltiple</div>
+                        </div>
+                        <div class="form">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="form_required">*</span> Pregunta
+                                </div>
+                                <div class="formw">
+                                    <input size="80" name="questionName" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="label">
+                                Respuestas <br>
+                                <img src="/main/img/fill_field.png">
+                            </div>
+                            <div class="formw">
+                                <table class="data_table">
+                                    <tbody>
+                                        <tr style="text-align: center;">
+                                            <th width="10px">
+                                               Nº
+                                            </th>
+                                            <th width="10px">
+                                               Verdadero
+                                            </th>
+                                            <th>
+                                                Respuesta
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    1<input type="hidden" name="txtnro1" value="1">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct1" value="1" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta1">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    2<input type="hidden" name="txtnro2" value="2">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct2" value="2" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta2">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    3<input type="hidden" name="txtnro3" value="3">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct3" value="3" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta3">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    4<input type="hidden" name="txtnro4" value="4">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct4" value="4" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta4">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="add" name="submitQuestion" type="submit">Añadir pregunta</button>
+                            </div>
+                        </div>
+                        <div class="clear">
+                                &nbsp;
+                        </div>
+                    </form>
+                    <?php
+                    break;
+                case 'abi':
+                    ?>
+                    <form action="/docente/agregarpregunta?idcurso=<?php echo $this->idcurso; ?>&idcurunidad=<?php echo $this->idcurunidad; ?>&ideval=<?php echo $this->ideval; ?>&opt=add&acc=abi" method="post">
+                        <div class="row">
+                            <div class="form_header">Añadir pregunta: Respuesta Abierta</div>
+                        </div>
+                        <div class="form">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="form_required">*</span> Pregunta
+                                </div>
+                                <div class="formw">
+                                    <input size="80" name="questionName" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="label">
+                                &nbsp;
+                            </div>
+                            <div class="formw">
+                                <button class="add" name="submitQuestion" type="submit">Añadir pregunta</button>
+                            </div>
+                        </div>
+                        <div class="clear">
+                                &nbsp;
+                        </div>
+                    </form>
+                    <?php
+                    break;
+               case 'exa':
+                    ?>
+                    <form action="/docente/agregarpregunta?idcurso=<?php echo $this->idcurso; ?>&idcurunidad=<?php echo $this->idcurunidad; ?>&ideval=<?php echo $this->ideval; ?>&opt=add&acc=exa" method="post">
+                        <div class="row">
+                            <div class="form_header">Añadir pregunta: Respuesta Múltiple</div>
+                        </div>
+                        <div class="form">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="form_required">*</span> Pregunta
+                                </div>
+                                <div class="formw">
+                                    <input size="80" name="questionName" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="label">
+                                Respuestas <br>
+                                <img src="/main/img/fill_field.png">
+                            </div>
+                            <div class="formw">
+                                <table class="data_table">
+                                    <tbody>
+                                        <tr style="text-align: center;">
+                                            <th width="10px">
+                                               Nº
+                                            </th>
+                                            <th width="10px">
+                                               Verdadero
+                                            </th>
+                                            <th>
+                                                Respuesta
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    1<input type="hidden" name="txtnro1" value="1">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct1" value="1" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta1">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    2<input type="hidden" name="txtnro2" value="2">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct2" value="2" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta2">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    3<input type="hidden" name="txtnro3" value="3">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct3" value="3" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta3">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <center>
+                                                    4<input type="hidden" name="txtnro4" value="4">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input class="checkbox" style="margin-left: 0em;" name="correct4" value="4" type="checkbox">
+                                                </center>
+                                            </td>
+                                            <td>
+                                                <center>
+                                                    <input size="70" type="text" name="txtrespuesta4">
+                                                </center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="add" name="submitQuestion" type="submit">Añadir pregunta</button>
+                            </div>
+                        </div>
+                        <div class="clear">
+                                &nbsp;
+                        </div>
+                    </form>
+                    <?php
+                    break;
+                case 'ban':
+                    break;
+            }
+        ?>
+        
+        
+    </div>
+    
+</div>

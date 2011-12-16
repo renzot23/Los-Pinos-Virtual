@@ -377,21 +377,140 @@ class DocenteController extends Zend_Controller_Action{
         if(strcmp($opt, "add")==0){
                 $leccion->registrarLeccion($idcurunidad, $nombreleccion, htmlspecialchars($postArray), $idleccionpadre, strtotime($fechaexp));
             }
-//        foreach ($postArray as $sForm => $value){
-//            if (get_magic_quotes_gpc()){
-//               $postedValue = htmlspecialchars(stripslashes($value)) ;
-//            }
-//            else{
-//               $postedValue = htmlspecialchars($value);
-//            }
-////            $postedValue=htmlentities(addslashes($postedValue));
-//            if(strcmp($opt, "add")==0){
-//                $leccion->registrarLeccion($idcurunidad, $nombreleccion, $postedValue, $idleccionpadre, strtotime($fechaexp));
-//            }
-//            
-//        }
         
         return $this->_redirect('docente/lecciones?idcurso='.$this->_request->idcurso.'&idcurunidad='.$idcurunidad);
     
+    }
+
+    public function evaluacionesAction(){
+        $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = (isset($this->_request->opt)?$this->_request->opt:0);
+        $ideval = (isset($this->_request->ideval)?$this->_request->ideval:0);
+        
+        $this->view->idcurso=$idcurso;
+        $this->view->idcurunidad=$idcurunidad;
+        $this->view->opt=$opt;
+        $this->view->ideval=$ideval;
+    }
+    
+    public function agregarevaluacionAction(){
+        $_evaluaciones = new Application_Model_Evaluaciones();
+        
+        $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = $this->_request->opt;
+        
+        $titulo = $this->getRequest()->getParam('txttitulo');
+        $notaminima = $this->getRequest()->getParam('txtnotamin');
+        $fechaexa = $this->getRequest()->getParam('fechaex');
+        
+        if(strcmp($opt, "add")==0){
+            $_evaluaciones->registrarEvaluacion($idcurunidad, $titulo, $notaminima, strtotime($fechaexa));
+        }
+        
+        return $this->_redirect('docente/evaluaciones?idcurso='.$this->_request->idcurso.'&idcurunidad='.$idcurunidad);
+    }
+    
+    public function editarevaluacionAction(){
+        $mysession = new Zend_Session_Namespace('sesion');
+        $mysession->paginaActual = 'Mis Cursos';
+        
+        $idcurso = $this->_request->idcurso;
+        $ideval = $this->_request->ideval;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = $this->_request->opt;
+        $acc = $this->_request->acc;
+        
+        $this->view->idcurso=$idcurso;
+        $this->view->ideval=$ideval;
+        $this->view->idcurunidad=$idcurunidad;
+        $this->view->opt=$opt;
+        $this->view->acc=$acc;
+    }
+
+    public function agregarpreguntaAction(){
+        $preguntasevaluacion = new Application_Model_PreguntasEvaluacion();
+        
+        $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $ideval = $this->_request->ideval;
+        $opt = $this->_request->opt;
+        $acc = $this->_request->acc;
+        
+        if(strcmp($acc, "uni")==0){
+            $pregunta = $this->getRequest()->getParam('questionName');
+            $rpta1 = $this->getRequest()->getParam('txtrespuesta1');
+            $rpta2 = $this->getRequest()->getParam('txtrespuesta2');
+            $rpta3 = $this->getRequest()->getParam('txtrespuesta3');
+            $rpta4 = $this->getRequest()->getParam('txtrespuesta4');
+            $rptacorrecta = $this->getRequest()->getParam('correct');
+            $preguntasevaluacion->registrarPreguntaEvaluacion($ideval, $pregunta, "UNI", $rpta1, $rpta2, $rpta3, $rpta4, $rptacorrecta);
+        }
+        else if(strcmp($acc, "mul")==0){
+            $pregunta = $this->getRequest()->getParam('questionName');
+            $rpta1 = $this->getRequest()->getParam('txtrespuesta1');
+            $rpta2 = $this->getRequest()->getParam('txtrespuesta2');
+            $rpta3 = $this->getRequest()->getParam('txtrespuesta3');
+            $rpta4 = $this->getRequest()->getParam('txtrespuesta4');
+            $rptas = ($this->getRequest()->getParam('correct1')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct2')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct3')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct4')?"1":"0");
+            $preguntasevaluacion->registrarPreguntaEvaluacion($ideval, $pregunta, "MUL", $rpta1, $rpta2, $rpta3, $rpta4, $rptas);
+        }
+         else if(strcmp($acc, "abi")==0){
+            $pregunta = $this->getRequest()->getParam('questionName');
+            $preguntasevaluacion->registrarPreguntaEvaluacion($ideval, $pregunta, "ABI", NULL, NULL, NULL, NULL, 0);
+        }
+         else if(strcmp($acc, "exa")==0){
+            $pregunta = $this->getRequest()->getParam('questionName');
+            $rpta1 = $this->getRequest()->getParam('txtrespuesta1');
+            $rpta2 = $this->getRequest()->getParam('txtrespuesta2');
+            $rpta3 = $this->getRequest()->getParam('txtrespuesta3');
+            $rpta4 = $this->getRequest()->getParam('txtrespuesta4');
+            $rptas = ($this->getRequest()->getParam('correct1')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct2')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct3')?"1":"0");
+            $rptas .= ($this->getRequest()->getParam('correct4')?"1":"0");
+            $preguntasevaluacion->registrarPreguntaEvaluacion($ideval, $pregunta, "EXA", $rpta1, $rpta2, $rpta3, $rpta4, $rptas);
+        }
+        
+        return $this->_redirect('docente/editarevaluacion?idcurso='.$this->_request->idcurso.'&idcurunidad='.$idcurunidad.'&ideval='.$ideval.'&opt=edit&acc=ver');
+    
+    }
+
+    public function glosarioAction(){
+        $idcurso = $this->_request->idcurso;
+        $opt = (isset($this->_request->opt)?$this->_request->opt:"0");
+        
+        $this->view->idcurso=$idcurso;
+        $this->view->opt=$opt;
+    }
+    
+    public function editarterminoAction(){
+        $glosario = new Application_Model_Glosario();
+        
+        $idcurso = $this->_request->idcurso;
+        $opt = $this->_request->opt;
+        
+        $termino = $this->getRequest()->getParam('txttermino');
+        $definicion = $this->getRequest()->getParam('txtdefinicion');
+               
+        if(strcmp($opt, "add")==0){
+                $glosario->registrarPreguntaEvaluacion($idcurso, $termino, $definicion);
+            }
+        
+        return $this->_redirect('docente/glosario?idcurso='.$this->_request->idcurso);
+   }
+
+    public function ejerciciosAction(){
+        $idcurso = $this->_request->idcurso;
+        $idcurunidad = $this->_request->idcurunidad;
+        $opt = (isset($this->_request->opt)?$this->_request->opt:0);
+        
+        $this->view->idcurso=$idcurso;
+        $this->view->idcurunidad=$idcurunidad;
+        $this->view->opt=$opt;
     }
 }

@@ -46,5 +46,22 @@ class Application_Model_Apoderado extends Zend_Db_Table_Abstract{
                 return NULL;
             }
         } 
+
+    public function getApoderadobyIdUsuario($idusuario){
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $stmt=$dbAdapter->query("
+                        SELECT * 
+                        FROM usuarios usu
+                        INNER JOIN apoderados apo ON apo.Usuarios_iUsuIdUsuario = usu.iUsuIdUsuario
+                        WHERE usu.iUsuIdUsuario = ".$idusuario);
+        
+        $result = $stmt->fetchAll();
+
+        if(sizeof($result)>0){
+            return $result;
+        }else{
+            return "0";   
+        }
+    }    
 }
 ?>

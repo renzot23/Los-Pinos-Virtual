@@ -4,7 +4,7 @@ class ApoderadoController extends Zend_Controller_Action{
     public function init(){  
         $this->verificarInactividad();
         $mysession = new Zend_Session_Namespace('sesion');
-        $mysession->setExpirationSeconds(60*3,'actividad');
+        $mysession->setExpirationSeconds(60*10,'actividad');
         /* Initialize action controller here */
         
     } 
@@ -15,7 +15,6 @@ class ApoderadoController extends Zend_Controller_Action{
             return $this->_redirect('/');
         }
     }
-    
     public function principalAction(){
         $mysession = new Zend_Session_Namespace('sesion');                    
         $mysession->paginaActual = 'Pagina Principal';

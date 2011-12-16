@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-12-2011 a las 12:13:23
+-- Tiempo de generación: 16-12-2011 a las 10:19:10
 -- Versión del servidor: 5.1.58
 -- Versión de PHP: 5.3.6-13ubuntu3.2
 
@@ -66,18 +66,17 @@ CREATE TABLE IF NOT EXISTS `agenda` (
   `Usuarios_iUsuIdUsuario` int(11) NOT NULL,
   `Cursos_iCursIdCursos` int(11) NOT NULL,
   PRIMARY KEY (`iAgeIdAgenda`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Volcado de datos para la tabla `agenda`
 --
 
 INSERT INTO `agenda` (`iAgeIdAgenda`, `tAgeFechaInicio`, `tAgeFechaFin`, `iAgeVisibleDocente`, `iAgeVisibleAlumno`, `iAgeVisibleApoderado`, `tAgeTitulo`, `tAgeContenido`, `tAgeUrlAcceso`, `Usuarios_iUsuIdUsuario`, `Cursos_iCursIdCursos`) VALUES
-(1, 1323234000, 1323234000, 0, 0, 0, 'HOAL', 'contenido', 0, 2, 0),
-(5, 1323147600, 1323147600, 0, 0, 0, 'HOAL', 'contenido', 0, 2, 2),
-(7, 1325307600, 1325307600, 0, 0, 0, 'TELLO SONSO', 'contenido', 0, 2, 2),
-(8, 1324443600, 1324443600, 0, 0, 0, 'TEMAS', 'contenido', 0, 2, 2),
-(10, 1320123600, 1320123600, 0, 0, 0, 'salida', 'contenido', 0, 2, 2);
+(10, 1320123600, 1320123600, 0, 0, 0, 'salida', 'contenido', 0, 2, 2),
+(12, 1325307600, 1325307600, 0, 0, 0, 'Actuacion', 'contenido', 0, 2, 2),
+(13, 1323234000, 1323234000, 0, 0, 0, 'EXAMEN', 'contenido', 0, 2, 2),
+(14, 1324443600, 1324443600, 0, 0, 0, 'RECUPERACION', 'contenido', 0, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -542,7 +541,7 @@ CREATE TABLE IF NOT EXISTS `cursos_unidades` (
   PRIMARY KEY (`IdCursosUnidades`),
   KEY `fk_Cursos_has_Lecciones_Lecciones1` (`Unidades_IdUnidad`),
   KEY `fk_Cursos_has_Lecciones_Cursos1` (`Cursos_iCursIdCursos`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `cursos_unidades`
@@ -566,7 +565,16 @@ INSERT INTO `cursos_unidades` (`IdCursosUnidades`, `Cursos_iCursIdCursos`, `Unid
 (15, 4, 6, 'UNIDAD 6', 'A'),
 (16, 4, 7, 'UNIDAD 7', 'A'),
 (17, 4, 8, 'UNIDAD 8', 'A'),
-(18, 4, 10, 'UNIDAD 9', 'A');
+(18, 4, 10, 'UNIDAD 9', 'A'),
+(19, 6, 1, 'UNIDAD 1', 'A'),
+(20, 6, 2, 'UNIDAD 2', 'A'),
+(21, 6, 3, 'UNIDAD 3', 'A'),
+(22, 6, 4, 'UNIDAD 4', 'A'),
+(23, 6, 5, 'UNIDAD 5', 'A'),
+(24, 6, 6, 'UNIDAD 6', 'A'),
+(25, 6, 7, 'UNIDAD 7', 'A'),
+(26, 6, 8, 'UNIDAD 8', 'A'),
+(27, 6, 10, 'UNIDAD 9', 'A');
 
 -- --------------------------------------------------------
 
@@ -580,13 +588,6 @@ CREATE TABLE IF NOT EXISTS `detallecurso` (
   `tValor` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   KEY `Cursos_iCursIdCursos` (`Cursos_iCursIdCursos`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `detallecurso`
---
-
-INSERT INTO `detallecurso` (`Cursos_iCursIdCursos`, `vDescripcion`, `tValor`) VALUES
-(3, 'obj', '&lt;p&gt;\r\n	&lt;img alt=&quot;heart&quot; height=&quot;20&quot; src=&quot;http://primer-proyecto.local/ckeditor/plugins/smiley/images/heart.gif&quot; title=&quot;heart&quot; width=&quot;20&quot; /&gt;vinces&lt;/p&gt;\r\n');
 
 -- --------------------------------------------------------
 
@@ -646,7 +647,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `iDocuFechaModificado` int(10) DEFAULT NULL,
   `cDocuEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`iDocuIdDocumento`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=24 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=29 ;
 
 --
 -- Volcado de datos para la tabla `documentos`
@@ -675,7 +676,38 @@ INSERT INTO `documentos` (`iDocuIdDocumento`, `iDocuPadre`, `iDocu_iCursIdCursos
 (20, 1, 3, NULL, 'main/documentos/3/Videos/consultas.class.php', NULL, 'archivito3', 'archivo', '13.72kB', 1323531728, 1323531728, 'A'),
 (21, 1, 3, NULL, 'main/documentos/3/Videos/manual_ref.pdf', NULL, 'videitomandaaq', 'archivo', '853.04kB', 1323531844, 1323531844, 'A'),
 (22, 1, 3, NULL, 'main/documentos/3/Videos/2.zip', NULL, 'archivito1', 'archivo', '9.2kB', 1323532512, 1323532512, 'A'),
-(23, 0, 3, NULL, 'main/documentos/3/paulp_sp38.pdf', NULL, 'archivitoo', 'archivo', '2.53MB', 1323536364, 1323536364, 'A');
+(23, 0, 3, NULL, 'main/documentos/3/paulp_sp38.pdf', NULL, 'archivitoo', 'archivo', '2.53MB', 1323536364, 1323536364, 'A'),
+(24, 0, 4, NULL, 'main/documentos/4/Videos', 'Carpeta de Videos', 'Videos', 'folder', NULL, 1323603995, 1323603995, 'A'),
+(25, 0, 4, NULL, 'main/documentos/4/Audios', 'Carpeta de Audios', 'Audios', 'folder', NULL, 1323603995, 1323603995, 'A'),
+(26, 0, 4, NULL, 'main/documentos/4/Imagenes', 'Carpeta de Imagenes', 'Imagenes', 'folder', NULL, 1323603995, 1323603995, 'A'),
+(27, 0, 4, NULL, 'main/documentos/4/Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'Carpeta de los Usuarios', 'folder', NULL, 1323603995, 1323603995, 'A'),
+(28, 0, 4, NULL, 'main/documentos/4/Lecciones', 'Carpeta de Lecciones', 'Lecciones', 'folder', NULL, 1323603995, 1323603995, 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evaluaciones`
+--
+
+CREATE TABLE IF NOT EXISTS `evaluaciones` (
+  `iEvaIdEvaluacion` int(11) NOT NULL AUTO_INCREMENT,
+  `iEva_IdCursosUnidades` int(11) NOT NULL,
+  `iEvaDescripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
+  `iEvaPuntMin` int(11) NOT NULL,
+  `iEvaFechaCreacion` int(10) NOT NULL,
+  `iEvaFechaExamen` int(10) NOT NULL,
+  `iEvaEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iEvaIdEvaluacion`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `evaluaciones`
+--
+
+INSERT INTO `evaluaciones` (`iEvaIdEvaluacion`, `iEva_IdCursosUnidades`, `iEvaDescripcion`, `iEvaPuntMin`, `iEvaFechaCreacion`, `iEvaFechaExamen`, `iEvaEstado`) VALUES
+(1, 1, 'Evaluacion de Entrada', 15, 1323894311, 1299214800, 'A'),
+(2, 1, 'Fracciones Heterogeneas', 17, 1323895490, 1299301200, 'A'),
+(3, 10, 'Evaluacion de Entrada', 16, 1323982204, 1299733200, 'A');
 
 -- --------------------------------------------------------
 
@@ -694,42 +726,24 @@ CREATE TABLE IF NOT EXISTS `eventos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `examen`
+-- Estructura de tabla para la tabla `glosario`
 --
 
-CREATE TABLE IF NOT EXISTS `examen` (
-  `iExamIdExamen` int(11) NOT NULL,
-  `iContIdContenido` mediumint(8) DEFAULT NULL,
-  `vExamNombre` varchar(255) DEFAULT NULL,
-  `tiExamPuntEsperada` tinyint(2) DEFAULT NULL,
-  `tExamInstrucciones` text,
-  `tiExamDuracion` tinyint(4) DEFAULT NULL,
-  `Lecciones_siLeccIdLeccion` mediumint(8) NOT NULL,
-  PRIMARY KEY (`iExamIdExamen`),
-  KEY `fk_Examen_Lecciones1` (`Lecciones_siLeccIdLeccion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `glosario` (
+  `iGlosIdGlosario` int(11) NOT NULL AUTO_INCREMENT,
+  `iGlos_iCursIdCursos` int(11) NOT NULL,
+  `vGlosTermino` varchar(300) COLLATE utf8_spanish_ci NOT NULL,
+  `tGlosDefinicion` text COLLATE utf8_spanish_ci NOT NULL,
+  `cGlosEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iGlosIdGlosario`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
--- Estructura de tabla para la tabla `examenes_alumnos`
+-- Volcado de datos para la tabla `glosario`
 --
 
-CREATE TABLE IF NOT EXISTS `examenes_alumnos` (
-  `ExamComidExamenesCompletos` int(11) NOT NULL,
-  `tiExamComEstado` tinyint(1) DEFAULT NULL,
-  `iExamComCreado` int(10) DEFAULT NULL,
-  `iExamComHInicio` int(10) DEFAULT NULL,
-  `iExamComHFin` int(10) DEFAULT NULL,
-  `iExamComTiempo` int(10) DEFAULT NULL,
-  `iExamComEstado` tinyint(1) DEFAULT NULL,
-  `iExamComExamen` longtext,
-  `Usuarios_iUsuIdUsuario` int(11) NOT NULL,
-  `Examen_iExamIdExamen` int(11) NOT NULL,
-  PRIMARY KEY (`ExamComidExamenesCompletos`),
-  KEY `fk_Examenes_Alumnos_Usuarios1` (`Usuarios_iUsuIdUsuario`),
-  KEY `fk_Examenes_Alumnos_Examen1` (`Examen_iExamIdExamen`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `glosario` (`iGlosIdGlosario`, `iGlos_iCursIdCursos`, `vGlosTermino`, `tGlosDefinicion`, `cGlosEstado`) VALUES
+(1, 3, 'Primo', 'nro k es divisible entre uno y mas', 'A');
 
 -- --------------------------------------------------------
 
@@ -788,13 +802,28 @@ INSERT INTO `indicadores` (`iIndIdIndicadores`, `iCapacidad_IdCapacidad`, `tIndD
 --
 
 CREATE TABLE IF NOT EXISTS `lecciones` (
-  `siLeccIdLeccion` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `vLeccNombre` varchar(150) DEFAULT NULL,
-  `tiLeccEstado` tinyint(1) DEFAULT NULL,
+  `iLeccIdLeccion` int(11) NOT NULL AUTO_INCREMENT,
+  `iLecc_IdCursosUnidades` int(11) NOT NULL,
+  `vLeccNombre` varchar(200) DEFAULT NULL,
   `tLeccMetaDatos` text,
-  `iLeccCreado` int(10) DEFAULT NULL,
-  PRIMARY KEY (`siLeccIdLeccion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `iLeccIdLeccionPadre` int(11) NOT NULL DEFAULT '0',
+  `iLeccFechaCreacion` int(10) NOT NULL,
+  `iLeccFechaModificado` int(10) NOT NULL,
+  `iLeccFechaExpiracion` int(10) NOT NULL,
+  `cLeccEstado` char(1) NOT NULL,
+  PRIMARY KEY (`iLeccIdLeccion`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `lecciones`
+--
+
+INSERT INTO `lecciones` (`iLeccIdLeccion`, `iLecc_IdCursosUnidades`, `vLeccNombre`, `tLeccMetaDatos`, `iLeccIdLeccionPadre`, `iLeccFechaCreacion`, `iLeccFechaModificado`, `iLeccFechaExpiracion`, `cLeccEstado`) VALUES
+(1, 1, 'Leccion 1 1', '&lt;p&gt;\r\n	Escriba aqu&amp;iacute; el contenido de esta leccion&lt;/p&gt;\r\n', 0, 1323599133, 1323599133, 1300683600, 'A'),
+(2, 2, 'Leccion 2 ', '&lt;p&gt;\r\n	Escriba aqu&amp;iacute; el contenido de esta leccion&lt;/p&gt;\r\n', 0, 1323599317, 1323599317, 1302670800, 'A'),
+(3, 1, 'Nueva Leccion', '&lt;p&gt;\r\n	Listos!!&lt;/p&gt;\r\n', 0, 1323600184, 1323600184, 1301115600, 'A'),
+(4, 1, 'Fracciones', '&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Numerador_y_denominador&quot;&gt;Numerador y denominador&lt;/span&gt;&lt;/h3&gt;\r\n&lt;p&gt;\r\n	Las fracciones se componen de: &lt;i&gt;numerador&lt;/i&gt;, &lt;i&gt;denominador&lt;/i&gt; y &lt;i&gt;l&amp;iacute;nea divisoria&lt;/i&gt; entre ambos (&lt;a href=&quot;http://es.wikipedia.org/wiki/Barra_%28tipograf%C3%ADa%29&quot; title=&quot;Barra (tipografía)&quot;&gt;barra&lt;/a&gt; horizontal u obl&amp;iacute;cua). En una fracci&amp;oacute;n com&amp;uacute;n &lt;span class=&quot;texhtml&quot; dir=&quot;ltr&quot;&gt;&lt;i&gt;a&lt;/i&gt; / &lt;i&gt;b&lt;/i&gt;&lt;/span&gt; el denominador &lt;i&gt;b&lt;/i&gt; representa la cantidad de partes en que se ha &lt;i&gt;fraccionado&lt;/i&gt; la unidad, y el numerador &lt;i&gt;a&lt;/i&gt; es la cantidad de estas consideradas. El denominador &amp;laquo;denomina&amp;raquo; y el numerador &amp;laquo;enumera&amp;raquo;.&lt;/p&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;editsection&quot;&gt;[&lt;a href=&quot;http://es.wikipedia.org/w/index.php?title=Fracci%C3%B3n&amp;amp;action=edit&amp;amp;section=3&quot; title=&quot;Editar sección: Representación gráfica y analítica&quot;&gt;editar&lt;/a&gt;]&lt;/span&gt; &lt;span class=&quot;mw-headline&quot; id=&quot;Representaci.C3.B3n_gr.C3.A1fica_y_anal.C3.ADtica&quot;&gt;Representaci&amp;oacute;n gr&amp;aacute;fica y anal&amp;iacute;tica&lt;/span&gt;&lt;/h3&gt;\r\n&lt;div class=&quot;thumb tright&quot; style=&quot;width:232px;&quot;&gt;\r\n	&lt;div class=&quot;thumbinner&quot;&gt;\r\n		&lt;div style=&quot;margin:1px;width:222px;&quot;&gt;\r\n			&lt;div class=&quot;thumbimage&quot;&gt;\r\n				&lt;a class=&quot;image&quot; href=&quot;http://es.wikipedia.org/wiki/Archivo:Fraction3_4.svg&quot;&gt;&lt;img alt=&quot;Fraction3 4.svg&quot; height=&quot;121&quot; src=&quot;http://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Fraction3_4.svg/220px-Fraction3_4.svg.png&quot; width=&quot;220&quot; /&gt;&lt;/a&gt;&lt;/div&gt;\r\n		&lt;/div&gt;\r\n		&lt;div style=&quot;margin:1px;width:222px;&quot;&gt;\r\n			&lt;div class=&quot;thumbimage&quot;&gt;\r\n				&lt;a class=&quot;image&quot; href=&quot;http://es.wikipedia.org/wiki/Archivo:Cake_quarters.svg&quot;&gt;&lt;img alt=&quot;Cake quarters.svg&quot; height=&quot;167&quot; src=&quot;http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Cake_quarters.svg/220px-Cake_quarters.svg.png&quot; width=&quot;220&quot; /&gt;&lt;/a&gt;&lt;/div&gt;\r\n		&lt;/div&gt;\r\n		&lt;div class=&quot;thumbcaption&quot; style=&quot;clear:both; background-color:transparent;&quot;&gt;\r\n			Como se ha quitado 1/4 del pastel, todav&amp;iacute;a le quedan 3/4.&lt;/div&gt;\r\n	&lt;/div&gt;\r\n&lt;/div&gt;\r\n&lt;p&gt;\r\n	Suelen utilizarse c&amp;iacute;rculos o rect&amp;aacute;ngulos (los cuales representan la unidad) divididos en tantas partes como indique el denominador, y se colorean (u omiten) tantas de estas partes como indique el numerador.&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Notaci&amp;oacute;n y convenciones:\r\n		&lt;ul&gt;\r\n			&lt;li&gt;\r\n				en una fracci&amp;oacute;n com&amp;uacute;n, el denominador se lee como n&amp;uacute;mero &lt;a href=&quot;http://es.wikipedia.org/wiki/Anexo:Nombres_de_los_n%C3%BAmeros_en_espa%C3%B1ol#Partitivos&quot; title=&quot;Anexo:Nombres de los números en español&quot;&gt;partitivo&lt;/a&gt; (ejemplos: &lt;i&gt;1/4&lt;/i&gt; se lee &amp;laquo;un cuarto&amp;raquo;, &lt;i&gt;3/5&lt;/i&gt; se lee &amp;laquo;tres quintos&amp;raquo;);&lt;/li&gt;\r\n			&lt;li&gt;\r\n				una fracci&amp;oacute;n negativa se escribe con el signo menos delante de la fracci&amp;oacute;n (ejemplos: &lt;i&gt;-1/4&lt;/i&gt; o &lt;img alt=&quot;-\\dfrac{3}{4} &quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/c/a/f/caffb225ac51ffbd70a3847da835d988.png&quot; /&gt;, pero no 3/-4);&lt;/li&gt;\r\n			&lt;li&gt;\r\n				una fracci&amp;oacute;n gen&amp;eacute;rica &lt;i&gt;a/b&lt;/i&gt; representa el producto de &lt;i&gt;a&lt;/i&gt; por el rec&amp;iacute;proco multiplicativo de &lt;i&gt;b&lt;/i&gt;, de tal modo que &lt;i&gt;&lt;img alt=&quot;a/b\\ = a \\cdot 1/b\\ &quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/7/c/1/7c1eff902d1aebb6ba07be891befcddb.png&quot; /&gt;&lt;/i&gt;; si tanto &lt;i&gt;a&lt;/i&gt; como &lt;i&gt;b&lt;/i&gt; son n&amp;uacute;meros negativos&amp;nbsp;&lt;i&gt;&lt;span class=&quot;texhtml&quot; dir=&quot;ltr&quot;&gt;( &amp;minus; &lt;i&gt;a&lt;/i&gt; / &amp;minus; &lt;i&gt;b&lt;/i&gt;)&lt;/span&gt;&lt;/i&gt;, el producto es positivo, por lo que se escribe: &lt;i&gt;a/b&lt;/i&gt;;&lt;/li&gt;\r\n			&lt;li&gt;\r\n				toda expresi&amp;oacute;n matem&amp;aacute;tica escrita en esta forma recibe el nombre de &lt;i&gt;fracci&amp;oacute;n&lt;/i&gt;.&lt;/li&gt;\r\n		&lt;/ul&gt;\r\n	&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	La expresi&amp;oacute;n gen&amp;eacute;rica &lt;span class=&quot;texhtml&quot; dir=&quot;ltr&quot;&gt;&lt;i&gt;a&lt;/i&gt; / &lt;i&gt;b&lt;/i&gt;&lt;/span&gt; representa una &lt;a href=&quot;http://es.wikipedia.org/wiki/Divisi%C3%B3n_%28matem%C3%A1tica%29&quot; title=&quot;División (matemática)&quot;&gt;divisi&amp;oacute;n algebraica&lt;/a&gt;, por lo que el divisor debe ser distinto de cero (b &lt;img alt=&quot;\\neq 0&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/f/4/f/f4fb341e4e3e1228ad4038e6d594a775.png&quot; /&gt;); el cociente de esta divisi&amp;oacute;n admite un desarrollo decimal (un &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_decimal&quot; title=&quot;Número decimal&quot;&gt;n&amp;uacute;mero decimal&lt;/a&gt;, en el &lt;a href=&quot;http://es.wikipedia.org/wiki/Sistema_de_numeraci%C3%B3n_decimal&quot; title=&quot;Sistema de numeración decimal&quot;&gt;sistema de numeraci&amp;oacute;n decimal&lt;/a&gt; tradicional) que puede ser finito o infinito per&amp;oacute;dico (ver &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_peri%C3%B3dico&quot; title=&quot;Número periódico&quot;&gt;N&amp;uacute;mero peri&amp;oacute;dico&lt;/a&gt;).&lt;/p&gt;\r\n&lt;p&gt;\r\n	Un &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_irracional&quot; title=&quot;Número irracional&quot;&gt;n&amp;uacute;mero irracional&lt;/a&gt; no admite una escritura en forma de &lt;i&gt;n&amp;uacute;mero fraccionario&lt;/i&gt;, su expansi&amp;oacute;n decimal ser&amp;aacute; &lt;i&gt;infinita no-peri&amp;oacute;dica&lt;/i&gt;.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Una fracci&amp;oacute;n com&amp;uacute;n &lt;i&gt;representa&lt;/i&gt; un &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_racional&quot; title=&quot;Número racional&quot;&gt;n&amp;uacute;mero racional&lt;/a&gt;, por lo que las fracciones comunes heredan todas las propiedades matem&amp;aacute;ticas de los racionales.&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Ejemplos&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot; \\dfrac{3}{4} &quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/f/e/d/feda79f7aff6520bfc1bef46e74d516e.png&quot; /&gt;; 3/4&amp;nbsp;; &lt;sup&gt;3&lt;/sup&gt;/&lt;sub&gt;4&lt;/sub&gt;&amp;nbsp;; (&amp;frac34;)&amp;nbsp;; fracci&amp;oacute;n &lt;i&gt;tres cuartos&lt;/i&gt;: numerador &lt;i&gt;3&lt;/i&gt; y denominador &lt;i&gt;4&lt;/i&gt;, representa al n&amp;uacute;mero decimal 0.75, en porcentaje: 75%;&lt;/dd&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot; \\dfrac{x^2}{(x+3)(x-3)} &quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/a/4/3/a430b2c7e75ade7e82646b902d6f4320.png&quot; /&gt;; fracci&amp;oacute;n: numerador &lt;i&gt;x&amp;sup2;&lt;/i&gt; y denominador &lt;i&gt;(x+3)(x-3)&lt;/i&gt;, el valor decimal depender&amp;aacute; del valor de la variable &lt;i&gt;x&lt;/i&gt;.&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n', 0, 1323602928, 1323602928, 1301115600, 'A'),
+(5, 3, 'Numeros Decimales', '&lt;h2&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Notaci.C3.B3n_decimal&quot;&gt;Notaci&amp;oacute;n decimal&lt;/span&gt;&lt;/h2&gt;\r\n&lt;p&gt;\r\n	En la lengua espa&amp;ntilde;ola en la actualidad se emplean b&amp;aacute;sicamente tres formas de anotar un n&amp;uacute;mero con parte decimal, seg&amp;uacute;n el signo empleado como separador decimal:&lt;/p&gt;\r\n&lt;p&gt;\r\n	El punto decimal: se emplea un punto(.) para separar la parte entera de la decimal, este m&amp;eacute;todo es el utilizado en las calculadoras electr&amp;oacute;nicas y en los ordenadores, rara vez se utiliza en la notaci&amp;oacute;n de cifras manualmente.&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot;   3.141592 \\;&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/e/e/d/eeded6133d5cefa61082d6dd4824419f.png&quot; /&gt;&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;p&gt;\r\n	La coma decimal: se emplea una coma(,) como separador, esta forma en com&amp;uacute;n en las publicaciones y se utiliza tambi&amp;eacute;n en las notaciones manuales.&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot;   3,141592 \\;&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/d/3/d/d3d7f77a99cd96152d76ef640eba9842.png&quot; /&gt;&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;p&gt;\r\n	El ap&amp;oacute;strofe decimal: el ap&amp;oacute;strofe(&amp;#39;) en ocasiones tambi&amp;eacute;n llamado &lt;i&gt;coma decimal&lt;/i&gt; es la forma usual de separar la parte decimal de un n&amp;uacute;mero en las notaciones a mano.&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot;   3''141592 \\;&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/e/4/f/e4f58f3578fde40063d9dd5023330805.png&quot; /&gt;&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;p&gt;\r\n	En todos los casos, las cifras decimales, no se separan en grupos con espacios en blanco u otro signo, sino que se escriben seguidas, sea cual sea el n&amp;uacute;mero de cifras decimales que forme la parte decimal del n&amp;uacute;mero en cuesti&amp;oacute;n.&lt;/p&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Cifras_decimales&quot;&gt;Cifras decimales&lt;/span&gt;&lt;/h3&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot;   \\begin{array}{lcccl}\r\n      \\hline\r\n      \\rm d\\acute{e}cima       &amp;amp; \\longmapsto &amp;amp; 10^{-1}  &amp;amp; = &amp;amp; 0,1                   \\\\\r\n      \\rm cent\\acute{e}sima    &amp;amp; \\longmapsto &amp;amp; 10^{-2}  &amp;amp; = &amp;amp; 0,01                  \\\\\r\n      \\rm mil\\acute{e}sima     &amp;amp; \\longmapsto &amp;amp; 10^{-3}  &amp;amp; = &amp;amp; 0,001                 \\\\\r\n      \\rm diezmil\\acute{e}sima &amp;amp; \\longmapsto &amp;amp; 10^{-4}  &amp;amp; = &amp;amp; 0,0001                \\\\\r\n      \\rm cienmil\\acute{e}sima &amp;amp; \\longmapsto &amp;amp; 10^{-5}  &amp;amp; = &amp;amp; 0,00001               \\\\\r\n      \\rm millon\\acute{e}sima  &amp;amp; \\longmapsto &amp;amp; 10^{-6}  &amp;amp; = &amp;amp; 0,000001              \\\\\r\n      \\hline\r\n   \\end{array}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/2/3/b/23b88d7236a4cdb97cb56a18ba78348d.png&quot; /&gt;&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Aproximaci.C3.B3n_decimal&quot;&gt;Aproximaci&amp;oacute;n decimal&lt;/span&gt;&lt;/h3&gt;\r\n&lt;p&gt;\r\n	Si se toman en cuenta las &lt;a href=&quot;http://es.wikipedia.org/wiki/Cifras_significativas&quot; title=&quot;Cifras significativas&quot;&gt;cifras significativas&lt;/a&gt;, el n&amp;uacute;mero 0.080 es distinto del n&amp;uacute;mero 0.08, pues aunque representan la misma cantidad, el primero indica un grado de aproximaci&amp;oacute;n con tres &lt;i&gt;cifras decimales&lt;/i&gt;.&lt;/p&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Fracci.C3.B3n_decimal&quot;&gt;Fracci&amp;oacute;n decimal&lt;/span&gt;&lt;/h3&gt;\r\n&lt;p&gt;\r\n	Un n&amp;uacute;mero decimal &lt;img alt=&quot;x = a, a_1a_2 \\cdots a_n \\cdots&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/5/a/2/5a2c54c6c65d7af3e102124e6744a8e7.png&quot; /&gt; admite una escritura formal (llamada la &lt;a href=&quot;http://es.wikipedia.org/wiki/Representaci%C3%B3n_decimal&quot; title=&quot;Representación decimal&quot;&gt;representaci&amp;oacute;n decimal&lt;/a&gt;) en base a &lt;a class=&quot;mw-redirect&quot; href=&quot;http://es.wikipedia.org/wiki/Series_infinitas&quot; title=&quot;Series infinitas&quot;&gt;series infinitas&lt;/a&gt; de &lt;a class=&quot;mw-redirect&quot; href=&quot;http://es.wikipedia.org/wiki/Fracciones_decimales&quot; title=&quot;Fracciones decimales&quot;&gt;fracciones decimales&lt;/a&gt;. Las fracciones decimales suelen expresarse sin denominador, con uso del &lt;a href=&quot;http://es.wikipedia.org/wiki/Separador_decimal&quot; title=&quot;Separador decimal&quot;&gt;separador decimal&lt;/a&gt;, es decir, como &lt;i&gt;n&amp;uacute;mero decimal exacto&lt;/i&gt;.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Ejemplos:&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		8/10, 83/100, 83/1000 y 8/10000 se escriben 0.8, 0.83, 0.083 y 0.0008&lt;/li&gt;\r\n	&lt;li&gt;\r\n		en general: &lt;img alt=&quot;\\frac{N}{10^n}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/9/7/3/97353428eb60cfeb61eaf57f66d00257.png&quot; /&gt; es una &lt;b&gt;fracci&amp;oacute;n decimal&lt;/b&gt;, en donde &lt;i&gt;N&lt;/i&gt; es un n&amp;uacute;mero entero.&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Representaci.C3.B3n_decimal&quot;&gt;Representaci&amp;oacute;n decimal&lt;/span&gt;&lt;/h3&gt;\r\n&lt;div class=&quot;noprint AP&quot; style=&quot;margin:0 0 0.2ex 1em&quot;&gt;\r\n	&lt;span style=&quot;font-size:87%&quot;&gt;&lt;i&gt;Art&amp;iacute;culo principal:&lt;/i&gt;&lt;/span&gt; &lt;a href=&quot;http://es.wikipedia.org/wiki/Representaci%C3%B3n_decimal&quot; title=&quot;Representación decimal&quot;&gt;Representaci&amp;oacute;n decimal&lt;/a&gt;&lt;/div&gt;\r\n&lt;p&gt;\r\n	Una fracci&amp;oacute;n decimal no es necesariamente irreducible, pero todo n&amp;uacute;mero decimal finito puede escribirse como una fracci&amp;oacute;n irreducible de la forma:&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot;\\frac{b}{5^m \\times 2^p}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/4/a/9/4a9698a61bd98add992a7ed05ba40762.png&quot; /&gt;,&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;p&gt;\r\n	con &lt;i&gt;b&lt;/i&gt; un entero &lt;a class=&quot;mw-redirect&quot; href=&quot;http://es.wikipedia.org/wiki/Primos_relativos&quot; title=&quot;Primos relativos&quot;&gt;primo relativo&lt;/a&gt; con 5 y 2, y &lt;i&gt;m&lt;/i&gt; y &lt;i&gt;p&lt;/i&gt; enteros naturales.&lt;/p&gt;\r\n&lt;p&gt;\r\n	La &lt;a href=&quot;http://es.wikipedia.org/wiki/Representaci%C3%B3n_decimal&quot; title=&quot;Representación decimal&quot;&gt;representaci&amp;oacute;n decimal&lt;/a&gt; de los &lt;a class=&quot;mw-redirect&quot; href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmeros_reales&quot; title=&quot;Números reales&quot;&gt;n&amp;uacute;meros reales&lt;/a&gt; (y por tanto de los &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_racional&quot; title=&quot;Número racional&quot;&gt;racionales&lt;/a&gt;) se basa en el &lt;a href=&quot;http://es.wikipedia.org/wiki/L%C3%ADmite_matem%C3%A1tico&quot; title=&quot;Límite matemático&quot;&gt;l&amp;iacute;mite&lt;/a&gt; de &lt;a class=&quot;mw-redirect&quot; href=&quot;http://es.wikipedia.org/wiki/Series_infinitas&quot; title=&quot;Series infinitas&quot;&gt;series&lt;/a&gt; del tipo&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;img alt=&quot; r=\\sum_{i=0}^\\infty \\frac{a_i}{10^i}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/5/a/f/5afe758496f193d1e7628c3aeb8cadc7.png&quot; /&gt;.&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;h2&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;Clasificaci.C3.B3n&quot;&gt;Clasificaci&amp;oacute;n&lt;/span&gt;&lt;/h2&gt;\r\n&lt;p&gt;\r\n	Atendiendo a la definici&amp;oacute;n, y llamando &lt;i&gt;parte entera&lt;/i&gt; a la parte a la izquierda del separador decimal y &lt;i&gt;parte decimal&lt;/i&gt; a la parte derecha del separador decimal, se puede construir la siguiente clasificaci&amp;oacute;n:&lt;sup class=&quot;reference&quot; id=&quot;cite_ref-3&quot;&gt;&lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_decimal#cite_note-3&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;\r\n&lt;dl&gt;\r\n	&lt;dd&gt;\r\n		&lt;dl&gt;\r\n			&lt;dd&gt;\r\n				&lt;img alt=&quot;   \\rm n \\acute{u} mero\r\n   \\left \\{\r\n   \\begin{array}{l}\r\n      \\rm entero \\\\\r\n      \\rm decimal\r\n      \\left \\{     \r\n         \\begin{array}{l}\r\n            \\rm exacto \\\\\r\n            \\rm peri \\acute{o} dico\r\n            \\left \\{\r\n            \\begin{array}{l}\r\n               \\rm puro \\\\\r\n               \\rm mixto\r\n            \\end{array}\r\n            \\right . \\\\\r\n            \\rm no \\ peri \\acute{o} dico\r\n         \\end{array}\r\n      \\right .        \r\n   \\end{array}\r\n   \\right .&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/8/4/f/84f5b31a1818a6de0d712fabd3aa1429.png&quot; /&gt;&lt;/dd&gt;\r\n		&lt;/dl&gt;\r\n	&lt;/dd&gt;\r\n&lt;/dl&gt;\r\n&lt;h3&gt;\r\n	&lt;span class=&quot;mw-headline&quot; id=&quot;N.C3.BAmero_decimal_exacto&quot;&gt;N&amp;uacute;mero decimal exacto&lt;/span&gt;&lt;/h3&gt;\r\n&lt;p&gt;\r\n	Son los n&amp;uacute;meros decimales cuya parte decimal tiene un n&amp;uacute;mero finito de cifras. Los n&amp;uacute;meros enteros pertenecen a este conjunto. Se pueden escribir como fracci&amp;oacute;n, y por tanto, pertenecen a un &lt;a href=&quot;http://es.wikipedia.org/wiki/Subconjunto&quot; title=&quot;Subconjunto&quot;&gt;subconjunto&lt;/a&gt; de los &lt;a href=&quot;http://es.wikipedia.org/wiki/N%C3%BAmero_racional&quot; title=&quot;Número racional&quot;&gt;n&amp;uacute;meros racionales&lt;/a&gt;.&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Ejemplos:\r\n		&lt;ul&gt;\r\n			&lt;li&gt;\r\n				&lt;img alt=&quot;1=\\frac{1}{1}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/a/4/8/a4894fab54fd6cc2e8344d233bd149d4.png&quot; /&gt;&lt;/li&gt;\r\n			&lt;li&gt;\r\n				&lt;img alt=&quot;\\frac 8 5 = 1,6 = \\frac {16} {10}&quot; class=&quot;tex&quot; src=&quot;http://upload.wikimedia.org/wikipedia/es/math/2/1/5/215031ad6ef8e2ae115537577e00145f.png&quot; /&gt;&lt;/li&gt;\r\n		&lt;/ul&gt;\r\n	&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 0, 1323603290, 1323603290, 1306472400, 'A');
 
 -- --------------------------------------------------------
 
@@ -808,7 +837,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `iLogTimeStamp` int(10) DEFAULT NULL,
   `cAcciIdAccion` char(1) DEFAULT NULL,
   PRIMARY KEY (`iLogIdLog`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=582 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=786 ;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -1395,7 +1424,211 @@ INSERT INTO `log` (`iLogIdLog`, `iUsuIdUsuario`, `iLogTimeStamp`, `cAcciIdAccion
 (578, NULL, 1323535728, 'B'),
 (579, NULL, 1323535728, 'B'),
 (580, 2, 1323536665, 'B'),
-(581, 2, 1323536670, 'A');
+(581, 2, 1323536670, 'A'),
+(582, 2, 1323537804, 'A'),
+(583, 2, 1323548510, 'B'),
+(584, 2, 1323548515, 'A'),
+(585, 2, 1323549319, 'B'),
+(586, 2, 1323549325, 'A'),
+(587, NULL, 1323562162, 'B'),
+(588, 2, 1323562185, 'A'),
+(589, 2, 1323562723, 'B'),
+(590, NULL, 1323562731, 'B'),
+(591, 2, 1323562746, 'A'),
+(592, 2, 1323563341, 'B'),
+(593, 18, 1323563403, 'A'),
+(594, 18, 1323564027, 'B'),
+(595, 1, 1323564231, 'A'),
+(596, 1, 1323564254, 'B'),
+(597, 2, 1323564260, 'A'),
+(598, 2, 1323564695, 'B'),
+(599, 1, 1323564698, 'A'),
+(600, 1, 1323564928, 'B'),
+(601, 2, 1323565119, 'A'),
+(602, 2, 1323565718, 'B'),
+(603, 2, 1323565727, 'A'),
+(604, 2, 1323566359, 'B'),
+(605, 2, 1323566439, 'A'),
+(606, NULL, 1323567690, 'B'),
+(607, NULL, 1323567690, 'B'),
+(608, 2, 1323572940, 'B'),
+(609, 2, 1323572950, 'A'),
+(610, 2, 1323574188, 'B'),
+(611, 2, 1323574193, 'A'),
+(612, 2, 1323574716, 'B'),
+(613, 2, 1323574722, 'A'),
+(614, 2, 1323579048, 'B'),
+(615, 2, 1323579069, 'A'),
+(616, NULL, 1323579087, 'B'),
+(617, NULL, 1323579087, 'B'),
+(618, NULL, 1323580055, 'B'),
+(619, NULL, 1323580055, 'B'),
+(620, 2, 1323582020, 'B'),
+(621, 2, 1323582031, 'A'),
+(622, 2, 1323583780, 'B'),
+(623, 2, 1323583787, 'A'),
+(624, 2, 1323584281, 'B'),
+(625, 2, 1323584286, 'A'),
+(626, 2, 1323585227, 'B'),
+(627, 2, 1323585241, 'A'),
+(628, 2, 1323589381, 'B'),
+(629, 2, 1323589388, 'A'),
+(630, 2, 1323591838, 'B'),
+(631, 2, 1323591845, 'A'),
+(632, 2, 1323594404, 'B'),
+(633, 2, 1323594587, 'A'),
+(634, 2, 1323596167, 'B'),
+(635, 1, 1323596173, 'A'),
+(636, 1, 1323596204, 'B'),
+(637, 2, 1323596210, 'A'),
+(638, 2, 1323596702, 'B'),
+(639, 2, 1323596970, 'A'),
+(640, 2, 1323598344, 'B'),
+(641, 2, 1323598354, 'A'),
+(642, 2, 1323599673, 'B'),
+(643, 2, 1323599684, 'A'),
+(644, 2, 1323600530, 'B'),
+(645, 2, 1323600539, 'A'),
+(646, 2, 1323602217, 'B'),
+(647, 2, 1323602224, 'A'),
+(648, 2, 1323602567, 'B'),
+(649, 2, 1323602575, 'A'),
+(650, 2, 1323603958, 'B'),
+(651, 3, 1323603965, 'A'),
+(652, 3, 1323604102, 'B'),
+(653, NULL, 1323604108, 'B'),
+(654, 2, 1323604117, 'A'),
+(655, 2, 1323604713, 'B'),
+(656, NULL, 1323604722, 'B'),
+(657, 2, 1323604747, 'A'),
+(658, 2, 1323605115, 'B'),
+(659, 2, 1323605126, 'A'),
+(660, 2, 1323613335, 'A'),
+(661, 2, 1323613361, 'B'),
+(662, 2, 1323613397, 'A'),
+(663, 2, 1323613474, 'B'),
+(664, 19, 1323613503, 'A'),
+(665, 19, 1323615271, 'B'),
+(666, 6, 1323615308, 'A'),
+(667, 6, 1323615841, 'B'),
+(668, 6, 1323615853, 'A'),
+(669, 6, 1323616075, 'B'),
+(670, 2, 1323616082, 'A'),
+(671, 2, 1323616201, 'B'),
+(672, 6, 1323616210, 'A'),
+(673, 6, 1323616627, 'B'),
+(674, 6, 1323616634, 'A'),
+(675, 6, 1323616862, 'B'),
+(676, 6, 1323616869, 'A'),
+(677, 6, 1323618246, 'B'),
+(678, 6, 1323618253, 'A'),
+(679, 6, 1323618280, 'B'),
+(680, 2, 1323618286, 'A'),
+(681, 2, 1323618681, 'B'),
+(682, 2, 1323618686, 'A'),
+(683, 2, 1323621547, 'B'),
+(684, 2, 1323621575, 'A'),
+(685, 2, 1323622854, 'B'),
+(686, 2, 1323622863, 'A'),
+(687, 2, 1323626022, 'B'),
+(688, 2, 1323626028, 'A'),
+(689, 2, 1323626117, 'B'),
+(690, 19, 1323626125, 'A'),
+(691, 19, 1323626151, 'B'),
+(692, 19, 1323890220, 'A'),
+(693, 19, 1323890345, 'B'),
+(694, 2, 1323890351, 'A'),
+(695, 2, 1323891349, 'B'),
+(696, 2, 1323891358, 'A'),
+(697, 2, 1323892474, 'B'),
+(698, 2, 1323892480, 'A'),
+(699, 2, 1323893917, 'B'),
+(700, 2, 1323893927, 'A'),
+(701, 2, 1323895319, 'B'),
+(702, 2, 1323895327, 'A'),
+(703, 2, 1323898452, 'B'),
+(704, 2, 1323898458, 'A'),
+(705, 2, 1323899572, 'B'),
+(706, 2, 1323899576, 'A'),
+(707, 2, 1323917690, 'B'),
+(708, 2, 1323917694, 'A'),
+(709, 2, 1323921383, 'B'),
+(710, 2, 1323921398, 'A'),
+(711, 2, 1323923036, 'B'),
+(712, 2, 1323923045, 'A'),
+(713, 2, 1323925430, 'B'),
+(714, 2, 1323925437, 'A'),
+(715, 2, 1323929674, 'A'),
+(716, 2, 1323930750, 'A'),
+(717, 2, 1323930837, 'B'),
+(718, 2, 1323930842, 'A'),
+(719, 2, 1323963086, 'B'),
+(720, 2, 1323963093, 'A'),
+(721, 2, 1323963702, 'B'),
+(722, 2, 1323963707, 'A'),
+(723, 2, 1323964226, 'B'),
+(724, NULL, 1323964232, 'B'),
+(725, 2, 1323964245, 'A'),
+(726, 2, 1323965811, 'B'),
+(727, 2, 1323965816, 'A'),
+(728, 2, 1323966581, 'B'),
+(729, 2, 1323966586, 'A'),
+(730, 2, 1323967822, 'B'),
+(731, 2, 1323967827, 'A'),
+(732, 2, 1323969192, 'B'),
+(733, 2, 1323969196, 'A'),
+(734, 2, 1323971421, 'B'),
+(735, 2, 1323971426, 'A'),
+(736, 2, 1323975512, 'B'),
+(737, 2, 1323975517, 'A'),
+(738, 2, 1323977508, 'B'),
+(739, 2, 1323977512, 'A'),
+(740, 2, 1323978183, 'B'),
+(741, 2, 1323980194, 'A'),
+(742, 2, 1323982169, 'B'),
+(743, 3, 1323982175, 'A'),
+(744, 3, 1323982241, 'B'),
+(745, 2, 1323982245, 'A'),
+(746, 2, 1323984585, 'B'),
+(747, 2, 1323984591, 'A'),
+(748, 2, 1323987113, 'B'),
+(749, 2, 1323987117, 'A'),
+(750, 2, 1323988643, 'B'),
+(751, 2, 1323988650, 'A'),
+(752, 2, 1323989290, 'B'),
+(753, 2, 1323989295, 'A'),
+(754, 2, 1323991630, 'B'),
+(755, 2, 1323991635, 'A'),
+(756, 2, 1323994541, 'B'),
+(757, 2, 1323994547, 'A'),
+(758, 2, 1323996311, 'B'),
+(759, 2, 1323996317, 'A'),
+(760, 2, 1323997325, 'B'),
+(761, 2, 1323997331, 'A'),
+(762, 2, 1323997827, 'B'),
+(763, 2, 1323997833, 'A'),
+(764, 2, 1323999051, 'B'),
+(765, 6, 1323999067, 'A'),
+(766, 6, 1323999083, 'B'),
+(767, NULL, 1323999095, 'B'),
+(768, NULL, 1323999106, 'B'),
+(769, 18, 1323999117, 'A'),
+(770, 18, 1323999465, 'B'),
+(771, 2, 1323999470, 'A'),
+(772, 2, 1323999643, 'B'),
+(773, 18, 1323999650, 'A'),
+(774, 18, 1323999976, 'B'),
+(775, 2, 1324000079, 'A'),
+(776, 2, 1324004638, 'B'),
+(777, 2, 1324004647, 'A'),
+(778, 2, 1324005474, 'B'),
+(779, 2, 1324005482, 'A'),
+(780, 2, 1324005511, 'B'),
+(781, 18, 1324005518, 'A'),
+(782, 18, 1324005770, 'B'),
+(783, 18, 1324005782, 'A'),
+(784, 18, 1324006176, 'B'),
+(785, 18, 1324006185, 'A');
 
 -- --------------------------------------------------------
 
@@ -1490,16 +1723,34 @@ CREATE TABLE IF NOT EXISTS `preguntas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `preguntas_examen`
+-- Estructura de tabla para la tabla `preguntas_evaluacion`
 --
 
-CREATE TABLE IF NOT EXISTS `preguntas_examen` (
-  `Preguntas_iPregIdPreguntas` int(11) NOT NULL,
-  `Examen_iExamIdExamen` int(11) NOT NULL,
-  PRIMARY KEY (`Preguntas_iPregIdPreguntas`,`Examen_iExamIdExamen`),
-  KEY `fk_Preguntas_has_Examen_Examen1` (`Examen_iExamIdExamen`),
-  KEY `fk_Preguntas_has_Examen_Preguntas1` (`Preguntas_iPregIdPreguntas`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `preguntas_evaluacion` (
+  `iPreEva_IdPreguntaEvaluacion` int(11) NOT NULL AUTO_INCREMENT,
+  `iEva_IdEvaluacion` int(11) NOT NULL,
+  `tPreEvaPregunta` text COLLATE utf8_spanish_ci NOT NULL,
+  `cPreEvaTipoPregunta` char(3) COLLATE utf8_spanish_ci NOT NULL,
+  `iPreEvaRpta1` text COLLATE utf8_spanish_ci,
+  `iPreEvaRpta2` text COLLATE utf8_spanish_ci,
+  `iPreEvaRpta3` text COLLATE utf8_spanish_ci,
+  `iPreEvaRpta4` text COLLATE utf8_spanish_ci,
+  `iPreEvaRptaCorrecta` char(4) COLLATE utf8_spanish_ci NOT NULL,
+  `cPreEvaEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`iPreEva_IdPreguntaEvaluacion`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `preguntas_evaluacion`
+--
+
+INSERT INTO `preguntas_evaluacion` (`iPreEva_IdPreguntaEvaluacion`, `iEva_IdEvaluacion`, `tPreEvaPregunta`, `cPreEvaTipoPregunta`, `iPreEvaRpta1`, `iPreEvaRpta2`, `iPreEvaRpta3`, `iPreEvaRpta4`, `iPreEvaRptaCorrecta`, `cPreEvaEstado`) VALUES
+(1, 1, '¿Cuanto es 1 + 1?', 'UNI', '9', '2', '3', '11', '2', 'A'),
+(2, 1, '¿Cuanto es la mitad de 6?', 'UNI', '2', '1', '3', '4', '3', 'A'),
+(3, 1, 'multiplos de 4', 'MUL', '12', '10', '8', '18', '1010', 'A'),
+(4, 1, '¿Qué es un nro primo?', 'ABI', NULL, NULL, NULL, NULL, '0', 'A'),
+(5, 1, 'Multiplos de 5', 'EXA', '15', '10', '101', '100', '1101', 'A'),
+(6, 3, 'Multiplos de 10', 'UNI', '12', '120', '102', '89', '2', 'A');
 
 -- --------------------------------------------------------
 

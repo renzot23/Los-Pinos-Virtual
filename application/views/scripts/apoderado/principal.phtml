@@ -106,5 +106,70 @@
          </div>
         ';
     
-    print $html->crearWrapper(null, null, null, $h3, $h4 ,$contenido, $this->layout()->content,$submain);
+    print $html->crearCabecera(null, null, null, $h3, $h4);
+    $apoderado = new Application_Model_Apoderado();
+    $idapoderado = $apoderado->getApoderadobyIdUsuario($usuario_id);
+    $alumnos = new Application_Model_Alumno();
+    $listaalumnos = $alumnos->getAlumnosbyIdApoderado($idapoderado[0]['iApodIdApoderado']);
 ?>
+<div id="main">
+    <div id="submain">
+        <div class="maincontent" id="content">
+            <h1>
+                <img title="Estudiantes a Cargo" alt="Estudiantes a Cargo" src="/main/img/icons/22/user.png"> Estudiantes a Cargo
+            </h1>
+            <div id="plugin-mycourses_main">
+            </div>
+            <?php
+                foreach($listaalumnos as $alumno){
+                 $seccion = new Application_Model_Seccion();
+                 $datosseccion = $seccion->getSeccionbyIdSeccion($alumno['Seccion_iSeccIdSeccion']);
+                 ?>
+             <div class="userportal-course-item">
+                <div style="float: left; margin-right: 10px;">
+                    <a href="">
+                        <img height="40px" width="40px" title="Curso" alt="Curso" src="/<?php echo $alumno['tFoto'];?>">
+                    </a>
+                </div>
+                <span class="userportal-course-item-title">
+                    <a href="">
+                        <?php echo $alumno['vUsuApellidoPat'].' '.$alumno['vUsuApellidoMat'].', '.$alumno['vUsuNombre'];?>
+                    </a>
+                </span><br>Grado: <a style="color:#5084A0;"><?php echo $datosseccion[0]['vGradoDescripcion'].' '.$datosseccion[0]['vSeccDescripcion'];?></a>&nbsp;
+            </div>
+                    <?php
+                }
+            ?>
+           
+        </div>
+        <div id="menu-wrapper">
+            <div class="menu" id="menu">
+                <div class="menusection  ">
+                    <span class="menusectioncaption">Perfil</span>
+                    <div id="social_widget">
+                        <div id="social_widget_image">
+                            <a href="">
+                                <img width="90" height="90" border="1" src="/main/img/unknown.jpg" title="Editar perfil">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                    <div class="message-content">
+                        <ul class="menulist">
+                            <li>
+                                <a class="message-body" href="">Bandeja de entrada </a>
+                            </li>
+                            <li>
+                                <a class="message-body" href="">Redactar </a>
+                            </li>
+                            <li>
+                                <a class="message-body" href="">Contactar</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

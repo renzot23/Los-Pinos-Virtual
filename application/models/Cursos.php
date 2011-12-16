@@ -402,7 +402,7 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_1" href="/main/course_description?cidReq=002" class="" target="_self">
+                                        <a id="tooldesc_1" href="/docente/descripcioncurso?idcurso='.$idcurso.'&opt=ini" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_1" src="/main/img/info.gif" alt="Descripción del curso" title="Descripción del curso">
                                         </a>
                                         <a id="istooldesc_1" href="/docente/descripcioncurso?idcurso='.$idcurso.'&opt=ini" class="" target="_self">
@@ -446,19 +446,20 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_6" href="" class="" target="_self">
+                                        <a id="tooldesc_6" href="ejercicios?idcurso='.$idcurso.'" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_6" src="/main/img/quiz.gif" alt="Ejercicios" title="Ejercicios">
                                         </a>
-                                        <a id="istooldesc_6" href="main/exercice/exercice.php?cidReq=002" class="" target="_self"> Ejercicios
+                                        <a id="istooldesc_6" href="ejercicios?idcurso='.$idcurso.'" class="" target="_self">
+                                            Ejercicios
                                         </a>
                                         </center>
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_16" href="/main/gradebook/index.php?cidReq=002" class="" target="_self">
+                                        <a id="tooldesc_16" href="evaluaciones?idcurso='.$idcurso.'&idcurunidad=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_16" src="/main/img/gradebook.gif" alt="Evaluaciones" title="Evaluaciones">
                                         </a>
-                                        <a id="istooldesc_16" href="/main/gradebook/index.php?cidReq=002" class="" target="_self">
+                                        <a id="istooldesc_16" href="evaluaciones?idcurso='.$idcurso.'&idcurunidad=0" class="" target="_self">
                                             Evaluaciones
                                         </a>
                                         </center>
@@ -467,10 +468,10 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_17" href="" class="" target="_self">
+                                        <a id="tooldesc_17" href="glosario?idcurso='.$idcurso.'&idcurunidad=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_17" src="/main/img/glossary.gif" alt="Glosario" title="Glosario">
                                         </a>
-                                        <a id="istooldesc_17" href="/main/glossary/index.php?cidReq=002" class="" target="_self">
+                                        <a id="istooldesc_17" href="glosario?idcurso='.$idcurso.'" class="" target="_self">
                                             Glosario
                                         </a>
                                         </center>
@@ -635,7 +636,7 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_3" href="/alumnos/documentos?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
+                                        <a id="tooldesc_3" href="/alumno/documentos?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_3" src="/main/img/folder_document.gif" alt="Documentos" title="Documentos">
                                         </a>
                                         <a id="istooldesc_3" href="/alumno/documentos?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
@@ -647,20 +648,20 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                 <tr valign="top">
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_25" href="/alumnos/editarunidades?idcurso='.$idcurso.'" class="" target="_self">
+                                        <a id="tooldesc_25" href="/alumno/editarunidades?idcurso='.$idcurso.'" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_25" src="/main/img/scormbuilder.gif" alt="Leccion 1" title="Leccion 1">
                                         </a>
-                                        <a id="istooldesc_25" href="/alumnos/editarunidades?idcurso='.$idcurso.'" class="" target="_self">
+                                        <a id="istooldesc_25" href="/alumno/editarunidades?idcurso='.$idcurso.'" class="" target="_self">
                                             Unidades
                                         </a>
                                         </center>
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_4" href="/alumnos/lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
+                                        <a id="tooldesc_4" href="/alumno/lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_4" src="/main/img/scorms.gif" alt="Lecciones" title="Lecciones">
                                         </a>
-                                        <a id="istooldesc_4" href="/alumnos/lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
+                                        <a id="istooldesc_4" href="/alumno/lecciones?idcurso='.$idcurso.'&iddocpadre=0" class="" target="_self">
                                             Lecciones
                                         </a>
                                         </center>    
@@ -678,10 +679,10 @@ class Application_Model_Cursos extends Zend_Db_Table_Abstract{
                                     </td>
                                     <td width="50%">
                                         <center>
-                                        <a id="tooldesc_16" href="/main/gradebook/index.php?cidReq=002" class="" target="_self">
+                                        <a id="tooldesc_16" href="evaluaciones?idcurso='.$idcurso.'&idcurunidad=0" class="" target="_self">
                                             <img class="tool-icon" id="toolimage_16" src="/main/img/gradebook.gif" alt="Evaluaciones" title="Evaluaciones">
                                         </a>
-                                        <a id="istooldesc_16" href="/main/gradebook/index.php?cidReq=002" class="" target="_self">
+                                        <a id="istooldesc_16" href="evaluaciones?idcurso='.$idcurso.'&idcurunidad=0" class="" target="_self">
                                             Evaluaciones
                                         </a>
                                         </center>

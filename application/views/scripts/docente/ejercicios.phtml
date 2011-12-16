@@ -1,0 +1,89 @@
+<?php
+ $this->titulopagina='Los Pinos - "Ejercicios"';
+    $html= new Application_Model_Html();
+    $menu= new Application_Model_Menu();
+    $usuario= new Application_Model_Usuario();    
+    $documentos = new Application_Model_Documentos();
+    $includes = new Application_Model_Includes();
+    $cursounidades = new Application_Model_CursoUnidad();
+    
+    $mysession = new Zend_Session_Namespace('sesion');                    
+    $paginaActual=$mysession->paginaActual ;
+    $nombreUsuario=$mysession->usuario_nombre;
+    $usuario_id=$mysession->usuario_id;
+    
+    $script = '
+        <script type="text/javascript" src="/main/inc/lib/javascript/jquery-ui/smoothness/jquery-ui-1.8.16.custom.min.js">
+        </script>
+        ';
+    
+    $css='
+        <link rel="stylesheet" href="/main/inc/lib/javascript/jquery-ui/smoothness/jquery-ui-1.8.16.custom.css" type="text/css">
+        <link rel="stylesheet" href="/main/inc/lib/javascript/jquery-ui/default.css" type="text/css">';
+    $this->script=$script;
+    $this->css=$css;
+    
+    $urlFoto=$usuario->getFotobyIdUsuario($usuario_id);
+    $h3 = '
+        <ul id="logout">
+            <li>
+                <a href="/admin/logout/" target="_top">
+                    <span>Cerrar Sesión de '.$nombreUsuario.'</span>
+                </a>
+            </li>
+        </ul>';
+ 
+    $tipo = $mysession->tipo_usuario;
+    $result = $menu->getMenu($tipo);
+    
+    $h3 .= '<ul>'; 
+    foreach ($result as $aux) {
+       if ($paginaActual==$aux['Descripcion']){
+           $h3.='<li id="current">';
+       }
+       else {
+           $h3.='<li>';
+       }
+       
+       $h3.='
+           <a href="'.$aux['url'].'" target="_top">
+                    <span id="tab_active">'.$aux['Descripcion'].'</span>
+                </a>
+            </li>';
+    }
+    $h3 .= '</ul>';
+    
+    $curso = new Application_Model_Cursos();
+    $infocurso = $curso->getInfoCurso($this->idcurso);
+    
+    $h4='<ul class="bread">
+             <li>
+                <a class="home" href="/">
+                    <img align="middle" src="/main/css/home.png" alt="Página principal" title="Página principal">
+                </a>
+            </li>
+            <li>
+                <a href="/docente/cursos" class="breadcrumb breadcrumb0" target="_top">
+                    <span>Cursos</span>
+                </a>
+            </li>
+            <li>
+                <a href="/docente/detallecurso?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb1" target="_top">
+                    <span>'.$infocurso[0]['vCursNombreCurso'].'</span>
+                </a>
+            </li>
+            <li>
+                <a href="/docente/ejercicios?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb2">
+                    <span>Ejercicios</span>
+                </a>
+            </li>
+        </ul>';
+        
+    print $html->crearCabecera(null, null, null, $h3, $h4) ;
+    $glosario = new Application_Model_Glosario();
+    $listaterminos=$glosario->getGlosarioCursobyIdCurso($this->idcurso);
+?>
+<div id="main">
+    <div id="submain">
+    </div>
+</div>
