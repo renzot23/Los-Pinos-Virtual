@@ -96,5 +96,29 @@ class AlumnoController extends Zend_Controller_Action{
         $this->view->opt=$opt;
         $this->view->ideval=$ideval;
     }
-    
+    public function rendirevaluacionAction(){
+        $idcurso = $this->_request->idcurso;
+        $ideval = $this->_request->ideval;
+        
+        $this->view->idcurso=$idcurso;
+        $this->view->ideval=$ideval;
+    }
+    public function tiempoexaAction(){
+        $this->_helper->layout->disableLayout();
+            //esta accion no renderizara su contenido en saludoajax2.phtml
+        $this->_helper->viewRenderer->setNoRender();
+        
+        $mysession = new Zend_Session_Namespace('sesion');
+        $ti=$mysession->examenti;
+        $tiempofinal=time();
+        $mysession->tiempotranscurrido =$tiempofinal-$ti;
+        $mysession->tiempoexamenmin = intval((($mysession->tiempoexamentotal*60)-($mysession->tiempotranscurrido))/60);
+        $mysession->tiempoexamenseg = intval((($mysession->tiempoexamentotal*60)-($mysession->tiempotranscurrido))%60);
+        if($mysession->tiempoexamenmin<10)
+            $mysession->tiempoexamenmin='0'.$mysession->tiempoexamenmin;
+        if($mysession->tiempoexamenseg<10)
+            $mysession->tiempoexamenseg='0'.$mysession->tiempoexamenseg;
+        
+        echo ($tiempofinal - $mysession->examenti)." / ".$mysession->tiempoexamenmin.":".$mysession->tiempoexamenseg."/ tt:".$mysession->tiempotranscurrido;
+    }
 }

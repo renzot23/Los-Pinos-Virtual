@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-12-2011 a las 10:19:10
+-- Tiempo de generación: 16-12-2011 a las 18:21:52
 -- Versión del servidor: 5.1.58
 -- Versión de PHP: 5.3.6-13ubuntu3.2
 
@@ -694,20 +694,22 @@ CREATE TABLE IF NOT EXISTS `evaluaciones` (
   `iEva_IdCursosUnidades` int(11) NOT NULL,
   `iEvaDescripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
   `iEvaPuntMin` int(11) NOT NULL,
+  `iEvaTiempo` char(2) COLLATE utf8_spanish_ci NOT NULL,
   `iEvaFechaCreacion` int(10) NOT NULL,
   `iEvaFechaExamen` int(10) NOT NULL,
   `iEvaEstado` char(1) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`iEvaIdEvaluacion`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `evaluaciones`
 --
 
-INSERT INTO `evaluaciones` (`iEvaIdEvaluacion`, `iEva_IdCursosUnidades`, `iEvaDescripcion`, `iEvaPuntMin`, `iEvaFechaCreacion`, `iEvaFechaExamen`, `iEvaEstado`) VALUES
-(1, 1, 'Evaluacion de Entrada', 15, 1323894311, 1299214800, 'A'),
-(2, 1, 'Fracciones Heterogeneas', 17, 1323895490, 1299301200, 'A'),
-(3, 10, 'Evaluacion de Entrada', 16, 1323982204, 1299733200, 'A');
+INSERT INTO `evaluaciones` (`iEvaIdEvaluacion`, `iEva_IdCursosUnidades`, `iEvaDescripcion`, `iEvaPuntMin`, `iEvaTiempo`, `iEvaFechaCreacion`, `iEvaFechaExamen`, `iEvaEstado`) VALUES
+(1, 1, 'Evaluacion de Entrada', 15, '05', 1323894311, 1299214800, 'A'),
+(2, 1, 'Fracciones Heterogeneas', 17, '05', 1323895490, 1299301200, 'A'),
+(3, 10, 'Evaluacion de Entrada', 16, '05', 1323982204, 1299733200, 'A'),
+(4, 9, 'Examen Final', 16, '08', 1324059360, 1323493200, 'A');
 
 -- --------------------------------------------------------
 
@@ -837,7 +839,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `iLogTimeStamp` int(10) DEFAULT NULL,
   `cAcciIdAccion` char(1) DEFAULT NULL,
   PRIMARY KEY (`iLogIdLog`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=786 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=868 ;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -1628,7 +1630,89 @@ INSERT INTO `log` (`iLogIdLog`, `iUsuIdUsuario`, `iLogTimeStamp`, `cAcciIdAccion
 (782, 18, 1324005770, 'B'),
 (783, 18, 1324005782, 'A'),
 (784, 18, 1324006176, 'B'),
-(785, 18, 1324006185, 'A');
+(785, 18, 1324006185, 'A'),
+(786, 2, 1324048859, 'A'),
+(787, 2, 1324049147, 'B'),
+(788, 18, 1324049153, 'A'),
+(789, 18, 1324049652, 'B'),
+(790, 18, 1324049660, 'A'),
+(791, 18, 1324050420, 'B'),
+(792, 18, 1324050429, 'A'),
+(793, 18, 1324050944, 'B'),
+(794, 18, 1324050950, 'A'),
+(795, 18, 1324052815, 'B'),
+(796, 18, 1324052822, 'A'),
+(797, 18, 1324053155, 'B'),
+(798, 18, 1324053162, 'A'),
+(799, 18, 1324053649, 'B'),
+(800, 18, 1324053654, 'A'),
+(801, 18, 1324054934, 'B'),
+(802, 18, 1324054939, 'A'),
+(803, 18, 1324056084, 'B'),
+(804, 18, 1324056090, 'A'),
+(805, 18, 1324056502, 'B'),
+(806, 18, 1324056591, 'A'),
+(807, 18, 1324056878, 'B'),
+(808, 18, 1324056884, 'A'),
+(809, 18, 1324057284, 'B'),
+(810, 18, 1324057290, 'A'),
+(811, 18, 1324057823, 'B'),
+(812, 18, 1324057829, 'A'),
+(813, 18, 1324058477, 'B'),
+(814, 18, 1324058483, 'A'),
+(815, 18, 1324058886, 'B'),
+(816, 2, 1324058925, 'A'),
+(817, 2, 1324059389, 'B'),
+(818, 18, 1324059404, 'A'),
+(819, 18, 1324060927, 'B'),
+(820, 18, 1324061214, 'A'),
+(821, 18, 1324061803, 'B'),
+(822, 18, 1324061813, 'A'),
+(823, 18, 1324062384, 'B'),
+(824, 18, 1324062396, 'A'),
+(825, 18, 1324062948, 'B'),
+(826, 18, 1324062954, 'A'),
+(827, 18, 1324063825, 'B'),
+(828, 18, 1324063831, 'A'),
+(829, 18, 1324064782, 'B'),
+(830, 18, 1324064791, 'A'),
+(831, 18, 1324065075, 'B'),
+(832, 18, 1324065083, 'A'),
+(833, 18, 1324065633, 'B'),
+(834, 18, 1324065639, 'A'),
+(835, 18, 1324065916, 'B'),
+(836, 18, 1324065923, 'A'),
+(837, NULL, 1324068212, 'B'),
+(838, 18, 1324068220, 'A'),
+(839, 18, 1324068416, 'B'),
+(840, 18, 1324068422, 'A'),
+(841, 18, 1324069102, 'B'),
+(842, 18, 1324069108, 'A'),
+(843, 18, 1324069411, 'B'),
+(844, 18, 1324069416, 'A'),
+(845, 18, 1324069860, 'B'),
+(846, 18, 1324069869, 'A'),
+(847, 18, 1324071535, 'B'),
+(848, NULL, 1324071535, 'B'),
+(849, NULL, 1324071536, 'B'),
+(850, 18, 1324071543, 'A'),
+(851, 18, 1324071806, 'B'),
+(852, NULL, 1324071806, 'B'),
+(853, NULL, 1324071808, 'B'),
+(854, 18, 1324071814, 'A'),
+(855, 18, 1324073673, 'B'),
+(856, NULL, 1324073674, 'B'),
+(857, NULL, 1324073674, 'B'),
+(858, 18, 1324073680, 'A'),
+(859, 18, 1324075611, 'B'),
+(860, NULL, 1324075611, 'B'),
+(861, NULL, 1324075611, 'B'),
+(862, NULL, 1324075611, 'B'),
+(863, 18, 1324075674, 'A'),
+(864, 18, 1324076777, 'B'),
+(865, NULL, 1324076777, 'B'),
+(866, NULL, 1324076777, 'B'),
+(867, NULL, 1324076778, 'B');
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,172 @@
+<?php
+$this->titulopagina='Los Pinos - "Rendir Evaluación"';
+    
+    $html= new Application_Model_Html();
+    $menu= new Application_Model_Menu();
+    $usuario= new Application_Model_Usuario();   
+    $includes = new Application_Model_Includes();
+    $evaluaciones = new Application_Model_Evaluaciones();
+    
+    $evaluacion = $evaluaciones->getEvaluacionbyIdEvaluacion($this->ideval);
+    $listapreguntas = $evaluaciones->getPreguntasxEvaluacion($this->ideval);
+    
+    $mysession = new Zend_Session_Namespace('sesion'); 
+    $mysession->examenti=time()-$mysession->tiempotranscurrido;
+    if(isset($mysession->tiempoexamenmin))
+    {
+        $tiempoexamin=$mysession->tiempoexamenmin;
+        $tiempoexaseg=$mysession->tiempoexamenseg;
+    }
+    else
+    {
+        $tiempoexamin=$evaluacion[0]['iEvaTiempo'];
+        $mysession->tiempoexamentotal=$tiempoexamin=$evaluacion[0]['iEvaTiempo'];
+        $tiempoexaseg='00';
+    }
+    
+    $paginaActual=$mysession->paginaActual ;
+    $nombreUsuario=$mysession->usuario_nombre;
+    $usuario_id=$mysession->usuario_id;
+    
+    $script = '
+        <script src="/js/countdown/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="/js/countdown/jquery.countdown.js"></script>
+        <script type="text/javascript">
+          $(function(){
+            $("#counter_2").countdown({
+              image: "/main/img/digits.png",
+              startTime: "'.$tiempoexamin.':'.$tiempoexaseg.'",
+              timerEnd: function(){
+                alert("Acabó el examen!"); 
+                window.location.href="/alumno/principal";
+              },
+              format: "mm:ss"
+            });
+          });
+    </script>
+           
+    <script>
+        setInterval("abreventana()",1000);
+        function siguiente(){
+            document.getElementById("pregunta").innerHTML="2";
+        }
+        function abreventana(){
+        $.ajax({
+            dataType: "html",
+            type: "POST",
+            // ruta donde se encuentra nuestro action que procesa la peticion XmlHttpRequest
+            url: "/alumno/tiempoexa/",
+            data:"",
+            success: function(requestData){ 
+            //Llamada exitosa
+            console.log(requestData);
+            },
+            error: function(requestData, strError, strTipoError){
+                alert("Error " + strTipoError + strError); 
+                    //En caso de error mostraremos un alert
+            },
+            complete: function(requestData, exito){
+            }
+        });
+
+        }
+    </script>
+        ';
+    
+    $css='
+        <style type="text/css">
+      br { clear: both; }
+      .cntSeparator {
+        font-size: 54px;
+        margin: 10px 7px;
+        color: #000;
+      }
+      .desc { margin: 7px 3px; }
+      .desc div {
+        float: left;
+        font-family: Arial;
+        width: 70px;
+        margin-right: 65px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #000;
+      }
+    </style>';
+    
+    $this->script=$script;
+    $this->css=$css;
+    
+    $urlFoto=$usuario->getFotobyIdUsuario($usuario_id);
+    $h3 = '
+        <ul id="logout">
+            <li>
+                <a href="/admin/logout/" target="_top">
+                    <span>Cerrar Sesión de '.$nombreUsuario.'</span>
+                </a>
+            </li>
+        </ul>';
+ 
+    $tipo = $mysession->tipo_usuario;
+    $result = $menu->getMenu($tipo);
+    
+    $h3 .= '<ul>'; 
+    foreach ($result as $aux) {
+       if ($paginaActual==$aux['Descripcion']){
+           $h3.='<li id="current">';
+       }
+       else {
+           $h3.='<li>';
+       }
+       
+       $h3.='
+           <a href="'.$aux['url'].'" target="_top">
+                    <span id="tab_active">'.$aux['Descripcion'].'</span>
+                </a>
+            </li>';
+    }
+    $h3 .= '</ul>';
+    
+    $curso = new Application_Model_Cursos();
+    $infocurso = $curso->getInfoCurso($this->idcurso);
+    
+    $h4='<ul class="bread">
+             <li>
+                <a class="home" href="/">
+                    <img align="middle" src="/main/css/home.png" alt="Página principal" title="Página principal">
+                </a>
+            </li>
+            <li>
+                <a href="/alumno/cursos" class="breadcrumb breadcrumb0" target="_top">
+                    <span>Cursos</span>
+                </a>
+            </li>
+            <li>
+                <a href="/alumno/detallecurso?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb1" target="_top">
+                    <span>'.$infocurso[0]['vCursNombreCurso'].'</span>
+                </a>
+            </li>
+            <li>
+                <a href="/alumno/evaluaciones?idcurso='.$this->idcurso.'" class="breadcrumb breadcrumb2">
+                    <span>Evaluaciones</span>
+                </a>
+            </li>
+        </ul>';
+        
+    print $html->crearCabecera(null, null, null, $h3, $h4) ;
+?>
+<div id="main">
+    <div id="submain">
+        <div class="normal-message" style="margin-left: 20px; margin-right: 20px">
+            <h4>EVALUACIÓN</h4>
+            <h1>NOMBRE DEL EXAMEN</h1>
+            <div id="counter_2">
+                
+            </div>
+        </div>
+        <input type="button" value="Hora..." onclick="siguiente()" />
+        <input type="button" value="fdf..." onclick="abreventana()" />
+        <div id="pregunta">
+            3
+        </div>
+    </div>
+</div>

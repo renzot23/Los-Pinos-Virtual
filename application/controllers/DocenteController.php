@@ -404,9 +404,10 @@ class DocenteController extends Zend_Controller_Action{
         $titulo = $this->getRequest()->getParam('txttitulo');
         $notaminima = $this->getRequest()->getParam('txtnotamin');
         $fechaexa = $this->getRequest()->getParam('fechaex');
+        $tiempo = $this->getRequest()->getParam('cbotiempo');
         
         if(strcmp($opt, "add")==0){
-            $_evaluaciones->registrarEvaluacion($idcurunidad, $titulo, $notaminima, strtotime($fechaexa));
+            $_evaluaciones->registrarEvaluacion($idcurunidad, $titulo, $notaminima, $tiempo, strtotime($fechaexa));
         }
         
         return $this->_redirect('docente/evaluaciones?idcurso='.$this->_request->idcurso.'&idcurunidad='.$idcurunidad);

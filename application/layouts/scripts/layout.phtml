@@ -6,7 +6,7 @@
     print $html->cargarScript($this->script);
     print $html->setTitle($this->titulopagina);
     print $html->closeHead();
-    print '<body>';
+    print '<body onunload="abreventana()">';
 ?>
 <?php
     if (Zend_Session::sessionExists()){

@@ -105,7 +105,7 @@
                 </a>
             </li>
             <li>
-                <a href="/alumno/evaluaciones?idcurso='.$this->idcurso.'&idcurunidad='.$this->idcurunidad.'" class="breadcrumb breadcrumb2">
+                <a href="/alumno/evaluaciones?idcurso='.$this->idcurso.'&idcurunidad=0" class="breadcrumb breadcrumb2">
                     <span>Evaluaciones</span>
                 </a>
             </li>
@@ -176,9 +176,40 @@
                         if ($this->idcurunidad==0){
                         ?>
                         <div class="normal-message" style="margin-left: 20px">
-                            <h2>Bienvenido a la herramienta de creación de Evaluaciones!</h2>
-                            Primero debe de seleccionar una Unidad.
+                            <h2>Evaluaciones Pendientes</h2>
                         </div>
+                            <?php
+                                $listaevaluacionespendientes = $evaluaciones->getEvaluacionesPendientes($this->idcurso);
+                                if(is_array($listaevaluacionespendientes)){
+                                        foreach($listaevaluacionespendientes as $evaluacion){
+                                            $nropreguntas = $evaluaciones->getPreguntasxEvaluacion($evaluacion['iEvaIdEvaluacion']);
+                                            if(is_array($nropreguntas)){
+                                                $nropreguntas=sizeof($nropreguntas);
+                                            }
+                                                ?>
+                        <div class="normal-message" style="margin-left: 40px; margin-right: 20px">
+                            <span style="display: inline; text-align: center">
+                                <h1><?php echo $evaluacion['iEvaDescripcion'];?></h1>
+                            </span>
+                            <span style="display: block; text-align: center">
+                                <img src="/main/img/blackboard.png">
+                            </span>
+                            <span style="display: inline; text-align: center">
+                                <h3>Nro Preguntas : <?php echo $nropreguntas;?></h3>
+                                <h3>Puntaje Mínimo Aprobatorio: <?php echo $evaluacion['iEvaPuntMin'];?></h3>
+                            </span>
+                            <span style="display: inline; text-align: center">
+                                <form action="/alumno/rendirevaluacion?idcurso=<?php echo $this->idcurso;?>&ideval=<?php echo $evaluacion['iEvaIdEvaluacion'];?>&opt=add" method="post">
+                                    <button class="plus" type="submit">
+                                        Rendir Examen
+                                    </button>
+                                </form>
+                            </span>
+                        </div>
+                                            <?php
+                                            }
+                                }
+                            ?>
                         <?php
                         }
                         else{
@@ -186,12 +217,6 @@
                         ?>
                             <div class="normal-message"  style="margin-left: 15px">
                                 <h2>Unidad: <?php echo $curunidad[0]['vNombreUnidad'];?></h2>
-                                
-                                <div class="actions">
-                                    <a href="/alumno/evaluaciones?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&opt=add" title="Añadir Evaluación">
-                                        <img src="/main/img/icons/32/new_evaluation.png" alt="Crear evaluación" title="Crear evaluación">
-                                    </a>
-                                </div>
                                 <?php
                                     if(strcmp($this->ideval,"0")!=0){
                                         //$infoleccion = $lecciones->getLeccionbyIdLeccion($this->idleccion);
@@ -210,6 +235,7 @@
                                                         <tr class="row_odd">
                                                             <th>Nombre</th>
                                                             <th>Nota Mínima</th>
+                                                            <th>Mi Nota</th>
                                                             <th width="100px">Fecha de Creacion</th>
                                                             <th width="100px">Fecha de Evaluación</th>
                                                             <th width="auto">Acción</th>
@@ -225,6 +251,11 @@
                                                             <td>
                                                                 <center>
                                                                     <?php echo $evaluacion['iEvaDescripcion'];?>
+                                                                </center>
+                                                            </td>
+                                                            <td>
+                                                                <center>
+                                                                    <?php echo $evaluacion['iEvaPuntMin'];?>
                                                                 </center>
                                                             </td>
                                                             <td>
@@ -251,27 +282,20 @@
                                                             <td>
                                                                 <center>
                                                                     <?php
-                                                                        if($evaluacion['iEvaFechaExamen']>time()){
+                                                                        if($evaluacion['iEvaFechaExamen']<time()){
                                                                     ?>
-                                                                        <img src="/main/img/icons/22/edit_na.png" alt="No se puede Editar" title="No se puede Editar">
-                                                                        <img src="/main/img/icons/22/delete_na.png" alt="No se Puede Eliminar" title="No se Puede Eliminar">
+                                                                    <a href="">
+                                                                        <img src="/main/img/icons/22/visible.png" alt="Ver" title="Ver">
+                                                                    </a>
                                                                     <?php
                                                                         }
                                                                         else
                                                                         {
                                                                     ?>
-                                                                    <a href="/alumno/editarevaluacion?idcurso=<?php echo $this->idcurso;?>&idcurunidad=<?php echo $this->idcurunidad;?>&ideval=<?php echo $evaluacion['iEvaIdEvaluacion'];?>&opt=edit&acc=ver">
-                                                                            <img src="/main/img/icons/22/edit.png" alt="Modificar" title="Modificar">
-                                                                    </a>   
-                                                                    <a href="">
-                                                                        <img src="/main/img/icons/22/delete.png" alt="Eliminar" title="Eliminar">
-                                                                    </a>    
+                                                                    <img src="/main/img/icons/22/invisible.png" alt="Ver" title="Ver">    
                                                                     <?php
                                                                         }    
                                                                     ?>
-                                                                    <a href="">
-                                                                        <img src="/main/img/icons/22/visible.png" alt="Ver" title="Ver">
-                                                                    </a>
                                                                 </center>
                                                             </td>
                                                         </tr>
